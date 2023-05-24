@@ -1,8 +1,8 @@
 # Time-Defender
 Final Group 4 - 
-Production Lead
-Technology Lead
-Testing Lead
+Production Lead - Wyatt Hawes
+Technology Lead - Lumina Kinsinger-Dang
+Testing Lead - Ethan Earle
 
 
 CMPM120 Final Project
@@ -24,11 +24,11 @@ Core gameplay can be reached within 1 minute, and an experienced player can comp
 Selectable requirements: (maybe choose 3)
 Data-driven experience progression
 Advanced visual assets
-Featherweight (less than one megabyte)
+**Featherweight (less than one megabyte) - Stretch Goal
 Procedural audio
-Procedural graphics
-Complete closed captioning
+**Procedural graphics
+**Complete closed captioning
 Alternate control device
 Networked/connected gameplay
 Narrative tech integration
-{something you propose}
+{something you propose}: As few buttons as possible
