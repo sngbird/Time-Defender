@@ -26,12 +26,9 @@ class DefenderScene extends Phaser.Scene {
         });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
         //this.input.on('pointerup', this.handlePointerUp(pointer))
-        let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
-        this.input.on('pointerup', (pointer) => {
-            this.handlePointerUp(pointer, testTurret)
-        },this);
-
+        this.sceneLayout();
         this.onEnter();
+
 
 
     }
@@ -55,6 +52,36 @@ class DefenderScene extends Phaser.Scene {
     }
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
+    }
+    
+
+    
+    // handlePointerMove(pointer){
+    //     const px = pointer.x
+    //     const py = pointer.y
+
+    //     const targetAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.)
+    // }
+    loadFont(name, url) {
+        var newFont = new FontFace(name, `url(${url})`);
+        newFont.load().then(function (loaded) {
+            document.fonts.add(loaded);
+        }).catch(function (error) {
+            return error;
+        });
+    }
+}
+
+
+class DefenderGameScene extends DefenderScene {
+    constructor(key) {
+        super(key);
+    }
+    sceneLayout(){
+    let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
+        this.input.on('pointerup', (pointer) => {
+            this.handlePointerUp(pointer, testTurret)
+        },this);
     }
     handlePointerUp(pointer, targets){
         console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
@@ -80,27 +107,5 @@ class DefenderScene extends Phaser.Scene {
             angle: targetDeg,
             duration: 500,
         })
-
-    }
-    // handlePointerMove(pointer){
-    //     const px = pointer.x
-    //     const py = pointer.y
-
-    //     const targetAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.)
-    // }
-    loadFont(name, url) {
-        var newFont = new FontFace(name, `url(${url})`);
-        newFont.load().then(function (loaded) {
-            document.fonts.add(loaded);
-        }).catch(function (error) {
-            return error;
-        });
-    }
-}
-
-
-class DefenderGameScene extends DefenderScene {
-    constructor(key) {
-        super(key);
     }
 }

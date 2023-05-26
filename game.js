@@ -1,7 +1,8 @@
-class Intro extends DefenderScene {
+class Credits extends DefenderScene {
     constructor() {
-        super('intro');
+        super('credits');
     }
+    sceneLayout(){}
     onEnter(){
         let title = this.add.text(this.game.config.width/4,this.game.config.height/4)
         .setText("Time Defender")
@@ -57,6 +58,6 @@ const game = new Phaser.Game({
         default: 'arcade',
         
     },
-    scene: [Intro],
+    scene: [Credits],
     title: "Time Defender",
 });
