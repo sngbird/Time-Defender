@@ -18,6 +18,13 @@ class Intro extends Phaser.Scene {
     
     }
 }
+
+class Test extends DefenderScene{
+    constructor(){
+        super('test')
+    }
+    
+}
 const game = new Phaser.Game({
     scale: {
         mode: Phaser.Scale.FIT,
@@ -29,6 +36,6 @@ const game = new Phaser.Game({
         default: 'arcade',
         
     },
-    scene: [Intro],
+    scene: [Test],
     title: "Time Defender",
 });

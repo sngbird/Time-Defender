@@ -1,7 +1,6 @@
 class DefenderScene extends Phaser.Scene {
-    constructor(key, name) {
+    constructor(key) {
         super(key);
-        this.name = name;
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
@@ -16,6 +15,13 @@ class DefenderScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#444');
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
+        let title = this.add.text(this.game.config.width/4,this.game.config.height/4)
+        .setText("Time Defender")
+        //Ship and Starfield Background
+        //this.add.rectangle(500,500,200,200);
+        //this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h).setOrigin(0, 0).setFillStyle(0);
+
+
     }
     gotoScene(key) {
         this.cameras.main.fade(this.transitionDuration, 0, 0, 0);
@@ -36,3 +42,4 @@ class DefenderScene extends Phaser.Scene {
         });
     }
 }
+
