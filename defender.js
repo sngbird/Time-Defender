@@ -4,6 +4,8 @@ class DefenderScene extends Phaser.Scene {
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
+        this.load.image('star','Assets/star.png')
+        this.load.image('turret','Assets/turretplaceholder.png')
 
     }
     create() {
@@ -14,12 +16,16 @@ class DefenderScene extends Phaser.Scene {
         this.s = this.game.config.width * 0.01;
 
         this.cameras.main.setBackgroundColor('#444');
-        this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
-        let title = this.add.text(this.game.config.width/4,this.game.config.height/4)
-        .setText("Time Defender")
         //Ship and Starfield Background
-        //this.add.rectangle(500,500,200,200);
-        //this.add.rectangle(this.w * 0.75, 0, this.w * 0.25, this.h).setOrigin(0, 0).setFillStyle(0);
+        this.add.particles(this.w*1.5, 0, 'star', {
+            y: { min: 0, max: this.h },
+            quantity: 2,
+            lifespan: 7000,
+            gravityX: -200
+        });
+        this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
+    
+        this.onEnter();
 
 
     }
@@ -29,7 +35,18 @@ class DefenderScene extends Phaser.Scene {
             this.scene.start(key, { inventory: this.inventory });
         });
     }
-
+    createTurret(){
+        let dome = this.add.circle(this.w*.3,this.w*.25,50,'0xffffff',1);
+        let barrel = this.add.rectangle(this.w*.3,this.w*.21,15,50, '0xffffff',1);
+        const turret = this.add.container(this.w*.3,this.w*.25);
+        turret.add(dome);
+        turret.add(barrel);   
+        return(turret);
+    }
+    createTurretSprite(x,y){
+        let turret = this.add.sprite(x,y,'turret');
+        return(turret);
+    }
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
@@ -42,4 +59,5 @@ class DefenderScene extends Phaser.Scene {
         });
     }
 }
+
 

@@ -23,6 +23,20 @@ class Test extends DefenderScene{
     constructor(){
         super('test')
     }
+    onEnter(){
+        this.turret = this.createTurret();
+        let turretSprite = this.createTurretSprite(this.w*.5,this.h*.5);
+
+        this.tweens.add({
+            targets: turretSprite,
+            angle: -360,
+            duration: 6000,
+            yoyo: true,
+            repeat: -1
+        });    }
+   
+
+    
     
 }
 const game = new Phaser.Game({
