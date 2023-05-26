@@ -6,6 +6,9 @@ class DefenderScene extends Phaser.Scene {
         //loadFont("witchkin", "assets/witchkin.ttf");
         this.load.image('star','Assets/star.png')
         this.load.image('turret','Assets/turretplaceholder.png')
+        this.load.image('repairblast','Assets/repairblastplaceholder.png')
+        this.load.image('repairbeam','Assets/repairbeamplaceholder.png')
+
      
 
     }
@@ -78,12 +81,15 @@ class DefenderGameScene extends DefenderScene {
         super(key);
     }
     sceneLayout(){
-    let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
-        this.input.on('pointerup', (pointer) => {
-            this.handlePointerUp(pointer, testTurret)
+    let turret = this.createTurretSprite(this.w*.5,this.h*.8);
+        this.input.on('pointerdown', (pointer) => {
+            let targetx = pointer.x;
+            let targety = pointer.y;
+            let targetDeg = this.rotateToMouse(pointer, turret)
+            this.repair(this,targetx,targety, targetDeg, turret)
         },this);
     }
-    handlePointerUp(pointer, targets){
+    rotateToMouse(pointer, targets){
         console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
         let targetRad = Phaser.Math.Angle.Between(targets.x, targets.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY)
         let targetDeg = Phaser.Math.RadToDeg(targetRad)
@@ -107,5 +113,37 @@ class DefenderGameScene extends DefenderScene {
             angle: targetDeg,
             duration: 500,
         })
+        return targetDeg;
+    }
+    repair(scene,targetx,targety,targetDeg,turret){
+        setTimeout(() => {     let bullet =    scene.add.sprite(turret.x,turret.y,'repairbeam').setAngle(targetDeg).setAlpha(0);
+        this.tweens.add({
+            targets: bullet,
+            alpha: 1,
+            x: targetx,
+            y: targety,
+            duration: 500,
+            onComplete: function() {
+            let explosion = scene.add.sprite(bullet.x,bullet.y,'repairblast').setAlpha(0);
+            bullet.destroy();
+            scene.tweens.add({
+                targets: explosion,
+                alpha: 1,
+                scale: 2,
+                duration: 250,
+                onComplete: function(){
+                    scene.tweens.add({
+                        targets: explosion,
+                        alpha: 0,
+                        duration: 1000,
+                        onComplete: function(){
+                            explosion.destroy();
+                        }
+                    })
+                }
+            })}
+            
+        })},510)
+        
     }
 }

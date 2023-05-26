@@ -22,25 +22,7 @@ class Test extends DefenderGameScene{
         super('test')
     }
     onEnter(){
-        // this.turret = this.createTurret(this.w*.3,this.h*.2);
-        // let turretSprite = this.createTurretSprite(this.w*.5,this.h*.5);
-        // console.log(this.turret);
-        // console.log(this.turret.list[0]);
-
-        // this.tweens.add({
-        //     targets: turretSprite,
-        //     angle: -360,
-        //     duration: 6000,
-        //     yoyo: true,
-        //     repeat: -1
-        // });    
-        // this.tweens.add({
-        //     targets: this.turret.list,
-        //     angle: -15,
-        //     duration: 6000,
-        //     yoyo: true,
-        //     repeat: -1
-        // });    
+     
     }
    
 
@@ -58,6 +40,6 @@ const game = new Phaser.Game({
         default: 'arcade',
         
     },
-    scene: [Credits],
+    scene: [Test],
     title: "Time Defender",
 });
