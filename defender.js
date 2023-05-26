@@ -16,7 +16,7 @@ class DefenderScene extends Phaser.Scene {
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
 
-        this.cameras.main.setBackgroundColor('#444');
+        this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
         this.add.particles(this.w*1.3, 0, 'star', {
             y: { min: 0, max: this.h },
@@ -25,7 +25,12 @@ class DefenderScene extends Phaser.Scene {
             gravityX: -200
         });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
-    
+        //this.input.on('pointerup', this.handlePointerUp(pointer))
+        let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
+        this.input.on('pointerup', (pointer) => {
+            this.handlePointerUp(pointer, testTurret)
+        });
+
         this.onEnter();
 
 
@@ -38,7 +43,7 @@ class DefenderScene extends Phaser.Scene {
     }
     createTurret(x,y){
         let dome = this.add.circle(x,y,50,'0xffffff',1);
-        let barrel = this.add.rectangle(x,y-70,15,50, '0xffffff',1);
+        let barrel = this.add.rectangle(dome.x,dome.y-70,15,50, '0xffffff',1);
         const turret = this.add.container(x,y);
         turret.add(dome);
         turret.add(barrel);   
@@ -51,6 +56,20 @@ class DefenderScene extends Phaser.Scene {
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
+    handlePointerUp(pointer, targets){
+        const targetRad = Phaser.Math.Angle.Between(
+        targets.x, targets.y, pointer.x, pointer.y
+        )
+        const target = Phaser.Math.RadToDeg(targetRad)
+        console.log(target);
+        this.tweens.add
+    }
+    // handlePointerMove(pointer){
+    //     const px = pointer.x
+    //     const py = pointer.y
+
+    //     const targetAngle = Phaser.Math.RadToDeg(Phaser.Math.Angle.)
+    // }
     loadFont(name, url) {
         var newFont = new FontFace(name, `url(${url})`);
         newFont.load().then(function (loaded) {
@@ -62,3 +81,8 @@ class DefenderScene extends Phaser.Scene {
 }
 
 
+class DefenderGameScene extends DefenderScene {
+    constructor(key) {
+        super(key);
+    }
+}

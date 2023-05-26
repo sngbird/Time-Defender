@@ -1,11 +1,8 @@
-class Intro extends Phaser.Scene {
+class Intro extends DefenderScene {
     constructor() {
         super('intro');
     }
-    preload(){
-
-    }
-    create(){
+    onEnter(){
         let title = this.add.text(this.game.config.width/4,this.game.config.height/4)
         .setText("Time Defender")
         .setStyle({ fontSize: `${1.5 * 70}px` })
@@ -19,28 +16,31 @@ class Intro extends Phaser.Scene {
     }
 }
 
-class Test extends DefenderScene{
+class Test extends DefenderGameScene{
     constructor(){
         super('test')
     }
     onEnter(){
-        this.turret = this.createTurret(this.w*.3,this.h*.2);
-        let turretSprite = this.createTurretSprite(this.w*.5,this.h*.5);
+        // this.turret = this.createTurret(this.w*.3,this.h*.2);
+        // let turretSprite = this.createTurretSprite(this.w*.5,this.h*.5);
+        // console.log(this.turret);
+        // console.log(this.turret.list[0]);
 
-        this.tweens.add({
-            targets: turretSprite,
-            angle: -360,
-            duration: 6000,
-            yoyo: true,
-            repeat: -1
-        });    
-        this.tweens.add({
-            targets: this.turret,
-            angle: -15,
-            duration: 6000,
-            yoyo: true,
-            repeat: -1
-        });    }
+        // this.tweens.add({
+        //     targets: turretSprite,
+        //     angle: -360,
+        //     duration: 6000,
+        //     yoyo: true,
+        //     repeat: -1
+        // });    
+        // this.tweens.add({
+        //     targets: this.turret.list,
+        //     angle: -15,
+        //     duration: 6000,
+        //     yoyo: true,
+        //     repeat: -1
+        // });    
+    }
    
 
     
@@ -57,6 +57,6 @@ const game = new Phaser.Game({
         default: 'arcade',
         
     },
-    scene: [Test],
+    scene: [Intro],
     title: "Time Defender",
 });
