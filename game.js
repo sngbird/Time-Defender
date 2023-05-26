@@ -24,12 +24,19 @@ class Test extends DefenderScene{
         super('test')
     }
     onEnter(){
-        this.turret = this.createTurret();
+        this.turret = this.createTurret(this.w*.3,this.h*.2);
         let turretSprite = this.createTurretSprite(this.w*.5,this.h*.5);
 
         this.tweens.add({
             targets: turretSprite,
             angle: -360,
+            duration: 6000,
+            yoyo: true,
+            repeat: -1
+        });    
+        this.tweens.add({
+            targets: this.turret,
+            angle: -15,
             duration: 6000,
             yoyo: true,
             repeat: -1

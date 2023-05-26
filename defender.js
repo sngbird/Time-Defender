@@ -6,6 +6,7 @@ class DefenderScene extends Phaser.Scene {
         //loadFont("witchkin", "assets/witchkin.ttf");
         this.load.image('star','Assets/star.png')
         this.load.image('turret','Assets/turretplaceholder.png')
+     
 
     }
     create() {
@@ -17,7 +18,7 @@ class DefenderScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#444');
         //Ship and Starfield Background
-        this.add.particles(this.w*1.5, 0, 'star', {
+        this.add.particles(this.w*1.3, 0, 'star', {
             y: { min: 0, max: this.h },
             quantity: 2,
             lifespan: 7000,
@@ -35,10 +36,10 @@ class DefenderScene extends Phaser.Scene {
             this.scene.start(key, { inventory: this.inventory });
         });
     }
-    createTurret(){
-        let dome = this.add.circle(this.w*.3,this.w*.25,50,'0xffffff',1);
-        let barrel = this.add.rectangle(this.w*.3,this.w*.21,15,50, '0xffffff',1);
-        const turret = this.add.container(this.w*.3,this.w*.25);
+    createTurret(x,y){
+        let dome = this.add.circle(x,y,50,'0xffffff',1);
+        let barrel = this.add.rectangle(x,y-70,15,50, '0xffffff',1);
+        const turret = this.add.container(x,y);
         turret.add(dome);
         turret.add(barrel);   
         return(turret);
