@@ -29,7 +29,7 @@ class DefenderScene extends Phaser.Scene {
         let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
         this.input.on('pointerup', (pointer) => {
             this.handlePointerUp(pointer, testTurret)
-        });
+        },this);
 
         this.onEnter();
 
@@ -57,12 +57,30 @@ class DefenderScene extends Phaser.Scene {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
     handlePointerUp(pointer, targets){
-        const targetRad = Phaser.Math.Angle.Between(
-        targets.x, targets.y, pointer.x, pointer.y
-        )
-        const target = Phaser.Math.RadToDeg(targetRad)
-        console.log(target);
-        this.tweens.add
+        console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
+        let targetRad = Phaser.Math.Angle.Between(targets.x, targets.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY)
+        let targetDeg = Phaser.Math.RadToDeg(targetRad)
+        targetDeg = targetDeg+90;
+        // Section below for making the spin less weird, needs debugging
+        // let currentAngle = targets.angle;
+        // currentAngle = currentAngle+90;
+        // console.log(targetDeg,currentAngle);
+        // let diff = targetDeg - currentAngle;
+        // console.log(diff)
+        // if (diff < -180){
+        //     diff +=360
+        // }else if (diff > 180){
+        //     diff -= 360
+        // }
+        // console.log(diff);
+        // console.log(targetDeg + diff);
+       
+        this.tweens.add({
+            targets: targets,
+            angle: targetDeg,
+            duration: 500,
+        })
+
     }
     // handlePointerMove(pointer){
     //     const px = pointer.x
