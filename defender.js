@@ -27,6 +27,8 @@ class DefenderScene extends Phaser.Scene {
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
         //this.input.on('pointerup', this.handlePointerUp(pointer))
         let testTurret = this.createTurretSprite(this.w*.5,this.h*.5);
+        
+        this.thisturr = testTurret;
         this.input.on('pointerup', (pointer) => {
             this.handlePointerUp(pointer, testTurret)
         });

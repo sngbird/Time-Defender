@@ -9,7 +9,8 @@ class Intro extends DefenderScene {
     }
 
     onEnter(){
-
+        this.thisturr.setOrigin(0.5,0.5);
+        this.thisturr.setPosition(this.game.config.width/2,this.game.config.height/2.5)
         let title_cont = this.add.container(this.game.config.width/2,this.game.config.height/4)
         
         //The rectangle prevents stars from showing below the entire title, Is this something we want?
@@ -50,6 +51,12 @@ class Intro extends DefenderScene {
         
 
     
+    }
+
+    update(){
+        this.thisturr.rotation = (Phaser.Math.Angle.Between(
+            this.thisturr.x, this.thisturr.y, game.input.mousePointer.x, game.input.mousePointer.y
+            )) + Math.PI / 2
     }
 }
 
