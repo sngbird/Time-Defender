@@ -2,7 +2,7 @@ class DefenderScene extends Phaser.Scene {
     constructor(key) {
         super(key);
     }
-    preload(){
+    pre_load(){
         //loadFont("witchkin", "assets/witchkin.ttf");
         this.load.image('star','Assets/star.png')
         this.load.image('turret','Assets/turretplaceholder.png')
