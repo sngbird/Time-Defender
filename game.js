@@ -22,9 +22,13 @@ class Test extends DefenderGameScene{
         super('test')
     }
     onEnter(){
-     
     }
-   
+    update(){
+        // if(this.getRandomBetween(0,1000) < 5){
+        //     
+        // }
+        
+    }
 
     
     
@@ -38,6 +42,9 @@ const game = new Phaser.Game({
     },
     physics: {
         default: 'arcade',
+        arcade:{
+        debug: true,
+        }
         
     },
     scene: [Test],
