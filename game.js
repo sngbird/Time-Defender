@@ -4,8 +4,26 @@ class Intro extends DefenderScene {
     }
     preload(){
         this.load.image('title', "Assets/Title.png");
+        this.load.image('play', "Assets/Play.png");
 
         this.pre_load();
+    }
+    enlarge_on_mouse(b1){
+        let me = this;
+        b1.on('pointerover', () => {
+            me.add.tween({
+                targets: b1,
+                duration: 70,
+                scale: 2.2,
+            });
+        });
+        b1.on('pointerout', () => {
+            me.add.tween({
+                targets: b1,
+                duration: 70,
+                scale: 2,
+            });
+        });
     }
 
     onEnter(){
@@ -44,13 +62,32 @@ class Intro extends DefenderScene {
 
         // A Box that will prevent the stars from showing above it. Im using this for the title and I will most likely add it for the names eventually
         //let credit_box = this.add.rectangle(this.game.config.width/4,this.game.config.height/4 * 3, 800,230, 0x000000).setOrigin(0,0);
-        let credit = this.add.text(this.game.config.width/4,this.game.config.height/4 * 3)
+
+        let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3).setInteractive();
+        let button = this.add.image(0,0, 'play').setScale(2).setInteractive();
+        let button_background = this.add.rectangle(0,0,100,50,0x000000).setScale(2).setInteractive();
+        
+        this.enlarge_on_mouse(button);
+        this.enlarge_on_mouse(button_background);
+        
+        button.on('pointerdown', ()=>{
+            //Go to beginning scene
+            console.log("Scene Transition");
+        })
+
+        play_button.add(button_background)
+        play_button.add(button);
+
+
+
+
+        let credit = this.add.text(this.game.config.width/100,this.game.config.height/5 * 4)
         .setText("Created by:\n Ethan Earle \n Lumina Kinsinger-Dang \n Wyatt Hawes")
-        .setStyle({ fontSize: `${1.5 * 40}px` })
+        .setStyle({ fontSize: `${1 * 40}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
         
 
-    
+        
     }
 
     update(){
