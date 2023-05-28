@@ -38,11 +38,11 @@ class Intro extends DefenderScene {
         let t1 = this.add.tween({
             targets: title_cont,
             paused: false,
-            duration: 8000,
+            duration: 7000,
             scale: 1.2,
             repeat: -1,
             yoyo: true,
-            ease: "easeInOutQuint",
+            ease: "Sine.easeInOut",
             
         });
         
@@ -63,17 +63,13 @@ class Intro extends DefenderScene {
         // A Box that will prevent the stars from showing above it. Im using this for the title and I will most likely add it for the names eventually
         //let credit_box = this.add.rectangle(this.game.config.width/4,this.game.config.height/4 * 3, 800,230, 0x000000).setOrigin(0,0);
 
-        let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3).setInteractive();
+        let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
         let button = this.add.image(0,0, 'play').setScale(2).setInteractive();
         let button_background = this.add.rectangle(0,0,100,50,0x000000).setScale(2).setInteractive();
         
         this.enlarge_on_mouse(button);
         this.enlarge_on_mouse(button_background);
         
-        button.on('pointerdown', ()=>{
-            //Go to beginning scene
-            console.log("Scene Transition");
-        })
 
         play_button.add(button_background)
         play_button.add(button);
@@ -87,7 +83,50 @@ class Intro extends DefenderScene {
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
         
 
+        let me2 = this;
+        button.on('pointerdown', ()=>{
+            //Go to beginning scene
+            this.run_transition_animation(me2, title_cont, play_button, credit);
+            me2.time.delayedCall(12000, ()=>{
+                //Scene transition
+                //I want to see if we can "load" the other scene before transitioning so there is
+                //no gap in the stars when you load the next scene
+
+                // Or even not do multiple "scenes" and just continue this one 
+            });
+        })
         
+    }
+    run_transition_animation(me2, title_cont, play_button, credit){
+        me2.particle_system.gravityX = -500;
+        me2.particle_system.speedX = -400;
+        me2.particle_system.quantity = 5;
+        //me2.particle_system.setFrequency(7)
+        me2.particle_system.lifespan = 100000;
+        me2.time.delayedCall(3000, ()=>{
+            //console.log("Scene Transition");
+            me2.particle_system.speedX = 0;
+            me2.particle_system.lifespan = 100000;
+            me2.particle_system.gravityX = -10;
+            //me2.particle_system.speedX = -50;
+            me2.particle_system.quantity = 1;
+            me2.particle_system.setFrequency(35);
+        });
+        let r = me2.add.tween({
+            delay: 300,
+            targets: credit,
+            duration: 2000,
+            ease: "Quad.easeIn",
+            x: -800,
+        });
+
+        me2.add.tween({
+            delay: 300,
+            targets: [title_cont,play_button],
+            duration: 1700,
+            ease: "Quad.easeIn",
+            x: -800
+        })
     }
 
     update(){

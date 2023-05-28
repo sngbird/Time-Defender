@@ -18,11 +18,12 @@ class DefenderScene extends Phaser.Scene {
 
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
-        this.add.particles(this.w*1.3, 0, 'star', {
+        this.particle_system = this.add.particles(this.w*1.3, 0, 'star', {
             y: { min: 0, max: this.h },
             quantity: 2,
             lifespan: 7000,
-            gravityX: -200
+            gravityX: -200,
+            //speedX: -150,
         });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
         //this.input.on('pointerup', this.handlePointerUp(pointer))
