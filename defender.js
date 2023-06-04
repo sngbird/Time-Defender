@@ -83,17 +83,20 @@ class DefenderGameScene extends DefenderScene {
         super(key);
     }
     sceneLayout(){
+        
+    this.g_startTime = performance.now()/1000.0;
+    this.g_seconds;
     let turret = this.createTurretSprite(this.w*.5,this.h*.8);
         this.input.on('pointerdown', (pointer) => {
             let targetx = pointer.x;
             let targety = pointer.y;
             let targetDeg = this.rotateToMouse(pointer, turret)
-            setTimeout(()=>{            this.shootLaser(this,targetx,targety,targetDeg,turret);
-            },500)
-            //this.repair(this,targetx,targety, targetDeg, turret)
+            setTimeout(()=>{this.shootLaser(this,targetx,targety,targetDeg,turret);},500)
         },this);
     this.crackGroup = this.physics.add.group({});
     this.crackGroup.add(this.crack(.25,.5));
+    this.crackGroup.add(this.crack(.65,.5));
+    this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
     }
@@ -134,9 +137,20 @@ class DefenderGameScene extends DefenderScene {
         })
         return(crack)
     }
-    destroyCrack(beam,crack){
-        beam.destroy();
-        crack.destroy();
+    destroyCrack(beam,crack,){
+        beam.setActive(false);
+        beam.setVisible(false);
+        beam.body.reset();
+        this.explode(crack.x,crack.y);
+        this.tweens.add({
+            targets: crack,
+            scale: 1,
+            alpha: 0,
+            duration: 500,
+            onComplete: function(){
+                crack.destroy();
+            }
+        })
         
     }
     getRandomBetween(min, max) {
@@ -144,4 +158,24 @@ class DefenderGameScene extends DefenderScene {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
       }
+    explode(x,y){
+        let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0);
+        let scene = this;
+        this.tweens.add({
+            targets:explosion,
+            alpha: 1,
+            scale: 5,
+            duration: 500,
+            onComplete: function(){
+                scene.tweens.add({
+                    targets: explosion,
+                    alpha: 0,
+                    duration: 1000,
+                    onComplete: function(){
+                        explosion.destroy();
+                        }
+                })
+            }
+        })
+    }
 }
