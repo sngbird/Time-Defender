@@ -81,7 +81,6 @@ class DefenderScene extends Phaser.Scene {
 class DefenderGameScene extends DefenderScene {
     constructor(key) {
         super(key);
-        this.explosions;
     }
     sceneLayout(){
     let turret = this.createTurretSprite(this.w*.5,this.h*.8);
@@ -89,41 +88,32 @@ class DefenderGameScene extends DefenderScene {
             let targetx = pointer.x;
             let targety = pointer.y;
             let targetDeg = this.rotateToMouse(pointer, turret)
-            this.repair(this,targetx,targety, targetDeg, turret)
+            setTimeout(()=>{            this.shootLaser(this,targetx,targety,targetDeg,turret);
+            },500)
+            //this.repair(this,targetx,targety, targetDeg, turret)
         },this);
-    let t = new Tree();
-    //let testcrack = this.crack(this.getRandomBetween(20,90)/100,this.getRandomBetween(20,50)/100)
-    let poke = this.physics.add.sprite(this.w*.5,this.h*.5,'repairblast')
-    this.explosions = [];
-    let crack = this.crack(.5,.25);
-    this.tweens.add({ 
-        targets: crack,
-        scale:20,
-        duration: 10000,
-    })
-    this.physics.add.overlap(poke, crack, () =>{crack.destroy()}, null, this);
+    this.crackGroup = this.physics.add.group({});
+    this.crackGroup.add(this.crack(.25,.5));
+    this.laserGroup = new LaserGroup(this);    
+    this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
     }
     update(){
-       // this.physics.world.collide(crack,poke, () => {console.log("ouch")});
     }
     rotateToMouse(pointer, targets){
         //console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
         let targetRad = Phaser.Math.Angle.Between(targets.x, targets.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY)
         let targetDeg = Phaser.Math.RadToDeg(targetRad)
-        targetDeg = targetDeg+90;
+        
         // Section below for making the spin less weird, needs debugging
-        // let currentAngle = targets.angle;
-        // currentAngle = currentAngle+90;
-        // console.log(targetDeg,currentAngle);
-        // let diff = targetDeg - currentAngle;
-        // console.log(diff)
-        // if (diff < -180){
-        //     diff +=360
-        // }else if (diff > 180){
-        //     diff -= 360
-        // }
-        // console.log(diff);
-        // console.log(targetDeg + diff);
+        let currentAngle = targets.angle;
+        currentAngle = currentAngle+90;
+        let diff = targetDeg - currentAngle;
+        if (diff < -180){
+            diff +=360
+        }else if (diff > 180){
+            diff -= 360
+        }
+  
        
         this.tweens.add({
             targets: targets,
@@ -132,47 +122,22 @@ class DefenderGameScene extends DefenderScene {
         })
         return targetDeg;
     }
-    repair(scene,targetx,targety,targetDeg,turret){
-        setTimeout(() => {     let bullet =    scene.add.sprite(turret.x,turret.y,'repairbeam').setAngle(targetDeg).setAlpha(0);
-        this.tweens.add({
-            targets: bullet,
-            alpha: 1,
-            x: targetx,
-            y: targety,
-            duration: 500,
-            onComplete: function() {
-            let explosion = scene.physics.add.sprite(bullet.x,bullet.y,'repairblast').setAlpha(0);
-            console.log(explosion)
-            bullet.destroy();
-            scene.tweens.add({
-                targets: explosion,
-                alpha: 1,
-                scale: 2,
-                duration: 250,
-                onComplete: function(){
-                    scene.tweens.add({
-                        targets: explosion,
-                        alpha: 0,
-                        duration: 1000,
-                        onComplete: function(){
-                            explosion.destroy();
-                        }
-                    })
-                }
-            })}
-            
-        })},510)
-        
+    shootLaser(scene,targetx,targety,targetDeg,turret){
+        this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
     crack(xmult,ymult){
-        let crack= this.physics.add.sprite(this.w*xmult,this.h*ymult,'timecrack');
-        //this.physics.world.enable([crack])
+        let crack = this.physics.add.sprite(this.w*xmult,this.h*ymult,'timecrack');
         this.tweens.add({ 
             targets: crack,
             scale:20,
-            duration: 10000,
+            duration: 5000,
         })
         return(crack)
+    }
+    destroyCrack(beam,crack){
+        beam.destroy();
+        crack.destroy();
+        
     }
     getRandomBetween(min, max) {
         min = Math.ceil(min);
