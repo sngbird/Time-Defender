@@ -94,11 +94,14 @@ class DefenderGameScene extends DefenderScene {
             setTimeout(()=>{this.shootLaser(this,targetx,targety,targetDeg,turret);},500)
         },this);
     this.crackGroup = this.physics.add.group({});
+    this.blastGroup = this.physics.add.group({});
     // this.crackGroup.add(this.crack(.25,.5));
     // this.crackGroup.add(this.crack(.65,.5));
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
+    let trial = this.physics.add.existing(new TimeCrack(this,500,500));
+    trial.spread(this);
     }
     update(){
     }
@@ -130,8 +133,8 @@ class DefenderGameScene extends DefenderScene {
     }
     crack(xmult,ymult){
         let crack = this.physics.add.sprite(this.w*xmult,this.h*ymult,'timecrack');
-        let crackTarget = this.physics.add.sprite(this.w*xmult,this.h*ymult,'crackcenter').setScale(.1)
-        //let testcontainer = this.physics.add.container()
+        let crackTarget = this.physics.add.sprite(this.w*xmult,this.h*ymult,'crackcenter').setScale(.1)     
+
         this.crackGroup.add(crackTarget)
         this.tweens.add({
             targets: crackTarget,
@@ -145,7 +148,7 @@ class DefenderGameScene extends DefenderScene {
         })
         return(crack)
     }
-    destroyCrack(beam,crack,){
+    destroyCrack(beam,crack){
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();

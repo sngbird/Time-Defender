@@ -26,7 +26,7 @@ class Test extends DefenderGameScene{
         this.difficulty = Math.round(this.g_seconds /15);
         console.log(this.difficulty)
         if(this.getRandomBetween(0,1000) < 5 +this.difficulty){
-              this.crackGroup.add(this.crack(this.getRandomBetween(2,9)/10,this.getRandomBetween(1,6)/10))
+              //this.crackGroup.add(this.crack(this.getRandomBetween(2,9)/10,this.getRandomBetween(1,6)/10))
         }
     }
 
