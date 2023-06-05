@@ -11,6 +11,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('timecrack','src/assets/timecrack.png')
         this.load.image('crackcenter','src/assets/crackcenter.png')
         this.load.image('shipbody', 'src/assets/placeholdershipbody.png')
+        this.load.audio('bgm','src/assets/song1.mp3')
 
      
 
@@ -21,7 +22,6 @@ class DefenderScene extends Phaser.Scene {
         this.w = this.game.config.width;
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
-        this.queue = [];
 
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
@@ -103,6 +103,8 @@ class DefenderGameScene extends DefenderScene {
     this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
+    this.bgm = this.sound.add('bgm', {loop: true});
+    this.bgm.play()
     
     }
     update(){
