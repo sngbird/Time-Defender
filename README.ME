@@ -1,0 +1,25 @@
+*Core Gameplay Prototype Requirements
+
+*Audio: The prototype uses at least two different kinds of audio. Kinds:
+Continuously looping background sound (e.g. music or environmental audio) from an audio asset file.
+Sound effects or voice clips triggered in response to player input or game events, also from an audio asset file.
+Dynamically-generated sounds (as opposed to sounds saved in asset files) created using a library like Tone.jsLinks to an external site..
+Layering of several synchronized audio loops that create a space of dynamically recomposable sounds from a small library of audio asset files.
+[Something else proposed by your team]
+
+*Visual: The prototype uses at least two different kinds of display primitives. Basic geometric primitives like squares/circle or a scene's flat background color would not count here. Kinds:
+Image-based assets like sprites, sprite sheets, or texture atlases.
+Non-image asset like a video, mesh, or tilemap.
+Procedurally-defined imagery based on a vector-graphics primitive (e.g. GraphicsLinks to an external site.).
+A shaderLinks to an external site.-based visual effect.
+[Something else proposed by your team]
+
+*Motion: Some kind of smooth motion must be used in your game's core mechanic. It might be based on kinematic (tweens) or dynamic (physics) movement or even some ad-hoc form of motion created by code that incrementally modifies the scene a tiny bit each animation frame (such as displaying character dialog as if it were being typed out incrementally).
+
+*Progression: Your prototype should suggest some notion of progression that happens across instances of your core gameplay sessions. It might be a progression of narrative, difficulty, aesthetics, or another player experience element. Some aspects of your progression might be easy to demonstrate in a core gameplay prototype (e.g. allowing the player to press +/- to increase or decrease enemy attack damage) while others  (e.g. coming to understand fictional characters better over time). If the notion of progression cannot easily be shown in your core gameplay prototype, it should still be described in your documentation. (For example, your description of how your progression works might offer a link to your scene-flow prototype instead with a note like "See [link] for a demo of our narrative progression.")
+
+*Prefabs: Two or more notions of prefab objects must be used in your prototype's software implementation. Kinds:
+Creation of GameObject subclasses that are subclassed again by other objects in your game so as to share code between them.
+Creation of Scene subclasses (like AdventureScene in D2) to model shared design between different sub-types of scenes.
+Design presets expressed in program code (e.g. a block of JSON inside of one of your JavaScript files).
+Design presets expressed in data files (e.g. a block of JSON or other data language like XML or TOML saved in a separate non-JavaScript text file).
