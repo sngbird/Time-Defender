@@ -100,8 +100,8 @@ class DefenderGameScene extends DefenderScene {
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
-    let trial = this.physics.add.existing(new TimeCrack(this,500,500));
-    trial.spread(this);
+    let trial = new TimeCrack(this,500,500);
+    //trial.spread(this);
     }
     update(){
     }
