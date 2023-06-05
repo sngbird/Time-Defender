@@ -4,13 +4,13 @@ class DefenderScene extends Phaser.Scene {
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
-        this.load.image('star','Assets/star.png')
-        this.load.image('turret','Assets/turretplaceholder.png')
-        this.load.image('repairblast','Assets/repairblastplaceholder.png')
-        this.load.image('repairbeam','Assets/repairbeamplaceholder.png')
-        this.load.image('timecrack','Assets/timecrack.png')
-        this.load.image('crackcenter','Assets/crackcenter.png')
-        this.load.image('shipbody', 'Assets/placeholdershipbody.png')
+        this.load.image('star','src/assets/star.png')
+        this.load.image('turret','src/assets/turretplaceholder.png')
+        this.load.image('repairblast','src/assets/repairblastplaceholder.png')
+        this.load.image('repairbeam','src/assets/repairbeamplaceholder.png')
+        this.load.image('timecrack','src/assets/timecrack.png')
+        this.load.image('crackcenter','src/assets/crackcenter.png')
+        this.load.image('shipbody', 'src/assets/placeholdershipbody.png')
 
      
 
@@ -88,9 +88,8 @@ class DefenderGameScene extends DefenderScene {
         
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
-    this.ship = this.physics.add.sprite(this.w*.5,this.h*.95,'shipbody');
-    this.ship.setScale(4,1);
-    let turret = this.createTurretSprite(this.w*.5,this.h*.88);
+    this.ship = new Ship(this.w*.5,this.h*.95,'shipbody');
+    let turret = this.createTurretSprite(this,this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
             let targetx = pointer.x;
             let targety = pointer.y;
@@ -105,7 +104,7 @@ class DefenderGameScene extends DefenderScene {
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
-    this.physics.add.overlap(this.blastGroup, this.ship, this.ship.decreaseHealth())
+    this.physics.add.overlap(this.blastGroup, this.ship, this.ship.decreaseHealth(), null, this);
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
     
