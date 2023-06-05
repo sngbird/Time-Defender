@@ -21,6 +21,7 @@ class DefenderScene extends Phaser.Scene {
         this.w = this.game.config.width;
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
+        this.queue = [];
 
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
@@ -32,6 +33,10 @@ class DefenderScene extends Phaser.Scene {
         });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
         //this.input.on('pointerup', this.handlePointerUp(pointer))
+        this.synth = new Tone.Synth({
+            oscillator: {
+                type: 'square'
+            }}).toDestination();
         this.sceneLayout();
         this.onEnter();
 
@@ -60,8 +65,131 @@ class DefenderScene extends Phaser.Scene {
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
-    
 
+// Sound Effects
+
+lowHumSound = () => {
+    // Create an oscillator for the low hum sound
+    const oscillator = new Tone.Oscillator({
+        frequency: 100, // 55 Hz (low A) to start, deeper
+        volume: -20, // start pretty quiet
+        type: 'sine' // pure tone
+    }).toDestination();
+
+    // Create an LFO to modulate the volume of the oscillator, giving it a pulsating effect
+    const lfo = new Tone.LFO({
+        frequency: 5, // LFO rate
+        type: 'sine', // LFO wave type
+        min: -24, // minimum output volume
+        max: -20 // maximum output volume
+    }).connect(oscillator.volume);
+
+    // Start the LFO
+    lfo.start();
+
+    // Start the oscillator
+    oscillator.start();
+
+    // Stop the oscillator after 1 second, shorter
+    setTimeout(() => {
+        oscillator.stop();
+    }, 2000);
+};
+
+processQueue = () => {
+    if (this.queue.length === 0) {
+        return;
+    }
+
+    // Remove the first item from the queue and play it
+    const synth = this.queue.shift();
+
+    // Define the score up pitches, for a more 'arcade' feel
+    const pitches = ["C4", "E4", "G4", "B4", "C5", "E5", "G5", "B5", "C6"];
+
+    // Define the speed of the score up sound
+    const speed = 0.05; // 50 ms per pitch
+
+    // Schedule the pitches
+    pitches.forEach((pitch, index) => {
+        Tone.Transport.schedule(() => {
+            synth.triggerAttack(pitch);
+            if (index === pitches.length - 1) {
+                synth.triggerRelease();
+            }
+        }, speed * index); // delay each pitch by the speed times its position in the score up sound
+    });
+
+    // When the sound finishes playing, process the next item in the queue
+    Tone.Transport.schedule(() => {
+        this.processQueue();
+    }, speed * pitches.length);
+};
+
+scoreUpSound = () => {
+    const pitches = ["C4", "E4", "G4", "B4", "C5", "E5", "G5", "B5", "C6"];
+
+    // Define the speed of the score up sound
+    const speed = 0.05; // 50 ms per pitch
+    // Create a monophonic synthesizer with a square wave
+    if (Tone.Transport.state === 'started') {
+        Tone.Transport.cancel();
+        Tone.Transport.stop();
+      }
+    
+      // Schedule the pitches
+      pitches.forEach((pitch, index) => {
+        Tone.Transport.schedule(time => {
+          this.synth.triggerAttackRelease(pitch, "32n", time);
+        }, speed * index); 
+      });
+    
+      // Start the transport to play the scheduled pitches
+      Tone.Transport.start();
+    };
+
+
+
+    // Play the glass breaking sound, then the low hum sound
+    
+    laserSound = () => {
+        // Create an oscillator with a high initial frequency, resembling a 'pew' sound
+        const oscillator = new Tone.Oscillator({
+            frequency: 2000, // 2 kHz to start
+            volume: -10, // start pretty quiet
+            type: 'sine' // pure tone
+        });
+    
+        // Create an amplitude envelope
+        const envelope = new Tone.AmplitudeEnvelope({
+            attack: 0.01, // Fast attack
+            decay: 0.1, // Decay to sustain level quickly
+            sustain: 0.5, // Sustain at half volume
+            release: 0.8 // Release somewhat slowly
+        }).toDestination();
+    
+        // Connect the oscillator to the envelope
+        oscillator.connect(envelope);
+    
+        // Start the oscillator
+        oscillator.start();
+    
+        // Trigger the envelope
+        envelope.triggerAttackRelease(0.5); // Attack and release over half a second
+    
+        // Glide the oscillator frequency down, like a 'pew' sound
+        oscillator.frequency.rampTo(100, 1); // Ramp to 100 Hz over half a second
+    
+        // Create a LFO and connect it to the oscillator frequency
+        const lfo = new Tone.LFO({
+            frequency: 10, // frequency of the LFO
+            min: 100, // minimum output value
+            max: 2000 // maximum output value
+        }).connect(oscillator.frequency);
+    
+        // Start the LFO
+        lfo.start();
+    };
     
     // handlePointerMove(pointer){
     //     const px = pointer.x
@@ -113,6 +241,10 @@ class DefenderGameScene extends DefenderScene {
     }
     update(){
     }
+    spawn(){
+        this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+        this.lowHumSound()
+    }
     rotateToMouse(pointer, targets){
         //console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
         let targetRad = Phaser.Math.Angle.Between(targets.x, targets.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY)
@@ -137,6 +269,7 @@ class DefenderGameScene extends DefenderScene {
         return targetDeg;
     }
     shootLaser(scene,targetx,targety,targetDeg,turret){
+        this.laserSound();
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
     decreaseShipHealth(ship,blast){
@@ -149,6 +282,7 @@ class DefenderGameScene extends DefenderScene {
         beam.body.reset();
         this.explode(crack.x,crack.y);
         crack.repair(this);
+        this.scoreUpSound();
         
     }
     getRandomBetween(min, max) {

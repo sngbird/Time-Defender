@@ -19,7 +19,7 @@ class Gameplay extends DefenderGameScene{
         this.diffText.setText("Difficulty: " + this.difficulty)
 
         if(this.getRandomBetween(0,1000) < 5 +this.difficulty){
-              this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)))
+              this.spawn();
         }
         if (this.ship.getHP() <= 0){
             this.scene.restart();
