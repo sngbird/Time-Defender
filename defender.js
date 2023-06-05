@@ -9,7 +9,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('repairblast','Assets/repairblastplaceholder.png')
         this.load.image('repairbeam','Assets/repairbeamplaceholder.png')
         this.load.image('timecrack','Assets/timecrack.png')
-
+        this.load.image('crackcenter','Assets/crackcenter.png')
 
      
 
@@ -94,8 +94,8 @@ class DefenderGameScene extends DefenderScene {
             setTimeout(()=>{this.shootLaser(this,targetx,targety,targetDeg,turret);},500)
         },this);
     this.crackGroup = this.physics.add.group({});
-    this.crackGroup.add(this.crack(.25,.5));
-    this.crackGroup.add(this.crack(.65,.5));
+    // this.crackGroup.add(this.crack(.25,.5));
+    // this.crackGroup.add(this.crack(.65,.5));
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
@@ -130,6 +130,14 @@ class DefenderGameScene extends DefenderScene {
     }
     crack(xmult,ymult){
         let crack = this.physics.add.sprite(this.w*xmult,this.h*ymult,'timecrack');
+        let crackTarget = this.physics.add.sprite(this.w*xmult,this.h*ymult,'crackcenter').setScale(.1)
+        //let testcontainer = this.physics.add.container()
+        this.crackGroup.add(crackTarget)
+        this.tweens.add({
+            targets: crackTarget,
+            scale: .5,
+            duration: 5000,
+        })
         this.tweens.add({ 
             targets: crack,
             scale:20,
@@ -163,7 +171,7 @@ class DefenderGameScene extends DefenderScene {
         let scene = this;
         this.tweens.add({
             targets:explosion,
-            alpha: 1,
+            alpha: .9,
             scale: 5,
             duration: 500,
             onComplete: function(){

@@ -12,22 +12,3 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
     }
 }
 
-class CrackGroup extends Phaser.Physics.Arcade.Group{
-    constructor(scene){
-        super(scene.physics.world, scene);
-        // this.createMultiple({
-        //     classType: TimeCrack,
-        //     frameQuantity: 8,
-        //     active: false,
-        //     visible: false,
-        //     key: 'laser'
-        // })
-    }
-
-    fireLaser(scene,targetx,targety,targetDeg,turret){
-        const laser = this.getFirstDead(false);
-        if(laser){
-            laser.fire(scene,turret, targetDeg, targetx, targety);
-        }
-    }
-}

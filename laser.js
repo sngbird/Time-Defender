@@ -5,12 +5,18 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
     fire(scene,turret,targetDeg,targetx,targety){
         this.targetx = targetx;
         this.targety = targety;
-        this.setScale(3,1);
         this.setAngle(targetDeg);
         this.body.reset(turret.x,turret.y);
         this.setActive(true);
         this.setVisible(true);
         scene.physics.moveTo(this,targetx,targety,600);
+    }
+    preUpdate(time, delta){
+        super.preUpdate(time,delta);
+        if(this.y <= 0){
+            this.setActive(false);
+            this.setVisible(false);
+        }
     }
 
 
@@ -30,7 +36,7 @@ class LaserGroup extends Phaser.Physics.Arcade.Group{
     }
 
     fireLaser(scene,targetx,targety,targetDeg,turret){
-        const laser = this.getFirstDead(false);
+        let laser = this.getFirstDead(false);
         if(laser){
             laser.fire(scene,turret, targetDeg, targetx, targety);
         }
