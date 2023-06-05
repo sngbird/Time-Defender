@@ -88,8 +88,10 @@ class DefenderGameScene extends DefenderScene {
         
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
-    this.ship = new Ship(this.w*.5,this.h*.95,'shipbody');
-    let turret = this.createTurretSprite(this,this.w*.5,this.h*.88);
+    this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
+    console.log(this.ship)
+
+    let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
             let targetx = pointer.x;
             let targety = pointer.y;
@@ -104,7 +106,7 @@ class DefenderGameScene extends DefenderScene {
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
-    this.physics.add.overlap(this.blastGroup, this.ship, this.ship.decreaseHealth(), null, this);
+    this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
     
@@ -137,7 +139,11 @@ class DefenderGameScene extends DefenderScene {
     shootLaser(scene,targetx,targety,targetDeg,turret){
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
-
+    decreaseShipHealth(ship,blast){
+        console.log("ouch")
+        ship.decreaseHealth();
+        console.log(ship.getHP());
+    }
     destroyCrack(beam,crack){
         beam.setActive(false);
         beam.setVisible(false);
