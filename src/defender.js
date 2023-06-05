@@ -140,9 +140,8 @@ class DefenderGameScene extends DefenderScene {
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
     decreaseShipHealth(ship,blast){
-        console.log("ouch")
         ship.decreaseHealth();
-        console.log(ship.getHP());
+        //console.log(ship.getHP())
     }
     destroyCrack(beam,crack){
         beam.setActive(false);

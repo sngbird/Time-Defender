@@ -21,4 +21,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     getHP(){
         return this.currenthp;
     }
+    getMax(){
+        return this.maxhp;
+    }
 }
