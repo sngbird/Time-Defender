@@ -138,23 +138,7 @@ class DefenderGameScene extends DefenderScene {
     shootLaser(scene,targetx,targety,targetDeg,turret){
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
-    crack(xmult,ymult){
-        let crack = this.physics.add.sprite(this.w*xmult,this.h*ymult,'timecrack');
-        let crackTarget = this.physics.add.sprite(this.w*xmult,this.h*ymult,'crackcenter').setScale(.1)     
 
-        this.crackGroup.add(crackTarget)
-        this.tweens.add({
-            targets: crackTarget,
-            scale: .5,
-            duration: 5000,
-        })
-        this.tweens.add({ 
-            targets: crack,
-            scale:20,
-            duration: 5000,
-        })
-        return(crack)
-    }
     destroyCrack(beam,crack){
         beam.setActive(false);
         beam.setVisible(false);
