@@ -10,6 +10,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('repairbeam','Assets/repairbeamplaceholder.png')
         this.load.image('timecrack','Assets/timecrack.png')
         this.load.image('crackcenter','Assets/crackcenter.png')
+        this.load.image('shipbody', 'Assets/placeholdershipbody.png')
 
      
 
@@ -53,6 +54,7 @@ class DefenderScene extends Phaser.Scene {
     }
     createTurretSprite(x,y){
         let turret = this.add.sprite(x,y,'turret');
+        turret.setAngle(-90)
         return(turret);
     }
     onEnter() {
@@ -86,7 +88,9 @@ class DefenderGameScene extends DefenderScene {
         
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
-    let turret = this.createTurretSprite(this.w*.5,this.h*.8);
+    this.ship = this.physics.add.sprite(this.w*.5,this.h*.95,'shipbody');
+    this.ship.setScale(4,1);
+    let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
             let targetx = pointer.x;
             let targety = pointer.y;
@@ -101,9 +105,10 @@ class DefenderGameScene extends DefenderScene {
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
+    this.physics.add.overlap(this.blastGroup, this.ship, this.ship.decreaseHealth())
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
-
+    
     }
     update(){
     }
