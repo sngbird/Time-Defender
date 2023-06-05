@@ -97,11 +97,13 @@ class DefenderGameScene extends DefenderScene {
     this.blastGroup = this.physics.add.group({});
     // this.crackGroup.add(this.crack(.25,.5));
     // this.crackGroup.add(this.crack(.65,.5));
+    
     this.difficulty = 0;
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
-    let trial = new TimeCrack(this,500,500);
-    //trial.spread(this);
+    //let trial = new TimeCrack(this,500,500);
+    //this.crackGroup.add(trial);
+
     }
     update(){
     }
@@ -153,15 +155,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setVisible(false);
         beam.body.reset();
         this.explode(crack.x,crack.y);
-        this.tweens.add({
-            targets: crack,
-            scale: 1,
-            alpha: 0,
-            duration: 500,
-            onComplete: function(){
-                crack.destroy();
-            }
-        })
+        crack.repair(this);
         
     }
     getRandomBetween(min, max) {
