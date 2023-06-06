@@ -56,13 +56,6 @@ class Intro extends DefenderScene {
             repeat: -1,
         })
 
-        // let title = this.add.text(this.game.config.width/4,this.game.config.height/4)
-        // .setText("Time Defender")
-        // .setStyle({ fontSize: `${1.5 * 70}px` })
-        // .setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
-
-        // A Box that will prevent the stars from showing above it. Im using this for the title and I will most likely add it for the names eventually
-        //let credit_box = this.add.rectangle(this.game.config.width/4,this.game.config.height/4 * 3, 800,230, 0x000000).setOrigin(0,0);
 
         //Adding play button
         let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
@@ -74,7 +67,6 @@ class Intro extends DefenderScene {
         play_button.add(button);
 
         //adding credits button
-
         let xv = 0;
         let yv = 130
         let cbutton = this.add.image(xv,yv, 'credits').setScale(2).setInteractive();
@@ -85,10 +77,10 @@ class Intro extends DefenderScene {
         play_button.add(cbutton);
 
 
-        let credit = this.add.text(this.game.config.width/100,this.game.config.height/5 * 4)
-        .setText("Created by:\n Ethan Earle \n Lumina Kinsinger-Dang \n Wyatt Hawes")
-        .setStyle({ fontSize: `${1 * 40}px` })
-        .setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
+        //let credit = this.add.text(this.game.config.width/100,this.game.config.height/5 * 4)
+        //.setText("Created by:\n Ethan Earle \n Lumina Kinsinger-Dang \n Wyatt Hawes")
+        //.setStyle({ fontSize: `${1 * 40}px` })
+        //.setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
         
 
         let me2 = this;
