@@ -27,6 +27,11 @@ class Intro extends DefenderScene {
     }
 
     onEnter(){
+
+        //
+        var GAMEPLAY_SCENE = "gameplay";
+
+
         this.cameras.main.fadeIn(5000, 0, 0, 0);
         this.thisturr.setOrigin(0.5,0.5);
         this.thisturr.setPosition(this.game.config.width/2,this.game.config.height/2.5)
@@ -86,7 +91,7 @@ class Intro extends DefenderScene {
         let me2 = this;
         button.on('pointerdown', ()=>{
             //Go to beginning scene
-            this.run_transition_animation(me2, title_cont, play_button, credit);
+            this.run_transition_animation(me2, title_cont, play_button);
             me2.time.delayedCall(12000, ()=>{
                 //Scene transition
                 //I want to see if we can "load" the other scene before transitioning so there is
@@ -95,7 +100,7 @@ class Intro extends DefenderScene {
                 // Or even not do multiple "scenes" and just continue this one 
                 console.log("Starting gameplay");
 
-                this.scene.start('gameplay')
+                this.scene.start(GAMEPLAY_SCENE)
                 
             });
         })
