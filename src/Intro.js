@@ -61,8 +61,52 @@ class Intro extends DefenderScene {
             repeat: -1,
         })
 
-
+        this.add_buttons(title_cont);
         //Adding play button
+        
+        //Credits button
+        
+    }
+
+
+    run_transition_animation(me2, title_cont, play_button, credit){
+        me2.particle_system.gravityX = -700;
+        me2.particle_system.speedX = -400;
+        me2.particle_system.quantity = 6;
+        //me2.particle_system.setFrequency(7)
+        me2.particle_system.lifespan = 100000;
+        me2.time.delayedCall(3000, ()=>{
+            //console.log("Scene Transition");
+            me2.time.delayedCall(0, ()=>{me2.particle_system.gravityX = -10});
+            me2.time.delayedCall(1000, ()=>{
+                me2.particle_system.quantity = 1;
+                me2.particle_system.setFrequency(50);
+                me2.particle_system.speedX = 0;
+                me2.particle_system.lifespan = 100000;
+            });
+            //me2.particle_system.speedX = -50;
+            me2.particle_system.quantity = 1;
+            me2.particle_system.setFrequency(25);
+        });
+        let r = me2.add.tween({
+            delay: 300,
+            targets: credit,
+            duration: 2000,
+            ease: "Quad.easeIn",
+            x: -800,
+        });
+
+        me2.add.tween({
+            delay: 300,
+            targets: [title_cont,play_button],
+            duration: 1700,
+            ease: "Quad.easeIn",
+            x: -800
+        })
+    }
+
+    add_buttons(title_cont){
+
         let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
         let button = this.add.image(0,0, 'play').setScale(2).setInteractive();
         let button_background = this.add.rectangle(0,0,100,50,0x000000).setScale(2).setInteractive();
@@ -114,43 +158,7 @@ class Intro extends DefenderScene {
                 // Or even not do multiple "scenes" and just continue this one 
                 this.scene.start('credits')
         })
-        //Credits button
-        
-    }
-    run_transition_animation(me2, title_cont, play_button, credit){
-        me2.particle_system.gravityX = -700;
-        me2.particle_system.speedX = -400;
-        me2.particle_system.quantity = 6;
-        //me2.particle_system.setFrequency(7)
-        me2.particle_system.lifespan = 100000;
-        me2.time.delayedCall(3000, ()=>{
-            //console.log("Scene Transition");
-            me2.time.delayedCall(0, ()=>{me2.particle_system.gravityX = -10});
-            me2.time.delayedCall(1000, ()=>{
-                me2.particle_system.quantity = 1;
-                me2.particle_system.setFrequency(50);
-                me2.particle_system.speedX = 0;
-                me2.particle_system.lifespan = 100000;
-            });
-            //me2.particle_system.speedX = -50;
-            me2.particle_system.quantity = 1;
-            me2.particle_system.setFrequency(25);
-        });
-        let r = me2.add.tween({
-            delay: 300,
-            targets: credit,
-            duration: 2000,
-            ease: "Quad.easeIn",
-            x: -800,
-        });
 
-        me2.add.tween({
-            delay: 300,
-            targets: [title_cont,play_button],
-            duration: 1700,
-            ease: "Quad.easeIn",
-            x: -800
-        })
     }
 
     update(){
