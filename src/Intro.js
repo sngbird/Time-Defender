@@ -35,8 +35,10 @@ class Intro extends DefenderScene {
         //
         this.GAMEPLAY_SCENE = "gameplay";
 
+        if(localStorage.getItem("intro_skipped") != "true"){
+            this.cameras.main.fadeIn(7000, 0, 0, 0);
+        }
 
-        this.cameras.main.fadeIn(5000, 0, 0, 0);
         this.thisturr.setOrigin(0.5,0.5);
         this.thisturr.setPosition(this.game.config.width/2,this.game.config.height/2.5)
         let title_cont = this.add.container(this.game.config.width/2,this.game.config.height/4)

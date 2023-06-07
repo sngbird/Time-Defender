@@ -34,6 +34,11 @@ class DefenderScene extends Phaser.Scene {
             this.handlePointerUp(pointer, testTurret)
         });
 
+        var spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        spaceBar.on('down', ()=>{
+            console.log("CLEARING LOCAL STORAGE")
+            localStorage.clear();
+        })
         this.onEnter();
 
 

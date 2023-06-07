@@ -12,17 +12,40 @@ class Logo extends DefenderScene{
 
 
     create(){
+        let watched = localStorage.getItem("logo_watched");
+        if(watched == "true"){
+            this.scene.start('intro');
+            localStorage.setItem("intro_skipped", "true");
+            return;
+        }
+        localStorage.setItem("intro_skipped", "false");
+        localStorage.setItem("logo_watched", "true");
+
         this.transitionDuration = 3000;
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
 
         let log = this.add.sprite(this.game.config.width/2,this.game.config.height/2,'logo');
 
-        this.add.tween({
-            delay: 300,
+        let chain = this.tweens.chain({
             targets: log,
-            duration: 1000,
-            angle: 360,
-        })
+            repeat: 0,
+            tweens: [
+                {
+                    delay: 300,
+                    targets: log,
+                    duration: 1000,
+                    angle: 360,
+                },
+                {
+                    duration:150,
+                    repeat: 3,
+                    delay: 50,
+                    ease: "",
+                    scale: 3,
+                    
+                },
+            ]
+        });
 
         this.time.delayedCall(this.transitionDuration + 100, () => this.gotoScene("intro"));
 
