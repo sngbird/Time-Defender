@@ -25,7 +25,7 @@ class Intro extends DefenderScene {
             me.add.tween({
                 targets: b1,
                 duration: 70,
-                scale: b1.scale,
+                scale: b1.scale - 0.2,
             });
         });
     }
@@ -96,7 +96,7 @@ class Intro extends DefenderScene {
             me2.particle_system.setFrequency(25);
         });
         let r = me2.add.tween({
-            delay: 300,
+            delay: 0,
             targets: credit,
             duration: 2000,
             ease: "Quad.easeIn",
@@ -104,7 +104,7 @@ class Intro extends DefenderScene {
         });
 
         me2.add.tween({
-            delay: 300,
+            delay: 0,
             targets: [title_cont,play_button],
             duration: 1700,
             ease: "Quad.easeIn",
@@ -122,7 +122,7 @@ class Intro extends DefenderScene {
         play_button.add(button_background)
         play_button.add(button);
 
-        this.add.tween({
+        let twn = this.add.tween({
             targets: [button,button_background],
             duration: 3000,
             scale:3,
@@ -136,8 +136,8 @@ class Intro extends DefenderScene {
         let yv = 200
         let cbutton = this.add.image(xv,yv, 'credits').setScale(2).setInteractive();
         let cbutton_background = this.add.rectangle(xv,yv,140,50,0x000000).setScale(2).setInteractive();
-        this.enlarge_on_mouse(cbutton);
-        this.enlarge_on_mouse(cbutton_background);
+        //this.enlarge_on_mouse(cbutton);
+        //this.enlarge_on_mouse(cbutton_background);
         play_button.add(cbutton_background)
         play_button.add(cbutton);
 
@@ -150,7 +150,25 @@ class Intro extends DefenderScene {
 
         let me2 = this;
         button.on('pointerdown', ()=>{
+            
+            twn.pause();
+            me2.add.tween({
+                targets: button,
+                duration:50,
+                scale: 1.5,
+                ease: ""
+            })
+        })
+
+        button.on('pointerup', ()=>{
             //Go to beginning scene
+            me2.add.tween({
+                targets: button,
+                duration:50,
+                scale: 2,
+                ease: ""
+            })
+
             this.run_transition_animation(me2, title_cont, play_button);
             me2.time.delayedCall(12000, ()=>{
                 //Scene transition
@@ -161,6 +179,7 @@ class Intro extends DefenderScene {
                 console.log("Starting gameplay");
 
                 this.scene.start(this.GAMEPLAY_SCENE)
+                this.scene.sendToBack('credits');
                 
             });
 
@@ -173,13 +192,64 @@ class Intro extends DefenderScene {
         })
 
         cbutton.on('pointerdown', ()=>{
+            
+            //twn.pause();
+            me2.add.tween({
+                targets: cbutton,
+                duration:50,
+                scale: 1.5,
+                ease: ""
+            })
+        })
+
+
+        this.scene.launch("credits");
+        this.scene.bringToTop("intro");
+
+        localStorage.setItem("active_scene","intro")
+        cbutton.on('pointerup', ()=>{
+            if(localStorage.getItem("active_scene") == "intro"){
             //Go to beginning scene
                 //Scene transition
                 //I want to see if we can "load" the other scene before transitioning so there is
                 //no gap in the stars when you load the next scene
+                localStorage.setItem("active_scene","transition");
+                me2.add.tween({
+                    targets: cbutton,
+                    duration:50,
+                    scale: 2,
+                    ease: ""
+                })
 
                 // Or even not do multiple "scenes" and just continue this one 
-                this.scene.start('credits')
+                let rect1 = this.scene.get('intro').add.rectangle(0,0,this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0).setDepth(10).setAlpha(0);
+                let rect2 = this.scene.get('credits').add.rectangle(0,0,this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0).setDepth(10);
+
+
+                this.scene.get('intro').add.tween({
+                    targets:rect1,
+                    duration: 300,
+                    alpha: 1,
+                    onComplete: ()=>{
+                        //this.scene.pause('logo');
+                        this.scene.bringToTop("credits");
+                        //this.scene.pause("intro")
+                        this.scene.get('credits').add.tween({
+                            targets:rect2,
+                            duration: 300,
+                            alpha: 0,
+                            onComplete: ()=>{
+                                rect1.setAlpha(0);
+                                this.scene.pause("intro");
+                                localStorage.setItem("active_scene","credits");
+                            }
+                        })
+
+                    }
+                })
+
+
+            }  
         })
 
     }
@@ -216,15 +286,21 @@ class Intro extends DefenderScene {
             mt = this.add.tween({
                 targets: this.settings_menu,
                 delay: 3000,
-                repeatDelay: 5000,
+                repeatDelay: 3000,
                 repeat: -1,
                 ease: "Back.Out",
                 y: bottom_val - 20,
 
             })
         }
+        let once = 0
         hide_rectangle.on('pointerdown', ()=>{
             mt.pause();
+            if(once == 0){
+                once = 1;
+            this.settings_menu.y = bottom_val;
+            }
+            once = 1;
             if(menu_state == "up"){
                 mee.add.tween({
                 targets: this.settings_menu,

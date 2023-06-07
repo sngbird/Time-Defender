@@ -13,11 +13,18 @@ class Logo extends DefenderScene{
 
     create(){
         let watched = localStorage.getItem("logo_watched");
+        
         if(watched == "true"){
             this.scene.start('intro');
             localStorage.setItem("intro_skipped", "true");
             return;
         }
+        this.scene.launch("intro");
+        this.scene.get('intro').events.once('start', () => {
+            this.scene.setVisible(false, 'intro');
+          });
+
+        this.scene.bringToTop("logo");
         localStorage.setItem("intro_skipped", "false");
         localStorage.setItem("logo_watched", "true");
 
@@ -47,7 +54,28 @@ class Logo extends DefenderScene{
             ]
         });
 
-        this.time.delayedCall(this.transitionDuration + 100, () => this.gotoScene("intro"));
+        let next_trigger = 0;
+        this.time.delayedCall(this.transitionDuration + 1000, () => {
+            if(next_trigger != 1){
+
+            next_trigger = 1;
+            this.cameras.main.fadeOut(700, 0, 0, 0);
+                let rect;
+                this.time.delayedCall(1000, () => {
+                    this.scene.setVisible(false,"logo");
+                    rect = this.scene.get('intro').add.rectangle(0,0,this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0).setDepth(10);
+                });
+                this.time.delayedCall(2000, () => {
+                    this.scene.get('intro').add.tween({
+                        targets: rect,
+                        duration: 3000,
+                        alpha: 0,
+                    })
+                    this.scene.setVisible(true,"intro");
+                    //this.time.delayedCall(300, () => this.cameras.main.fadeIn(5000, 0, 0, 0));
+                })}
+            
+        });
 
         this.input.on('pointerdown', ()=>{
             //Go to beginning scene
@@ -56,7 +84,23 @@ class Logo extends DefenderScene{
                 //no gap in the stars when you load the next scene
 
                 // Or even not do multiple "scenes" and just continue this one 
-                this.scene.start('intro')
+                if(next_trigger != 1){
+                    next_trigger = 1;
+                this.cameras.main.fadeOut(700, 0, 0, 0);
+                let rect;
+                this.time.delayedCall(1000, () => {
+                    this.scene.setVisible(false,"logo");
+                    rect = this.scene.get('intro').add.rectangle(0,0,this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0).setDepth(10);
+                });
+                this.time.delayedCall(2000, () => {
+                    this.scene.get('intro').add.tween({
+                        targets: rect,
+                        duration: 3000,
+                        alpha: 0,
+                    })
+                    this.scene.setVisible(true,"intro");
+                    //this.time.delayedCall(300, () => this.cameras.main.fadeIn(5000, 0, 0, 0));
+                })}
         })
     
     }
