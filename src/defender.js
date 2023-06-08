@@ -23,7 +23,6 @@ class DefenderScene extends Phaser.Scene {
         this.s = this.game.config.width * 0.01;
         const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h);
         const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h);
-        //const pulse = this.add.shader('pulse',this.w/2, this.h/2, this.w, this.h);
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
         // this.add.particles(this.w*1.3, 0, 'star', {
@@ -84,6 +83,7 @@ class DefenderGameScene extends DefenderScene {
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
     this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
+    this.currently_shooting = false;
 
     let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
