@@ -22,6 +22,7 @@ class Gameplay extends DefenderGameScene{
               this.spawn();
         }
         if (this.ship.getHP() <= 0){
+            this.bgm.stop();
             this.scene.restart();
         }
     }
