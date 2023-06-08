@@ -17,7 +17,7 @@ float noise (in vec2 uv) {
 #define DIRECTION DIR_LEFT
 
 #define LAYERS 8
-#define SPEED 40.
+#define SPEED 50.
 #define SIZE 5.
 
 

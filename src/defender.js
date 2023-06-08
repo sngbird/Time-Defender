@@ -4,17 +4,15 @@ class DefenderScene extends Phaser.Scene {
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
-        this.load.image('star','src/assets/star.png')
-        this.load.image('turret','src/assets/turretplaceholder.png')
-        this.load.image('repairblast','src/assets/repairblastplaceholder.png')
-        this.load.image('repairbeam','src/assets/repairbeamplaceholder.png')
-        this.load.image('timecrack','src/assets/timecrack.png')
-        this.load.image('crackcenter','src/assets/crackcenter.png')
-        this.load.image('shipbody', 'src/assets/placeholdershipbody.png')
-        this.load.audio('bgm','src/assets/song1.mp3');
+        this.load.image('turret','src/assets/sprites/turretplaceholder.png')
+        this.load.image('repairblast','src/assets/sprites/repairblastplaceholder.png')
+        this.load.image('repairbeam','src/assets/sprites/repairbeamplaceholder.png')
+        this.load.image('timecrack','src/assets/sprites/timecrack.png')
+        this.load.image('crackcenter','src/assets/sprites/crackcenter.png')
+        this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody.png')
+        this.load.audio('bgm','src/assets/sounds/song1.mp3');
         this.load.glsl('warp', 'src/assets/shaders/domain.frag');
         this.load.glsl('stars','src/assets/shaders/starfield.frag');
-     
 
     }
     create() {
@@ -24,7 +22,8 @@ class DefenderScene extends Phaser.Scene {
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
         const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h);
-        const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h)
+        const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h);
+        //const pulse = this.add.shader('pulse',this.w/2, this.h/2, this.w, this.h);
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
         // this.add.particles(this.w*1.3, 0, 'star', {
@@ -85,7 +84,7 @@ class DefenderGameScene extends DefenderScene {
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
     this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
-    console.log(this.ship)
+   
 
     let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
@@ -116,7 +115,6 @@ class DefenderGameScene extends DefenderScene {
         alertSound()
     }
     rotateToMouse(pointer, targets){
-        //console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
         let targetRad = Phaser.Math.Angle.Between(targets.x, targets.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY)
         let targetDeg = Phaser.Math.RadToDeg(targetRad)
         
@@ -144,7 +142,6 @@ class DefenderGameScene extends DefenderScene {
     }
     decreaseShipHealth(ship,blast){
         ship.decreaseHealth();
-        //console.log(ship.getHP())
     }
     destroyCrack(beam,crack){
         beam.setActive(false);
