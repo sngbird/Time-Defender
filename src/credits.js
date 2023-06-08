@@ -19,7 +19,7 @@ class Credits extends DefenderScene {
                 // Or even not do multiple "scenes" and just continue this one 
                 //this.scene.get('intro').bringToTop();
                 if(localStorage.getItem("active_scene") == "credits"){
-                    //console.log("credits clicked")
+                    console.log("credits clicked")
                     //this.scene.bringToTop("intro");
 
                     this.scene.resume("intro");
@@ -65,6 +65,6 @@ class Credits extends DefenderScene {
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
     }
     update(){
-        console.log("cred");
+        //console.log("cred");
     }
 }

@@ -210,7 +210,7 @@ class Intro extends DefenderScene {
 
         this.scene.bringToTop("intro");
 
-        localStorage.setItem("active_scene","intro")
+        //localStorage.setItem("active_scene","intro")
         cbutton.on('pointerup', ()=>{
             if(localStorage.getItem("active_scene") == "intro"){
             //Go to beginning scene

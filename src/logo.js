@@ -4,7 +4,7 @@ class Logo extends DefenderScene{
         super("logo")
     }
     pre_load(){
-        console.log("Loading logo")
+        //console.log("Loading logo")
         this.load.image('logo', "Assets/Company_Logo.png");
         
 
@@ -13,13 +13,17 @@ class Logo extends DefenderScene{
 
     create(){
         let watched = localStorage.getItem("logo_watched");
-        let view_blocker = this.add.rectangle(0,0, this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0);
+        localStorage.removeItem("active_scene");
+        //this.view_blocker = this.add.rectangle(0,0, this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0);
         if(watched == "true"){
             console.log("already watched");
             this.scene.start('intro');
+
+            localStorage.setItem("active_scene", "intro");
             localStorage.setItem("intro_skipped", "true");
             return;
         }
+        localStorage.setItem("active_scene","logo");
          this.scene.launch("intro");
         this.scene.get('intro').events.once('start', () => {
              this.scene.setVisible(false, 'intro');
@@ -62,22 +66,27 @@ class Logo extends DefenderScene{
         });
 
         this.input.on('pointerdown', ()=>{
+            console.log(localStorage.getItem("active_scene"));
+            if(localStorage.getItem("active_scene") == "logo"){
             //Go to beginning scene
                 //Scene transition
                 //I want to see if we can "load" the other scene before transitioning so there is
                 //no gap in the stars when you load the next scene
 
                 // Or even not do multiple "scenes" and just continue this one 
+                console.log("Logo Clicked");
                 this.transition();
+            }
         })
     
     }
 
     transition(){
-        let next_trigger = this.next_trigger
+        let next_trigger = this.next_trigger;
         if(next_trigger != 1){
-
+            localStorage.setItem("active_scene","transition");
             next_trigger = 1;
+            this.next_trigger = 1;
             this.cameras.main.fadeOut(500, 0, 0, 0);
                 let rect;
                 this.time.delayedCall(500,   () => {
@@ -91,6 +100,9 @@ class Logo extends DefenderScene{
                         alpha: 0,
                     })
                     this.scene.setVisible(true,"intro");
+                    localStorage.setItem("active_scene","intro");
+                    //this.view_blocker.setAlpha(0)
+                    //rect.setAlpha(0);
                     //this.time.delayedCall(300, () => this.cameras.main.fadeIn(5000, 0, 0, 0));
                 })
         }
