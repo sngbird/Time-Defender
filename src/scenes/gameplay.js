@@ -1,6 +1,6 @@
 class Gameplay extends DefenderGameScene{
     constructor(){
-        super('test')
+        super('gameplay')
     }
     onEnter(){
         this.HP = this.add.text(this.game.config.width*.05,this.game.config.height*.92)

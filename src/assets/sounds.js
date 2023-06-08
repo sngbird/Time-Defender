@@ -24,6 +24,7 @@ lowHumSound = () => {
     setTimeout(() => {
         oscillator.stop();
     }, 1500);
+
 };
 
 alertSound = () => {

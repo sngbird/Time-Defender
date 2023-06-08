@@ -11,8 +11,9 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('timecrack','src/assets/timecrack.png')
         this.load.image('crackcenter','src/assets/crackcenter.png')
         this.load.image('shipbody', 'src/assets/placeholdershipbody.png')
-        this.load.audio('bgm','src/assets/song1.mp3')
-
+        this.load.audio('bgm','src/assets/song1.mp3');
+        this.load.glsl('warp', 'src/assets/shaders/domain.frag');
+        this.load.glsl('stars','src/assets/shaders/starfield.frag');
      
 
     }
@@ -22,15 +23,16 @@ class DefenderScene extends Phaser.Scene {
         this.w = this.game.config.width;
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
-
+        const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h);
+        const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h)
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
-        this.add.particles(this.w*1.3, 0, 'star', {
-            y: { min: 0, max: this.h },
-            quantity: 2,
-            lifespan: 7000,
-            gravityX: -200
-        });
+        // this.add.particles(this.w*1.3, 0, 'star', {
+        //     y: { min: 0, max: this.h },
+        //     quantity: 2,
+        //     lifespan: 7000,
+        //     gravityX: -200
+        // });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
         //this.input.on('pointerup', this.handlePointerUp(pointer))
         this.synth = new Tone.Synth({ oscillator: {type: 'square'}}).toDestination();
