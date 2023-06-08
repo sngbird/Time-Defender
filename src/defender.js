@@ -84,14 +84,20 @@ class DefenderGameScene extends DefenderScene {
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
     this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
-   
 
     let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
-            let targetx = pointer.x;
-            let targety = pointer.y;
-            let targetDeg = this.rotateToMouse(pointer, turret)
-            setTimeout(()=>{this.shootLaser(this,targetx,targety,targetDeg,turret);},500)
+            //console.log(this.currently_shooting)
+            if(this.currently_shooting == false){
+                this.currently_shooting = true;
+                let targetx = pointer.x;
+                let targety = pointer.y;
+                let targetDeg = this.rotateToMouse(pointer, turret)
+                setTimeout(()=>{
+                    this.shootLaser(this,targetx,targety,targetDeg,turret);
+                    this.currently_shooting = false;}
+                    ,this.turret_rotate_time)
+            }
         },this);
     this.crackGroup = this.physics.add.group({});
     this.blastGroup = this.physics.add.group({});
@@ -127,12 +133,17 @@ class DefenderGameScene extends DefenderScene {
         }else if (diff > 180){
             diff -= 360
         }
-  
+        
+        this.turret_rotate_time = Math.abs(diff + 90) * 5;
+        if(this.turret_rotate_time > 500){
+            this.turret_rotate_time = 500;
+        }
+        console.log(this.turret_rotate_time);
        
         this.tweens.add({
             targets: targets,
             angle: targetDeg,
-            duration: 500,
+            duration: this.turret_rotate_time,
         })
         return targetDeg;
     }
