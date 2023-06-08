@@ -23,6 +23,7 @@ class DefenderScene extends Phaser.Scene {
             quantity: 2,
             lifespan: 7000,
             gravityX: -200,
+            alpha: 0.4,
             //speedX: -150,
         });
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
