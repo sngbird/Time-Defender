@@ -31,7 +31,7 @@ class Intro extends DefenderScene {
     }
 
     onEnter(){
-
+        console.log("Intro running");
         //
         this.GAMEPLAY_SCENE = "gameplay";
 
@@ -204,6 +204,10 @@ class Intro extends DefenderScene {
 
 
         this.scene.launch("credits");
+        this.scene.get('credits').events.once('start', () => {
+            this.scene.setVisible(false, 'credits');
+        });
+
         this.scene.bringToTop("intro");
 
         localStorage.setItem("active_scene","intro")
@@ -233,6 +237,7 @@ class Intro extends DefenderScene {
                     onComplete: ()=>{
                         //this.scene.pause('logo');
                         this.scene.bringToTop("credits");
+                        this.scene.setVisible(true, 'credits');
                         //this.scene.pause("intro")
                         this.scene.get('credits').add.tween({
                             targets:rect2,

@@ -13,16 +13,17 @@ class Logo extends DefenderScene{
 
     create(){
         let watched = localStorage.getItem("logo_watched");
-        
+        let view_blocker = this.add.rectangle(0,0, this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0);
         if(watched == "true"){
+            console.log("already watched");
             this.scene.start('intro');
             localStorage.setItem("intro_skipped", "true");
             return;
         }
-        this.scene.launch("intro");
+         this.scene.launch("intro");
         this.scene.get('intro').events.once('start', () => {
-            this.scene.setVisible(false, 'intro');
-          });
+             this.scene.setVisible(false, 'intro');
+        });
 
         this.scene.bringToTop("logo");
         localStorage.setItem("intro_skipped", "false");
