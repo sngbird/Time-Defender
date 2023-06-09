@@ -33,12 +33,12 @@ class Intro extends DefenderScene {
         //The rectangle prevents stars from showing below the entire title, Is this something we want?
         title_cont.add(this.add.rectangle(0,-20,800,140,0x000000).setOrigin(0.5,0.5));
         title_cont.add(this.add.image(0,0,'title').setScale(4).setOrigin(0.5,0.5));
-
+        title_cont.setScale(1.4)
         let t1 = this.add.tween({
             targets: title_cont,
             paused: false,
             duration: 7000,
-            scale: 1.2,
+            scale: 1.8,
             repeat: -1,
             yoyo: true,
             ease: "Sine.easeInOut",
@@ -101,9 +101,9 @@ class Intro extends DefenderScene {
 
         //adding credits button
         let xv = 0;
-        let yv = 200
-        let cbutton = this.add.image(xv,yv, 'credits').setScale(2).setInteractive();
-        let cbutton_background = this.add.rectangle(xv,yv,130,40,0x000000).setScale(2).setInteractive();
+        let yv = 180
+        let cbutton = this.add.image(xv,yv, 'credits').setScale(2.5).setInteractive();
+        let cbutton_background = this.add.rectangle(xv,yv,130,40,0x000000).setScale(2.5).setInteractive();
         play_button.add(cbutton_background)
         play_button.add(cbutton);
 
