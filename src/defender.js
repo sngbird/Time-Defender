@@ -26,8 +26,11 @@ class DefenderScene extends Phaser.Scene {
         this.w = this.game.config.width;
         this.h = this.game.config.height;
         this.s = this.game.config.width * 0.01;
-        const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h);
-        const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h)
+
+        //Do not change the depth of the shaders, hiding of the stars depends on it -Wyatt
+        const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h).setDepth(-3);
+        const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h).setDepth(-1);
+
         this.cameras.main.setBackgroundColor('#000');
         //Ship and Starfield Background
         // this.add.particles(this.w*1.3, 0, 'star', {
@@ -212,7 +215,8 @@ class DefenderGameScene extends DefenderScene {
         let scene = this;
         this.tweens.add({
             targets:explosion,
-            alpha: .9,
+            delay:300,
+            alpha: .2,
             scale: 5,
             duration: 500,
             onComplete: function(){
