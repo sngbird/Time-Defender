@@ -209,7 +209,7 @@ class DefenderGameScene extends DefenderScene {
         return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
       }
     explode(x,y){
-        let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0);
+        let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
         let scene = this;
         this.tweens.add({
             targets:explosion,
