@@ -196,6 +196,9 @@ class DefenderGameScene extends DefenderScene {
         //console.log(ship.getHP())
     }
     destroyCrack(beam,crack){
+        if(crack.exploding == 1){
+            return;
+        }
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();
