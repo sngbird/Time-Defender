@@ -9,7 +9,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         this.body.reset(turret.x,turret.y);
         this.setActive(true);
         this.setVisible(true);
-        scene.physics.moveTo(this,targetx,targety,1200);
+        scene.physics.moveTo(this,targetx,targety,1600);
     }
     preUpdate(time, delta){
         super.preUpdate(time,delta);

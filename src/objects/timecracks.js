@@ -97,7 +97,7 @@ class TimeCrackBolt extends TimeCrack{
             y: bolt.y+435,
             x: bolt.x+95,
             scale:1,
-            duration: 5000,
+            duration: 3000,
         })
         return bolt;
     }

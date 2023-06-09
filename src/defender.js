@@ -146,7 +146,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setVisible(false);
         beam.body.reset();
         this.explode(crack.x,crack.y);
-        this.spawnCheck(crack.x,crack.y);
+        this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
         this.gain_score(this.difficulty)
@@ -274,15 +274,27 @@ class DefenderGameScene extends DefenderScene {
     }
     // creates a random time fissure and adds it to the collision group
     spawnCrack(){
-        //this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-        this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-
+        if(this.difficulty < 10){
+            this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+        }else{
+            let choice = this.getRandomBetween(1,11);
+            if(choice < 7){
+                this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            }else if(choice >= 7){
+                this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            }
+        }
         this.play_sound("alert");
     }
     //randoms a spawn
-    spawnCheck(x,y){
-        if (this.getRandomBetween(1,100) <= 10){
+    spawnPowerUpCheck(x,y){
+            if (this.getRandomBetween(1,101) <= Math.max(3,(15 - this.difficulty/2))){
             this.spawnPowerup(x,y)}
+    }
+    spawnDanger(){
+        if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2){
+            this.spawnCrack();
+      }
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){

@@ -28,7 +28,7 @@ class Gameplay extends DefenderGameScene{
     update(){
         //Update difficulty
         this.g_seconds = performance.now()/1000.0 - this.g_startTime;
-        if (this.difficulty < 8){this.difficulty = Math.round(this.g_seconds / 15)+1}
+        if (this.difficulty < 8){this.difficulty = Math.round(this.g_seconds / 15)+10}
         else{
             this.difficulty = Math.round(Math.sqrt(this.g_seconds));
         }
@@ -37,9 +37,7 @@ class Gameplay extends DefenderGameScene{
         this.diffText.setText("Difficulty: " + this.difficulty)
         this.ScoreText.setText(this.score)
         this.TimerText.setText(Math.floor(this.g_seconds))
-        if(this.getRandomBetween(0,1000) < 5 +this.difficulty){
-              this.spawnCrack();
-        }
+        this.spawnDanger();
         if (this.ship.getHP() <= 0){
             this.bgm.stop();
             this.scene.restart();
