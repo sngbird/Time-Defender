@@ -111,13 +111,13 @@ class DefenderGameScene extends DefenderScene {
     }
     sceneLayout(){
     console.log("DefenderGameScene");
-        
+    
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
     this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
     this.currently_shooting = false;
-    console.log(this.ship)
-    
+    //console.log(this.ship)
+    this.score = 0;
     this.currently_shooting = false;
     let turret = this.createTurretSprite(this.w*.5,this.h*.88);
         this.input.on('pointerdown', (pointer) => {
@@ -145,7 +145,7 @@ class DefenderGameScene extends DefenderScene {
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
     this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
-
+    
     if(localStorage.getItem("music") != 1){
         this.bgm.play()
     }
@@ -198,7 +198,7 @@ class DefenderGameScene extends DefenderScene {
         beam.body.reset();
         this.explode(crack.x,crack.y);
         crack.repair(this);
-
+        this.gain_score(this.difficulty)
         this.play_sound("scoreUp");
         
     }
@@ -226,6 +226,9 @@ class DefenderGameScene extends DefenderScene {
                 })
             }
         })
+    }
+    gain_score(val){
+        this.score += (5 * val);
     }
 
     play_sound(index){
