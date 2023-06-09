@@ -4,9 +4,9 @@ class Temp extends DefenderScene {
     }
     pre_load(){
         console.log("loading icons");
-        this.load.image('sound','Assets/sound.png')
-        this.load.image('music','Assets/music.png')
-        this.load.image('options', 'Assets/options_no_edge.png')
+        this.load.image('sound','src/assets/sound.png')
+        this.load.image('music','src/assets/music.png')
+        this.load.image('options', 'src/assets/options_no_edge.png')
 
     }
     sceneLayout(){

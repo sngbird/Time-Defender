@@ -5,13 +5,15 @@ class Logo extends DefenderScene{
     }
     pre_load(){
         //console.log("Loading logo")
-        this.load.image('logo', "Assets/Company_Logo.png");
+        this.load.image('logo', "src/assets/sprites/Company_Logo.png");
         
 
     }
 
 
+
     create(){
+        console.log("Logo");
         let watched = localStorage.getItem("logo_watched");
         localStorage.removeItem("active_scene");
         //this.view_blocker = this.add.rectangle(0,0, this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0);

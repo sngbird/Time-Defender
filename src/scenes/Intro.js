@@ -3,15 +3,17 @@ class Intro extends DefenderScene {
         super('intro');
     }
     pre_load(){
-        this.load.image('title', "Assets/Title.png");
-        this.load.image('play', "Assets/Play.png");
-        this.load.image('credits', "Assets/credits.png");
-        this.load.image('sound','Assets/sound.png')
-        this.load.image('music','Assets/music.png')
-        this.load.image('options', 'Assets/options_no_edge.png')
+        this.load.image('title', "src/assets/sprites/Title.png");
+        this.load.image('play', "src/assets/sprites/Play.png");
+        this.load.image('credits', "src/assets/sprites/credits.png");
+        this.load.image('sound','src/assets/sprites/sound.png')
+        this.load.image('music','src/assets/sprites/music.png')
+        this.load.image('options', 'src/assets/sprites/options_no_edge.png')
 
 
     }
+
+
     enlarge_on_mouse(b1){
         let me = this;
         b1.on('pointerover', () => {
@@ -30,6 +32,10 @@ class Intro extends DefenderScene {
         });
     }
 
+    sceneLayout(){
+
+    }
+
     onEnter(){
         console.log("Intro running");
         //
@@ -39,12 +45,12 @@ class Intro extends DefenderScene {
             this.cameras.main.fadeIn(7000, 0, 0, 0);
         }
 
-        this.thisturr.setOrigin(0.5,0.5);
-        this.thisturr.setPosition(this.game.config.width/2,this.game.config.height/2.5)
+        //this.thisturr.setOrigin(0.5,0.5);
+        //this.thisturr.setPosition(this.game.config.width/2,this.game.config.height/2.5)
         let title_cont = this.add.container(this.game.config.width/2,this.game.config.height/4)
         
         //The rectangle prevents stars from showing below the entire title, Is this something we want?
-        title_cont.add(this.add.rectangle(0,-10,830,180,0x000000).setOrigin(0.5,0.5));
+        title_cont.add(this.add.rectangle(0,-20,800,140,0x000000).setOrigin(0.5,0.5));
         title_cont.add(this.add.image(0,0,'title').setScale(4).setOrigin(0.5,0.5));
 
         let t1 = this.add.tween({
@@ -77,48 +83,29 @@ class Intro extends DefenderScene {
 
 
     run_transition_animation(me2, title_cont, play_button, credit){
-        me2.particle_system.gravityX = -700;
-        me2.particle_system.speedX = -400;
-        me2.particle_system.quantity = 6;
-        //me2.particle_system.setFrequency(7)
-        me2.particle_system.lifespan = 100000;
-        me2.time.delayedCall(3000, ()=>{
-            //console.log("Scene Transition");
-            me2.time.delayedCall(0, ()=>{me2.particle_system.gravityX = -10});
-            me2.time.delayedCall(1000, ()=>{
-                me2.particle_system.quantity = 1;
-                me2.particle_system.setFrequency(50);
-                me2.particle_system.speedX = 0;
-                me2.particle_system.lifespan = 100000;
-            });
-            //me2.particle_system.speedX = -50;
-            me2.particle_system.quantity = 1;
-            me2.particle_system.setFrequency(25);
-        });
         let r = me2.add.tween({
             delay: 0,
             targets: credit,
-            duration: 2000,
+            duration: 6000,
             ease: "Quad.easeIn",
-            x: -800,
+            x: -2000,
         });
 
         me2.add.tween({
             delay: 0,
             targets: [title_cont,play_button],
-            duration: 1700,
+            duration: 5000,
             ease: "Quad.easeIn",
             x: -800
         })
+        return;
     }
 
     add_buttons(title_cont){
 
         let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
         let button = this.add.image(0,0, 'play').setScale(2).setInteractive();
-        let button_background = this.add.rectangle(0,0,100,50,0x000000).setScale(2).setInteractive();
-        //this.enlarge_on_mouse(button);
-        //this.enlarge_on_mouse(button_background);
+        let button_background = this.add.rectangle(0,0,90,40,0x000000).setScale(2).setInteractive();
         play_button.add(button_background)
         play_button.add(button);
 
@@ -135,7 +122,7 @@ class Intro extends DefenderScene {
         let xv = 0;
         let yv = 200
         let cbutton = this.add.image(xv,yv, 'credits').setScale(2).setInteractive();
-        let cbutton_background = this.add.rectangle(xv,yv,140,50,0x000000).setScale(2).setInteractive();
+        let cbutton_background = this.add.rectangle(xv,yv,130,40,0x000000).setScale(2).setInteractive();
         //this.enlarge_on_mouse(cbutton);
         //this.enlarge_on_mouse(cbutton_background);
         play_button.add(cbutton_background)
@@ -170,7 +157,7 @@ class Intro extends DefenderScene {
             })
 
             this.run_transition_animation(me2, title_cont, play_button);
-            me2.time.delayedCall(12000, ()=>{
+            me2.time.delayedCall(6000, ()=>{
                 //Scene transition
                 //I want to see if we can "load" the other scene before transitioning so there is
                 //no gap in the stars when you load the next scene
@@ -260,9 +247,10 @@ class Intro extends DefenderScene {
     }
 
     update(){
+        return;
         this.thisturr.rotation = (Phaser.Math.Angle.Between(
             this.thisturr.x, this.thisturr.y, game.input.mousePointer.x, game.input.mousePointer.y
-            )) + Math.PI / 2
+            ))
     }
 
     make_options_menu(){
