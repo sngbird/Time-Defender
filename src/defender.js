@@ -145,14 +145,17 @@ class DefenderGameScene extends DefenderScene {
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
     this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
-    this.bgm.play()
+
+    if(localStorage.getItem("music") != 1){
+        this.bgm.play()
+    }
     
     }
     update(){
     }
     spawn(){
         this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-        alertSound();
+        this.play_sound("alert");
     }
     rotateToMouse(pointer, targets){
         //console.log(this.cameras.main.scrollX,this.cameras.main.scrollY);
@@ -183,7 +186,7 @@ class DefenderGameScene extends DefenderScene {
         return targetDeg;
     }
     shootLaser(scene,targetx,targety,targetDeg,turret){
-        laserSound();
+        this.play_sound("laser");
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
     decreaseShipHealth(ship,blast){
@@ -196,7 +199,8 @@ class DefenderGameScene extends DefenderScene {
         beam.body.reset();
         this.explode(crack.x,crack.y);
         crack.repair(this);
-        scoreUpSound();
+
+        this.play_sound("scoreUp");
         
     }
     getRandomBetween(min, max) {
@@ -223,5 +227,23 @@ class DefenderGameScene extends DefenderScene {
                 })
             }
         })
+    }
+
+    play_sound(index){
+        if(localStorage.getItem("sound") == 1){
+            //console.log("sound muted!");
+            return;
+        }
+        switch(index){
+            case "laser":
+                laserSound();
+                break;
+            case "alert":
+                alertSound();
+                break;
+            case "scoreUp":
+                scoreUpSound();
+                break;
+        }
     }
 }

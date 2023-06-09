@@ -13,25 +13,6 @@ class Intro extends DefenderScene {
 
     }
 
-
-    enlarge_on_mouse(b1){
-        let me = this;
-        b1.on('pointerover', () => {
-            me.add.tween({
-                targets: b1,
-                duration: 70,
-                scale: b1.scale + 0.2,
-            });
-        });
-        b1.on('pointerout', () => {
-            me.add.tween({
-                targets: b1,
-                duration: 70,
-                scale: b1.scale - 0.2,
-            });
-        });
-    }
-
     sceneLayout(){
 
     }
@@ -123,8 +104,6 @@ class Intro extends DefenderScene {
         let yv = 200
         let cbutton = this.add.image(xv,yv, 'credits').setScale(2).setInteractive();
         let cbutton_background = this.add.rectangle(xv,yv,130,40,0x000000).setScale(2).setInteractive();
-        //this.enlarge_on_mouse(cbutton);
-        //this.enlarge_on_mouse(cbutton_background);
         play_button.add(cbutton_background)
         play_button.add(cbutton);
 
@@ -140,17 +119,26 @@ class Intro extends DefenderScene {
             
             twn.pause();
             me2.add.tween({
-                targets: button,
+                targets: [button, button_background],
                 duration:50,
                 scale: 1.5,
                 ease: ""
             })
         })
 
+        let going_to_next_scene = 0;
+
+        this.input.on('pointerup', ()=> {
+            if(going_to_next_scene == 1){
+                this.scene.start(this.GAMEPLAY_SCENE)
+            }
+        })
+
         button.on('pointerup', ()=>{
+            me2.time.delayedCall(1000, ()=>{going_to_next_scene = 1});
             //Go to beginning scene
             me2.add.tween({
-                targets: button,
+                targets: [button, button_background],
                 duration:50,
                 scale: 2,
                 ease: ""
@@ -165,7 +153,7 @@ class Intro extends DefenderScene {
                 // Or even not do multiple "scenes" and just continue this one 
                 console.log("Starting gameplay");
 
-                this.scene.start(this.GAMEPLAY_SCENE)
+                this.scene.start(this.GAMEPLAY_SCENE);
                 this.scene.sendToBack('credits');
                 
             });
@@ -329,6 +317,8 @@ class Intro extends DefenderScene {
         sound_bit.add(surrounding_box);
         let sound_sprite = this.add.sprite(0,0,'sound')
         sound_bit.add(sound_sprite);
+
+        //Do NOT CHANGE THE SOUND TAG HERE, IT CONTROLS THE VOLUME IN OTHER SCENES
         this.create_clickable_x_button(sound_bit,sound_sprite,surrounding_box, "sound")
 
 
@@ -338,6 +328,8 @@ class Intro extends DefenderScene {
         music_bit.add(surrounding_box2)
         let music_sprite = this.add.sprite(0,0,'music')
         music_bit.add(music_sprite);
+
+        //Do NOT CHANGE THE SOUND TAG HERE, IT CONTROLS THE VOLUME IN OTHER SCENES
         this.create_clickable_x_button(music_bit, music_sprite,surrounding_box2, "music")
 
 
@@ -370,6 +362,7 @@ class Intro extends DefenderScene {
             if(lines.alpha == 1){
                 localStorage.setItem(index, 0);
                 lines.setAlpha(localStorage.getItem(index));
+                localStorage.setItem("")
             }else{
                 localStorage.setItem(index, 1);
                 lines.setAlpha(localStorage.getItem(index))
