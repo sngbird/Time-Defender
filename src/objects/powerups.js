@@ -52,6 +52,8 @@ class HealthUp extends PowerUps{
         scene.ship.increaseHealth(200);
         this.collectAnimation(scene);
         this.collectIndicatorAnimation(scene);
-      setTimeout(() => {this.destroy();},1000)
+      setTimeout(() => {this.indicator.destroy();
+        this.destroy();
+      },1000)
     }
 }

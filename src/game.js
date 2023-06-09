@@ -38,7 +38,9 @@ const game = new Phaser.Game({
     },
     physics: {
         default: 'arcade',
-        
+        arcade: {
+            //debug: true,
+        }
     },
     scene: [Logo,Pause,Intro, Credits, Gameplay],
     title: "Time Defender",

@@ -4,7 +4,6 @@ class DefenderScene extends Phaser.Scene {
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
-        this.load.image('star','src/assets/sprites/star.png')
         this.load.image('turret','src/assets/sprites/turretplaceholder.png')
         this.load.image('repairblast','src/assets/sprites/repairblastplaceholder.png')
         this.load.image('repairbeam','src/assets/sprites/repairbeamplaceholder.png')
@@ -12,7 +11,6 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('crackcenter','src/assets/sprites/crackcenter.png')
         this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody.png')
         this.load.image('powerupbase','src/assets/sprites/powerupbase.png')
-        this.load.image('powerupHP','src/assets/sprites/powerup_HP.png')
         this.load.image('HP','src/assets/sprites/powerup_health.png')
 
 
@@ -182,7 +180,8 @@ class DefenderGameScene extends DefenderScene {
     //Collect powerup
     getPowerup(laser,powerup){
         powerup.collectPowerUp(this) 
-        laser.destroy()
+        laser.destroy();
+        this.gain_score(20);
     }
     //audio
     play_music(){
