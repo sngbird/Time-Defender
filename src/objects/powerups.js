@@ -5,13 +5,13 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
       // Add the power-up sprite to the scene
       scene.add.existing(this);
       scene.physics.add.existing(this);
-  
       // Set up physics properties
       this.setCollideWorldBounds(true);
       this.setBounce(1);
+      // Create random trajectory for powerup
       this.body.setVelocity(scene.getRandomBetween(-400,400), scene.getRandomBetween(-400,400));
     }
-    // Custom logic for power-up behavior
+    //Animation for powerup pickup
     collectAnimation(scene){
         this.body.setVelocity(0,0);
         scene.tweens.add({
@@ -23,18 +23,35 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
         duration: 1000,
       })
     }
+    //Animation for the powerup's label
+    collectIndicatorAnimation(scene){
+        this.indicator.body.setVelocity(0,0);
+        scene.tweens.add({
+        targets: this.indicator,
+        scale: .5,
+        alpha: 0,
+        y: this.indicator.y - 120,
+        ease: 'Power1',
+        duration: 1000,
+      })
+    }
   }
 
 class HealthUp extends PowerUps{
     constructor(scene, x, y){
         super(scene, x, y);
-        let indicator = scene.add.image(this.x,this.y,'HP');
-        indicator.setScale(.35);
-        scene.add.existing(indicator);
+        this.indicator = scene.physics.add.image(this.x,this.y,'HP');
+        scene.powerUpsGroup.add(this.indicator);
+        this.indicator.setScale(.35);
+        scene.add.existing(this.indicator);
+        this.indicator.body.setVelocity(this.body.velocity.x,this.body.velocity.y);
+        this.indicator.setCollideWorldBounds(true);
+        this.indicator.setBounce(1)
     }
     collectPowerUp(scene) {
         scene.ship.increaseHealth(200);
         this.collectAnimation(scene);
+        this.collectIndicatorAnimation(scene);
       setTimeout(() => {this.destroy();},1000)
     }
 }

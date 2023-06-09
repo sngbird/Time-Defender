@@ -3,6 +3,7 @@ class Gameplay extends DefenderGameScene{
         super('gameplay')
     }
     onEnter(){
+        //Create UI
         console.log("Gameplay");
         this.HP = this.add.text(this.game.config.width*.05,this.game.config.height*.92)
         .setStyle({ fontSize: `${1.5 * 50}px` })
@@ -25,6 +26,7 @@ class Gameplay extends DefenderGameScene{
 
     }
     update(){
+        //Update difficulty
         this.g_seconds = performance.now()/1000.0 - this.g_startTime;
         if (this.difficulty < 8){this.difficulty = Math.round(this.g_seconds / 15)}
         else{

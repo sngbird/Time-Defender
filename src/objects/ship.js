@@ -11,7 +11,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     initialize(){
         this.currenthp = 1000;
-        console.log(this.currenthp)
+        //console.log(this.currenthp)
     }
     decreaseHealth(){
        this.currenthp -=1;
