@@ -156,7 +156,7 @@ class DefenderGameScene extends DefenderScene {
     }
     update(){
     }
-    spawn(){
+    spawn_crack(){
         this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         this.play_sound("alert");
     }
@@ -200,6 +200,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setVisible(false);
         beam.body.reset();
         this.explode(crack.x,crack.y);
+        this.crackGroup.remove(crack);
         crack.repair(this);
         this.gain_score(this.difficulty)
         this.play_sound("scoreUp");
@@ -233,6 +234,9 @@ class DefenderGameScene extends DefenderScene {
     }
     gain_score(val){
         this.score += (5 * val);
+    }
+    spawn_powerup(){
+
     }
 
     play_sound(index){

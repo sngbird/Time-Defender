@@ -33,7 +33,7 @@ class Gameplay extends DefenderGameScene{
         this.ScoreText.setText(this.score)
         this.TimerText.setText(Math.floor(this.g_seconds))
         if(this.getRandomBetween(0,1000) < 5 +this.difficulty){
-              this.spawn();
+              this.spawn_crack();
         }
         if (this.ship.getHP() <= 0){
             this.bgm.stop();
