@@ -149,10 +149,20 @@ class DefenderGameScene extends DefenderScene {
     //this.crackGroup.add(trial);
     this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
     
-    if(localStorage.getItem("music") != 1){
-        this.bgm.play()
-    }
+    this.currently_playing_music = false;
+    this.play_music()
     
+    }
+    play_music(){
+        if(localStorage.getItem("music") != 1){
+            if(this.currently_playing_music == false){
+                this.bgm.play()
+                this.currently_playing_music = true
+            }
+        }else{
+            this.currently_playing_music = false
+            this.bgm.stop()
+        }
     }
     update(){
     }

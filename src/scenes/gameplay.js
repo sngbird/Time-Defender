@@ -20,6 +20,9 @@ class Gameplay extends DefenderGameScene{
         .setStyle({ fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
 
+        this.scene.launch("pause");
+        this.scene.bringToTop("pause");
+
     }
     update(){
         this.g_seconds = performance.now()/1000.0 - this.g_startTime;

@@ -40,6 +40,6 @@ const game = new Phaser.Game({
         default: 'arcade',
         
     },
-    scene: [Logo,Intro, Credits, Gameplay],
+    scene: [Logo,Pause,Intro, Credits, Gameplay],
     title: "Time Defender",
 });

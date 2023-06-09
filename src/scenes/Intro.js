@@ -85,15 +85,15 @@ class Intro extends DefenderScene {
     add_buttons(title_cont){
 
         let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
-        let button = this.add.image(0,0, 'play').setScale(2).setInteractive();
-        let button_background = this.add.rectangle(0,0,90,40,0x000000).setScale(2).setInteractive();
+        let button = this.add.image(0,-100, 'play').setScale(3).setInteractive();
+        let button_background = this.add.rectangle(0,-100,90,40,0x000000).setScale(3).setInteractive();
         play_button.add(button_background)
         play_button.add(button);
 
         let twn = this.add.tween({
             targets: [button,button_background],
             duration: 3000,
-            scale:3,
+            scale:4,
             yoyo: true,
             repeat: -1,
             ease: "Sine.InOut"
@@ -121,7 +121,7 @@ class Intro extends DefenderScene {
             me2.add.tween({
                 targets: [button, button_background],
                 duration:50,
-                scale: 1.5,
+                scale: 3,
                 ease: ""
             })
         })
@@ -140,7 +140,7 @@ class Intro extends DefenderScene {
             me2.add.tween({
                 targets: [button, button_background],
                 duration:50,
-                scale: 2,
+                scale: 3.5,
                 ease: ""
             })
 
