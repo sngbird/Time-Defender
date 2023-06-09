@@ -186,7 +186,6 @@ class DefenderGameScene extends DefenderScene {
         return targetDeg;
     }
     shootLaser(scene,targetx,targety,targetDeg,turret){
-        this.play_sound("laser");
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
     }
     decreaseShipHealth(ship,blast){

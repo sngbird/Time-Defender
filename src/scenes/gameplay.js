@@ -14,7 +14,10 @@ class Gameplay extends DefenderGameScene{
     }
     update(){
         this.g_seconds = performance.now()/1000.0 - this.g_startTime;
-        this.difficulty = Math.round(this.g_seconds /15);
+        if (this.difficulty < 8){this.difficulty = Math.round(this.g_seconds / 15)}
+        else{
+            this.difficulty = Math.round(Math.sqrt(this.g_seconds));
+        }
         //console.log(this.difficulty)
         this.HP.setText("HP: "+ this.ship.getHP() + " / " + this.ship.getMax())
         this.diffText.setText("Difficulty: " + this.difficulty)

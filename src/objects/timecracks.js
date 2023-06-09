@@ -30,16 +30,16 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
             targets: this,
             scale: .1,
             alpha: 0,
-            duration: 500,
+            duration: 150,
         })
         scene.tweens.add({
             targets: this.blastrad,
             scale: 1,
             alpha: 0,
-            duration: 500,
+            duration: 150,
         })
         setTimeout(() => {this.blastrad.destroy(); 
-            this.destroy();},500)
+            this.destroy();},50)
     }
 }
 

@@ -51,8 +51,8 @@ alertSound = () => {
     // Start the transport
     
     setTimeout(() => {
-        Tone.Transport.start();
-    }, 100);
+      Tone.Transport.start();
+  }, 100);
     setTimeout(() => {
       synth.dispose();
   }, 1500);
@@ -79,7 +79,9 @@ scoreUpSound = () => {
       });
     
       // Start the transport to play the scheduled pitches
-      Tone.Transport.start();
+      setTimeout(() => {
+        Tone.Transport.start();
+    }, 100);
       setTimeout(() => {
         synth.dispose();
     }, 1500);
