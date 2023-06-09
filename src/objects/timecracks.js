@@ -15,6 +15,7 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
         })
     }
     spread(scene){
+        this.exploding = 0;
         let blast = scene.physics.add.sprite(this.x,this.y, 'timecrack').setAlpha(.1)
         this.underlying_circle = scene.add.circle(this.x,this.y,40,0x000000).setDepth(-2).setOrigin(0.5,0.5).setScale(0.7);
         scene.blastGroup.add(blast)
@@ -32,6 +33,10 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
         return blast;
     }
     repair(scene){
+        if(this.exploding == 1){
+            return;
+        }
+        this.exploding = 1;
         //this.crack.destroy();
         scene.tweens.add({
             targets: [this],
