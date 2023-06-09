@@ -9,6 +9,7 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
       // Set up physics properties
       this.setCollideWorldBounds(true);
       this.setBounce(1);
+      this.setAlpha(.35);
       this.exploding = 0;
       // Create random trajectory for powerup
       this.body.setVelocity(scene.getRandomBetween(-400,400), scene.getRandomBetween(-400,400));
@@ -51,7 +52,8 @@ class HealthUp extends PowerUps{
         scene.add.existing(this.indicator);
         this.indicator.body.setVelocity(this.body.velocity.x,this.body.velocity.y);
         this.indicator.setCollideWorldBounds(true);
-        this.indicator.setBounce(1)
+        this.indicator.setBounce(1);
+        this.indicator.setAlpha(.35);
     }
     collectPowerUp(scene) {
         scene.ship.increaseHealth(200);
