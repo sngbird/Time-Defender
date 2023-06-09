@@ -1,3 +1,4 @@
+Tone.Transport.polyphony = 32;
 lowHumSound = () => {
     // Create an oscillator for the low hum sound
     const oscillator = new Tone.Oscillator({
@@ -52,7 +53,11 @@ alertSound = () => {
     setTimeout(() => {
         Tone.Transport.start();
     }, 100);
-  };
+    setTimeout(() => {
+      synth.dispose();
+  }, 1500);
+    
+};
 
 scoreUpSound = () => {
     const synth = new Tone.Synth({ oscillator: {type: 'square'}}).toDestination(); 
@@ -75,7 +80,11 @@ scoreUpSound = () => {
     
       // Start the transport to play the scheduled pitches
       Tone.Transport.start();
+      setTimeout(() => {
+        synth.dispose();
+    }, 1500);
 };
+
 
 laserSound = () => {
         // Create an oscillator with a high initial frequency, resembling a 'pew' sound
@@ -113,5 +122,12 @@ laserSound = () => {
     }).connect(oscillator.frequency);
     
         // Start the LFO
-    lfo.start();
-    };
+      lfo.start();
+      setTimeout(() => {
+        oscillator.dispose();
+        envelope.dispose();
+    }, 1500);
+};
+
+    
+  
