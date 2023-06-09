@@ -271,7 +271,7 @@ class DefenderGameScene extends DefenderScene {
     }
     // creates a random time fissure and adds it to the collision group
     spawnCrack(){
-        this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+        this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         this.play_sound("alert");
     }
     //randoms a spawn
