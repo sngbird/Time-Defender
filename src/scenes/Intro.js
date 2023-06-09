@@ -244,7 +244,7 @@ class Intro extends DefenderScene {
     make_options_menu(){
         let mee = this;
 
-        let bottom_val = 1250;
+        let bottom_val = 1320;
         this.settings_menu = this.add.container(this.game.config.width/2, bottom_val);
         this.settings_menu.add(this.add.rectangle(-200,-240,400,500,0x0F0F0F).setOrigin(0,0))
         
@@ -338,7 +338,7 @@ class Intro extends DefenderScene {
         this.settings_menu.add(music_bit)
 
         //Scaling menu
-        this.settings_menu.setScale(1);
+        this.settings_menu.setScale(1.5);
 
         //menu tween
     }
