@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 uniform vec2 resolution;
 uniform vec2 mouse;
@@ -36,4 +36,7 @@ void main()
 	}
     gl_FragColor = vec4( vec3(stars), .25 );
 }	 
-    
+
+//Taken from Shadertoy
+//Created by gigatron in 2015-12-02
+//https://www.shadertoy.com/view/lst3Wn

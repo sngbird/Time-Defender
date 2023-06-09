@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 uniform vec2 resolution;
 uniform vec2 mouse;
@@ -74,3 +74,6 @@ void main() {
 
     gl_FragColor = vec4((f*f*f+.6*f*f+.5*f)*color,.5);
 }
+
+// Author @patriciogv - 2015 - Edited lightly by Lumina Kinsinger-Dang
+// http://patriciogonzalezvivo.com
