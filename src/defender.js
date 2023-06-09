@@ -118,7 +118,6 @@ class DefenderGameScene extends DefenderScene {
     this.g_startTime = performance.now()/1000.0;
     this.g_seconds;
     this.ship = new Ship(this,this.w*.5,this.h*.95,'shipbody');
-    this.currently_shooting = false;
     //console.log(this.ship)
     this.score = 0;
     this.currently_shooting = false;
@@ -138,6 +137,7 @@ class DefenderGameScene extends DefenderScene {
         },this);
     this.crackGroup = this.physics.add.group({});
     this.blastGroup = this.physics.add.group({});
+    this.powerUpsGroup = this.physics.add.group({});
     // this.crackGroup.add(this.crack(.25,.5));
     // this.crackGroup.add(this.crack(.65,.5));
     
