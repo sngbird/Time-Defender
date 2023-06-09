@@ -362,7 +362,6 @@ class Intro extends DefenderScene {
             if(lines.alpha == 1){
                 localStorage.setItem(index, 0);
                 lines.setAlpha(localStorage.getItem(index));
-                localStorage.setItem("")
             }else{
                 localStorage.setItem(index, 1);
                 lines.setAlpha(localStorage.getItem(index))
