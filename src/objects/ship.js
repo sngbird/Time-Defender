@@ -6,6 +6,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
         this.initialize()
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.setImmovable(true);
         
     }
     initialize(){
@@ -17,6 +18,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     increaseHealth(val){
         this.currenthp += val;
+        if(this.currenthp > 1000){this.currenthp = 1000};
     }
     getHP(){
         return this.currenthp;
