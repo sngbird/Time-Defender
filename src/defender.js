@@ -11,6 +11,10 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('timecrack','src/assets/sprites/timecrack.png')
         this.load.image('crackcenter','src/assets/sprites/crackcenter.png')
         this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody.png')
+        this.load.image('powerupbase','src/assets/sprites/powerupbase.png')
+        this.load.image('HP','src/assets/sprites/powerup_health.png')
+
+
         this.load.audio('bgm','src/assets/sounds/song1.mp3');
         this.load.glsl('warp', 'src/assets/shaders/domain.frag');
         this.load.glsl('stars','src/assets/shaders/starfield.frag');
@@ -138,6 +142,7 @@ class DefenderGameScene extends DefenderScene {
     this.crackGroup = this.physics.add.group({});
     this.blastGroup = this.physics.add.group({});
     this.powerUpsGroup = this.physics.add.group({});
+    this.powerUpsGroup.defaults = {};
     // this.crackGroup.add(this.crack(.25,.5));
     // this.crackGroup.add(this.crack(.65,.5));
     
@@ -145,10 +150,12 @@ class DefenderGameScene extends DefenderScene {
     this.laserGroup = new LaserGroup(this);    
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
     this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
+    this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
+    this.physics.add.collider(this.ship, this.powerUpsGroup);
     //let trial = new TimeCrack(this,500,500);
     //this.crackGroup.add(trial);
     this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
-    
+    this.spawnPowerup();
     if(localStorage.getItem("music") != 1){
         this.bgm.play()
     }
@@ -156,7 +163,7 @@ class DefenderGameScene extends DefenderScene {
     }
     update(){
     }
-    spawn_crack(){
+    spawnCrack(){
         this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         this.play_sound("alert");
     }
@@ -238,8 +245,24 @@ class DefenderGameScene extends DefenderScene {
     gain_score(val){
         this.score += (5 * val);
     }
-    spawn_powerup(){
-
+    spawnPowerup(){
+        let chosen = this.getRandomBetween(1,1);
+        switch(chosen){
+            case 1:
+                this.powerUpsGroup.add(new HealthUp(this,500,500));
+                break;
+            // case 2:
+            //     alertSound();
+            //     break;
+            // case 3:
+            //     scoreUpSound();
+            //     break;
+        }
+        
+    }
+    getPowerup(laser,powerup){
+        powerup.collectPowerUp(this) 
+        laser.destroy()
     }
 
     play_sound(index){
