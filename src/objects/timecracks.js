@@ -7,6 +7,7 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
     }
+    //Enlarge the time fissure after creation
     timecrack(scene){
         scene.tweens.add({
             targets: this,
@@ -14,6 +15,7 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
             duration: 10000,
         })
     }
+    //create the hitbox ring
     spread(scene){
         this.exploding = 0;
         let blast = scene.physics.add.sprite(this.x,this.y, 'timecrack').setAlpha(.1)
@@ -32,6 +34,7 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
         })
         return blast;
     }
+    //Repair the rift in space (remove the time fissure)
     repair(scene){
         if(this.exploding == 1){
             return;

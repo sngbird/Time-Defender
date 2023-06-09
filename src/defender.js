@@ -98,6 +98,7 @@ class DefenderGameScene extends DefenderScene {
     this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
     this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
     this.physics.add.collider(this.ship, this.powerUpsGroup);
+    this.physics.add.collider(this.ship, this.powerUpsIndicatorGroup);
     }
     createShip(){
     this.currently_shooting = false;
@@ -124,7 +125,9 @@ class DefenderGameScene extends DefenderScene {
         this.crackGroup = this.physics.add.group({});
         this.blastGroup = this.physics.add.group({});
         this.powerUpsGroup = this.physics.add.group({});
+        this.powerUpsIndicatorGroup = this.physics.add.group({});
         this.powerUpsGroup.defaults = {};
+        this.powerUpsIndicatorGroup.defaults = {};
     }
     //decrease health of the ship
     decreaseShipHealth(ship,blast){
@@ -140,6 +143,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setVisible(false);
         beam.body.reset();
         this.explode(crack.x,crack.y);
+        this.spawnCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
         this.gain_score(this.difficulty)
@@ -178,10 +182,13 @@ class DefenderGameScene extends DefenderScene {
         this.score += (5 * val);
     }
     //Collect powerup
-    getPowerup(laser,powerup){
-        powerup.collectPowerUp(this) 
-        laser.destroy();
-        this.gain_score(20);
+    getPowerup(beam,powerup){
+        beam.setActive(false);
+        beam.setVisible(false);
+        beam.body.reset();
+        this.powerUpsGroup.remove(powerup);
+        powerup.collectPowerUp(this); 
+        this.gain_score(5*this.difficulty);
     }
     //audio
     play_music(){
@@ -253,7 +260,7 @@ class DefenderGameScene extends DefenderScene {
         this.createGroups();
         this.createShip();      
         this.createCollision(); 
-        this.spawnPowerup();
+        this.spawnPowerup(500,500);
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
@@ -267,12 +274,17 @@ class DefenderGameScene extends DefenderScene {
         this.crackGroup.add(new TimeCrack(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         this.play_sound("alert");
     }
+    //randoms a spawn
+    spawnCheck(x,y){
+        if (this.getRandomBetween(1,100) <= 10){
+            this.spawnPowerup(x,y)}
+    }
     // randomly spawns one of the powerups
-    spawnPowerup(){
+    spawnPowerup(x,y){
         let chosen = this.getRandomBetween(1,1);
         switch(chosen){
             case 1:
-                this.powerUpsGroup.add(new HealthUp(this,500,500));
+                new HealthUp(this,x,y);
                 break;
             // case 2:
             //     alertSound();
