@@ -1,7 +1,7 @@
 class PowerUps extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y) {
       super(scene, x, y, 'powerupbase');
-      
+      this.setScale(.35);
       // Add the power-up sprite to the scene
       scene.add.existing(this);
       scene.physics.add.existing(this);
@@ -9,18 +9,32 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
       // Set up physics properties
       this.setCollideWorldBounds(true);
       this.setBounce(1);
-      this.setVelocity(Phaser.Math.Between(-200, 200), Phaser.Math.Between(-200, 200));
-      
-      // Add the power-up to a specific group (optional)
-      scene.powerUpsGroup.add(this);
+      this.body.setVelocity(scene.getRandomBetween(-400,400), scene.getRandomBetween(-400,400));
     }
-  
     // Custom logic for power-up behavior
-    collectPowerUp() {
-      // Custom logic when the power-up is collected by a player
-      // For example, increase the player's score or apply special effects
-  
-      // Destroy the power-up sprite
-      this.destroy();
+    collectAnimation(scene){
+        this.body.setVelocity(0,0);
+        scene.tweens.add({
+        targets: this,
+        scale: .5,
+        alpha: 0,
+        y: this.y - 120,
+        ease: 'Power1',
+        duration: 1000,
+      })
     }
   }
+
+class HealthUp extends PowerUps{
+    constructor(scene, x, y){
+        super(scene, x, y);
+        let indicator = scene.add.image(this.x,this.y,'HP');
+        indicator.setScale(.35);
+        scene.add.existing(indicator);
+    }
+    collectPowerUp(scene) {
+        scene.ship.increaseHealth(200);
+        this.collectAnimation(scene);
+      setTimeout(() => {this.destroy();},1000)
+    }
+}
