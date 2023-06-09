@@ -16,7 +16,8 @@ class DefenderScene extends Phaser.Scene {
 
         this.load.audio('bgm','src/assets/sounds/song1.mp3');
         this.load.glsl('warp', 'src/assets/shaders/domain.frag');
-        this.load.glsl('stars','src/assets/shaders/starfield.frag');
+        this.load.glsl('stars','src/assets/shaders/starfield.frag'); 
+        this.load.glsl('bolt','src/assets/shaders/bolt.frag')
         
         if(typeof this.pre_load != "undefined"){
             this.pre_load()
@@ -44,6 +45,8 @@ class DefenderScene extends Phaser.Scene {
          //Do not change the depth of the shaders, hiding of the stars depends on it -Wyatt
         const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h).setDepth(-3);
         const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h).setDepth(-1);
+        const bolt = this.add.shader('bolt',this.w,this.h,this.w,this.h).setDepth(-2);
+        bolt.setRenderToTexture('timebolt',true);
     }
     createTurretSprite(x,y){
         let turret = this.add.sprite(x,y,'turret');
@@ -271,7 +274,9 @@ class DefenderGameScene extends DefenderScene {
     }
     // creates a random time fissure and adds it to the collision group
     spawnCrack(){
-        this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+        //this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+        this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+
         this.play_sound("alert");
     }
     //randoms a spawn

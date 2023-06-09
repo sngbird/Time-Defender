@@ -16,6 +16,33 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
     }
     
     //Repair the rift in space (remove the time fissure)
+    
+}
+
+class TimeCrackRing extends TimeCrack{
+    constructor(scene,x,y){
+        super(scene,x,y);
+        this.blastrad = this.spread(scene);
+    }
+    //create the hitbox ring
+    spread(scene){
+        this.exploding = 0;
+        let blast = scene.physics.add.sprite(this.x,this.y, 'timecrack').setAlpha(.1)
+        this.underlying_circle = scene.add.circle(this.x,this.y,40,0x000000).setDepth(-2).setOrigin(0.5,0.5).setScale(0.7);
+        scene.blastGroup.add(blast)
+        scene.tweens.add({ 
+            targets: blast,
+            scale:20,
+            duration: 10000,
+        })
+        scene.tweens.add({ 
+            targets: [this.underlying_circle],
+            scale:20,
+            angle: 0,
+            duration: 10000,
+        })
+        return blast;
+    }
     repair(scene){
         if(this.exploding == 1){
             return;
@@ -54,38 +81,36 @@ class TimeCrack extends Phaser.Physics.Arcade.Sprite{
             this.destroy();
         },500)
     }
-}
-
-class TimeCrackRing extends TimeCrack{
-    constructor(scene,x,y){
-        super(scene,x,y);
-        this.blastrad = this.spread(scene);
-    }
-    //create the hitbox ring
-    spread(scene){
-        this.exploding = 0;
-        let blast = scene.physics.add.sprite(this.x,this.y, 'timecrack').setAlpha(.1)
-        this.underlying_circle = scene.add.circle(this.x,this.y,40,0x000000).setDepth(-2).setOrigin(0.5,0.5).setScale(0.7);
-        scene.blastGroup.add(blast)
-        scene.tweens.add({ 
-            targets: blast,
-            scale:20,
-            duration: 10000,
-        })
-        scene.tweens.add({ 
-            targets: [this.underlying_circle],
-            scale:20,
-            angle: 0,
-            duration: 10000,
-        })
-        return blast;
-    }
     
 }
 
 class TimeCrackBolt extends TimeCrack{
     constructor(scene,x,y){
         super(scene,x,y);
-        
+        this.timebolt = this.bolt(scene);
+    }
+    bolt(scene){
+        let bolt = scene.physics.add.sprite(this.x+5,this.y+5,'timebolt').setDepth(-2).setScale(.01,.01);
+        scene.blastGroup.add(bolt);
+        scene.tweens.add({ 
+            targets: bolt,
+            y: bolt.y+435,
+            x: bolt.x+95,
+            scale:1,
+            duration: 5000,
+        })
+        return bolt;
+    }
+    repair(scene){
+        scene.tweens.add({
+            targets: [this],
+            scale: .1,
+            alpha: 1,
+            duration: 500,
+        })
+        setTimeout(() => {
+            this.timebolt.destroy(); 
+            this.destroy();
+        },500)
     }
 }
