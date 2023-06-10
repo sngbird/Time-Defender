@@ -100,10 +100,8 @@ class Pause extends Phaser.Scene {
                 scale: 2.2,
                 duration: 50,
                 onComplete:()=>{
-                    this.scene.remove("credits")
-                    this.scene.remove("gameplay")
                     
-                    this.scene.restart("intro");
+                    this.scene.start("intro");
                     console.log("after start");
                 }
             })

@@ -26,6 +26,9 @@ class Gameplay extends DefenderGameScene{
         this.scene.launch("pause");
         this.scene.bringToTop("pause");
 
+        const bolt = this.add.shader('bolt',this.w,this.h,this.w,this.h).setDepth(0);
+        bolt.setRenderToTexture('timebolt',true);
+
     }
     update(){
         //Update difficulty

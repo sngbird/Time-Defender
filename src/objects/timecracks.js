@@ -51,7 +51,7 @@ class TimeCrackRing extends TimeCrack{
             return;
         }
         this.exploding = 1;
-        this.crack.destroy();
+        //this.crack.destroy();
         scene.tweens.add({
             targets: [this],
             scale: .1,
