@@ -323,6 +323,7 @@ class Intro extends DefenderScene {
         }
         let once = 0
         hide_rectangle.on('pointerdown', ()=>{
+            this.stop_pointer_tweens()
             mt.pause();
             if(once == 0){
                 once = 1;
