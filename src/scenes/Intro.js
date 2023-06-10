@@ -131,6 +131,7 @@ class Intro extends DefenderScene {
         this.input.on('pointerup', ()=> {
             if(going_to_next_scene == 1){
                 this.scene.start(this.GAMEPLAY_SCENE)
+                this.scene.sendToBack('credits');
             }
         })
 
@@ -170,9 +171,9 @@ class Intro extends DefenderScene {
             
             //twn.pause();
             me2.add.tween({
-                targets: cbutton,
+                targets: [cbutton,cbutton_background],
                 duration:50,
-                scale: 1.5,
+                scale: 2,
                 ease: ""
             })
         })
@@ -194,9 +195,9 @@ class Intro extends DefenderScene {
                 //no gap in the stars when you load the next scene
                 localStorage.setItem("active_scene","transition");
                 me2.add.tween({
-                    targets: cbutton,
+                    targets: [cbutton,cbutton_background],
                     duration:50,
-                    scale: 2,
+                    scale: 2.5,
                     ease: ""
                 })
 
