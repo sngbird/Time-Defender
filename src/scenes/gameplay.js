@@ -3,22 +3,23 @@ class Gameplay extends DefenderGameScene{
         super('gameplay')
     }
     onEnter(){
+        
         //Create UI
         console.log("Gameplay");
         this.HP = this.add.text(this.game.config.width*.05,this.game.config.height*.92)
-        .setStyle({ fontSize: `${1.5 * 50}px` })
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
         
         this.TimerText = this.add.text(this.game.config.width*.5,this.game.config.height*.05)
-        .setStyle({ fontSize: `${1.5 * 50}px` })
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);  
         
         this.diffText = this.add.text(this.game.config.width*.65,this.game.config.height*.92)
-        .setStyle({ fontSize: `${1.5 * 50}px` })
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
         
         this.ScoreText = this.add.text(this.game.config.width*.85,this.game.config.height*.05)
-        .setStyle({ fontSize: `${1.5 * 50}px` })
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
 
         this.scene.launch("pause");
