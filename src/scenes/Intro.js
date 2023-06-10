@@ -63,6 +63,33 @@ class Intro extends DefenderScene {
         this.make_options_menu();
         this.make_full_screen_button();
         console.log("Bottom of Intro");
+
+        this.pointer_finger = this.add.text(1130,650,"👉").setFontSize(200).setAngle(-120).setOrigin(0.5,.5).setAlpha(0);
+
+
+        this.pointer_finger_tween_chain = this.tweens.chain({
+            targets: this.pointer_finger,
+            repeat: -1,
+            tweens: [{
+                delay: 1000,
+                alpha: 1,
+                duration: 1000,
+
+            },{
+                delay:500,
+                angle: this.pointer_finger.angle - 10,
+                yoyo:true,
+                repeat: 0,
+                scale: .8,
+                duration: 100,
+            },{
+                delay: 0,
+                alpha: 0,
+                duration: 1000,
+
+            }],
+        })
+
     }
 
 
@@ -83,6 +110,18 @@ class Intro extends DefenderScene {
             x: -800
         })
         return;
+    }
+
+    stop_pointer_tweens(){
+        this.input.on('pointerdown', ()=>{
+            console.log("clicked");
+            this.pointer_finger_tween_chain.pause();
+            this.add.tween({
+                targets: this.pointer_finger,
+                alpha: 0,
+                duration: 1000,
+            })
+        })
     }
 
     add_buttons(title_cont){
@@ -119,7 +158,7 @@ class Intro extends DefenderScene {
 
         let me2 = this;
         button.on('pointerdown', ()=>{
-            
+            this.stop_pointer_tweens()
             twn.pause();
             me2.add.tween({
                 targets: [button, button_background],
@@ -171,7 +210,7 @@ class Intro extends DefenderScene {
         })
 
         cbutton.on('pointerdown', ()=>{
-            
+            this.stop_pointer_tweens()
             //twn.pause();
             me2.add.tween({
                 targets: [cbutton,cbutton_background],
@@ -239,7 +278,7 @@ class Intro extends DefenderScene {
     }
 
     update(){
-        console.log("title")
+        //console.log("title")
         return;
         this.thisturr.rotation = (Phaser.Math.Angle.Between(
             this.thisturr.x, this.thisturr.y, game.input.mousePointer.x, game.input.mousePointer.y
