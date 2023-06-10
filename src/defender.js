@@ -94,6 +94,10 @@ class DefenderScene extends Phaser.Scene {
 class DefenderGameScene extends DefenderScene {
     constructor(key) {
         super(key);
+        
+    }
+
+    create_timer(){
     }
    
     createCollision(){
@@ -238,11 +242,24 @@ class DefenderGameScene extends DefenderScene {
             diff -= 360
         }
         
+
         this.turret_rotate_time = Math.abs(diff + 90) * 5;
         if(this.turret_rotate_time > 500){
             this.turret_rotate_time = 500;
         }
         //console.log(this.turret_rotate_time);
+
+        //Locks the turret to 180 degrees facing north
+        if(targetDeg > 0){
+            if(targetDeg > 90){
+                targetDeg = -180;
+            }else{
+                targetDeg = 0;
+            }
+        }
+        
+        console.log(targetDeg);
+
     
         this.tweens.add({
             targets: targets,

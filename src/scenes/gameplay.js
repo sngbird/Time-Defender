@@ -29,6 +29,9 @@ class Gameplay extends DefenderGameScene{
     update(){
         //Update difficulty
         this.g_seconds = performance.now()/1000.0 - this.g_startTime;
+
+
+
         if (this.difficulty < 8){this.difficulty = Math.round(this.g_seconds / 15)}
         else{
             this.difficulty = Math.round(Math.sqrt(this.g_seconds));
