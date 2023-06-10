@@ -64,6 +64,11 @@ class Intro extends DefenderScene {
         this.make_full_screen_button();
         console.log("Bottom of Intro");
 
+        this.make_pointer_suggestion();
+
+    }
+
+    make_pointer_suggestion(){
         this.pointer_finger = this.add.text(1130,650,"👉").setFontSize(200).setAngle(-120).setOrigin(0.5,.5).setAlpha(0);
 
 
@@ -89,9 +94,7 @@ class Intro extends DefenderScene {
 
             }],
         })
-
     }
-
 
     run_transition_animation(me2, title_cont, play_button, credit){
         let r = me2.add.tween({
