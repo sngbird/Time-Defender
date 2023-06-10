@@ -2,6 +2,7 @@ class Logo extends DefenderScene{
 
     constructor(){
         super("logo")
+        console.log("logo")
     }
     pre_load(){
         //console.log("Loading logo")
@@ -26,7 +27,7 @@ class Logo extends DefenderScene{
             return;
         }
         localStorage.setItem("active_scene","logo");
-         this.scene.launch("intro");
+        this.scene.launch("intro");
         this.scene.get('intro').events.once('start', () => {
              this.scene.setVisible(false, 'intro');
         });

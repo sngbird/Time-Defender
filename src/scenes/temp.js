@@ -1,6 +1,7 @@
 class Temp extends DefenderScene {
     constructor() {
         super('temp');
+        console.log("temp")
     }
     pre_load(){
         console.log("loading icons");

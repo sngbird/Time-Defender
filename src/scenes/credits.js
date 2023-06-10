@@ -1,6 +1,7 @@
 class Credits extends DefenderScene {
     constructor() {
         super('credits');
+        console.log("credits")
     }
     preload(){
 
@@ -9,7 +10,6 @@ class Credits extends DefenderScene {
 
     }
     onEnter(){
-        console.log("credits");
 
         this.input.on('pointerup', ()=>{
             //Go to beginning scene

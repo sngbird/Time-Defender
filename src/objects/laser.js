@@ -1,6 +1,8 @@
 class Laser extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y){
         super(scene,x,y,'repairbeam');
+        this.current_scene = scene;
+        console.log("laser")
     }
     fire(scene,turret,targetDeg,targetx,targety){
         this.targetx = targetx;
@@ -13,7 +15,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
     }
     preUpdate(time, delta){
         super.preUpdate(time,delta);
-        if(this.y <= 0){
+        if(this.y <= 0 || this.y >= this.current_scene.game.config.height * 1.2 || this.x <= -50 || this.x >= this.current_scene.game.config.width * 1.2){
             this.setActive(false);
             this.setVisible(false);
         }
