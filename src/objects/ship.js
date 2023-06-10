@@ -7,6 +7,8 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
+
+        console.log("ship")
         
     }
     initialize(){

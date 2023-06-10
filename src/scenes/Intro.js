@@ -1,6 +1,7 @@
 class Intro extends DefenderScene {
     constructor() {
         super('intro');
+        console.log("intro")
     }
     pre_load(){
         this.load.image('title', "src/assets/sprites/Title.png");
@@ -60,6 +61,8 @@ class Intro extends DefenderScene {
         //Credits button
         
         this.make_options_menu();
+        this.make_full_screen_button();
+        console.log("Bottom of Intro");
     }
 
 
@@ -236,6 +239,7 @@ class Intro extends DefenderScene {
     }
 
     update(){
+        console.log("title")
         return;
         this.thisturr.rotation = (Phaser.Math.Angle.Between(
             this.thisturr.x, this.thisturr.y, game.input.mousePointer.x, game.input.mousePointer.y
@@ -247,7 +251,7 @@ class Intro extends DefenderScene {
 
         let bottom_val = 1320;
         this.settings_menu = this.add.container(this.game.config.width/2, bottom_val);
-        this.settings_menu.add(this.add.rectangle(-200,-240,400,500,0x0F0F0F).setOrigin(0,0))
+        this.settings_menu.add(this.add.rectangle(-200,-240,400,900,0x0F0F0F).setOrigin(0,0))
         
         //Adding rectangle to lower menu
         let hide_rectangle = this.add.rectangle(0,-200,400,80,0xafafaf).setInteractive();
@@ -299,7 +303,7 @@ class Intro extends DefenderScene {
                 mee.add.tween({
                     targets: this.settings_menu,
                     duration: 600,
-                    y: this.game.config.height/2,
+                    y: this.game.config.height/3 + 50,
                     ease: "Back.In",
                     onComplete:()=>{
                         triangles.angle = 0;
@@ -427,4 +431,32 @@ class Intro extends DefenderScene {
             }
         })
     }
+    make_full_screen_button(){
+        let t = this.add.text(0,320, "🡤🡥\n🡧🡦").setScale(1.5).setOrigin(0.5,0.5)
+            .setStyle({ fontSize: `${2 * this.s}px` })
+            .setInteractive({useHandCursor: true})
+            .on('pointerdown', () => {
+                this.add.tween({
+                    targets: t,
+                    scale: 1.2,
+                    duration: 50,
+                })
+                
+            });
+        
+            this.settings_menu.add(t);
+        t.on('pointerup', ()=>{
+            this.add.tween({
+                targets: t,
+                scale: 1.5,
+                duration: 50,
+            })
+            if (this.scale.isFullscreen) {
+                this.scale.stopFullscreen();
+            } else {
+                this.scale.startFullscreen();
+            }
+        })
+    }
+
 }

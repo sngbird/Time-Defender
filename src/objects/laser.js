@@ -2,6 +2,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y){
         super(scene,x,y,'repairbeam');
         this.current_scene = scene;
+        console.log("laser")
     }
     fire(scene,turret,targetDeg,targetx,targety){
         this.targetx = targetx;

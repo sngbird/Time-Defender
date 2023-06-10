@@ -1,6 +1,8 @@
+
 class DefenderScene extends Phaser.Scene {
     constructor(key) {
         super(key);
+        console.log("defenderscene")
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
@@ -45,7 +47,7 @@ class DefenderScene extends Phaser.Scene {
          //Do not change the depth of the shaders, hiding of the stars depends on it -Wyatt
         const starfield = this.add.shader('stars',this.w/2, this.h/2, this.w, this.h).setDepth(-3);
         const shader = this.add.shader('warp', this.w/2, this.h/2, this.w, this.h).setDepth(-1);
-        const bolt = this.add.shader('bolt',this.w,this.h,this.w,this.h).setDepth(-2);
+        const bolt = this.add.shader('bolt',this.w,this.h,this.w,this.h).setDepth(0);
         bolt.setRenderToTexture('timebolt',true);
     }
     createTurretSprite(x,y){
@@ -88,6 +90,7 @@ class DefenderScene extends Phaser.Scene {
     onEnter() {
         console.warn('This AdventureScene did not implement onEnter():', this.constructor.name);
     }
+
 }
 
 
@@ -149,7 +152,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();
-        this.explode(crack.x,crack.y);
+        this.explode(crack, crack.x,crack.y);
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
@@ -158,26 +161,32 @@ class DefenderGameScene extends DefenderScene {
         
     }
     //explosion animation
-    explode(x,y){
+    explode(crack, x,y){
+        //console.log(crack.type)
         let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
         let scene = this;
-        this.tweens.add({
-            targets:explosion,
-            delay:300,
-            alpha: .2,
-            scale: 5,
-            duration: 500,
-            onComplete: function(){
-                scene.tweens.add({
-                    targets: explosion,
-                    alpha: 0,
-                    duration: 1000,
-                    onComplete: function(){
-                        explosion.destroy();
+        let delay_value = 300;
+        if(crack.type == "bolt"){
+            delay_value += 100;
+        }else
+        {
+            this.tweens.add({
+                targets:explosion,
+                delay:delay_value,
+                alpha: .2,
+                scale: 5,
+                duration: 500,
+                onComplete: function(){
+                    scene.tweens.add({
+                        targets: explosion,
+                        alpha: 0,
+                        duration: 1000,
+                        onComplete: function(){
+                            explosion.destroy();
                         }
-                })
-            }
-        })
+                    })
+                }
+        })}
     }
     getRandomBetween(min, max){
         min = Math.ceil(min);
@@ -291,6 +300,12 @@ class DefenderGameScene extends DefenderScene {
     }
     // creates a random time fissure and adds it to the collision group
     spawnCrack(){
+        let dev = false;
+        if(dev){
+            this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            this.play_sound("alert");
+            return;
+        }
         if(this.difficulty < 10){
             this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         }else{

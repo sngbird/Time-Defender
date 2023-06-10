@@ -13,6 +13,7 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
       this.exploding = 0;
       // Create random trajectory for powerup
       this.body.setVelocity(scene.getRandomBetween(-400,400), scene.getRandomBetween(-400,400));
+      console.log("p-up")
     }
     //Animation for powerup pickup
     collectAnimation(scene){

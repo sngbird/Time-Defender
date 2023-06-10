@@ -1,6 +1,7 @@
 class Pause extends Phaser.Scene {
     constructor() {
         super("pause");
+        console.log("pause")
     }
     preload(){
         this.load.image('resume','src/assets/sprites/Resume.png')
@@ -99,7 +100,11 @@ class Pause extends Phaser.Scene {
                 scale: 2.2,
                 duration: 50,
                 onComplete:()=>{
-                    this.scene.start("intro");
+                    this.scene.remove("credits")
+                    this.scene.remove("gameplay")
+                    
+                    this.scene.restart("intro");
+                    console.log("after start");
                 }
             })
         })

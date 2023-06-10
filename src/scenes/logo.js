@@ -2,6 +2,7 @@ class Logo extends DefenderScene{
 
     constructor(){
         super("logo")
+        console.log("logo")
     }
     pre_load(){
         //console.log("Loading logo")
