@@ -16,6 +16,9 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('HP','src/assets/sprites/powerup_health.png')
         this.load.image('bombindicator','src/assets/sprites/powerup_bomb.png')
         this.load.image('bomb','src/assets/sprites/bomb.png')
+        this.load.image('smoke','src/assets/sprites/smokepuff.png')
+        this.load.image('repair','src/assets/sprites/repairparticle.png')
+
 
 
 
@@ -199,31 +202,49 @@ class DefenderGameScene extends DefenderScene {
     }
     //explosion animation
     explode(crack, x,y){
-        //console.log(crack.type)
-        let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
-        let scene = this;
-        let delay_value = 300;
-        if(crack.type == "bolt"){
-            delay_value += 100;
-        }else
-        {
-            this.tweens.add({
-                targets:explosion,
-                delay:delay_value,
-                alpha: .2,
-                scale: 5,
-                duration: 500,
-                onComplete: function(){
-                    scene.tweens.add({
-                        targets: explosion,
-                        alpha: 0,
-                        duration: 1000,
-                        onComplete: function(){
-                            explosion.destroy();
-                        }
-                    })
-                }
-        })}
+        let explosion = this.add.particles(x, y, 'repair', {
+            speed: 250,
+                tint: Math.random() * 0xFFFFFF,
+                quantity: 7,
+                scale: { start: 0.1, end: 1 },
+                alpha: { start: 1, end: 0 },
+            // higher steps value = more time to go btwn min/max
+                lifespan: 1000
+            });
+        this.tweens.add({
+            targets: explosion,
+            alpha: .25,
+            duration: 1000,
+            onComplete: () => {
+                explosion.destroy()
+            },
+        })
+        //setTimeout(() => {explosion.destroy()}, 1000);
+        //console.log(cra}ck.type)
+        // let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
+        // let scene = this;
+        // let delay_value = 300;
+        // if(crack.type == "bolt"){
+        //     delay_value += 100;
+        // }else
+        // {
+        //     this.tweens.add({
+        //         targets:explosion,
+        //         delay:delay_value,
+        //         alpha: .2,
+        //         scale: 5,
+        //         duration: 500,
+        //         onComplete: function(){
+        //             scene.tweens.add({
+        //                 targets: explosion,
+        //                 alpha: 0,
+        //                 duration: 1000,
+        //                 onComplete: function(){
+        //                     explosion.destroy();
+        //                 }
+        //             })
+        //         }
+        // })}
     }
     getRandomBetween(min, max){
         min = Math.ceil(min);
@@ -327,7 +348,7 @@ class DefenderGameScene extends DefenderScene {
         this.createShip();      
         this.createCollision(); 
         this.bombButton();
-        this.spawnPowerup(500,500);
+        //this.spawnPowerup(500,500);
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
