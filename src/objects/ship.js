@@ -5,6 +5,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
         this.maxhp = 1000;
         this.maxBombs = 3;
         this.currBombs = 0;
+        this.weapon = 'default';
         this.initialize()
         scene.add.existing(this);
         scene.physics.add.existing(this);

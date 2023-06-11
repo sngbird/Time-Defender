@@ -47,6 +47,7 @@ class PowerUps extends Phaser.Physics.Arcade.Sprite {
 class HealthUp extends PowerUps{
     constructor(scene, x, y){
         super(scene, x, y);
+        //this.setTint('0xFF0000')
         this.indicator = scene.physics.add.image(this.x,this.y,'HP');
         scene.powerUpsIndicatorGroup.add(this.indicator);
         this.indicator.setScale(.35);
@@ -55,6 +56,7 @@ class HealthUp extends PowerUps{
         this.indicator.setCollideWorldBounds(true);
         this.indicator.setBounce(1);
         this.indicator.setAlpha(.35);
+        
     }
     collectPowerUp(scene) {
         scene.ship.increaseHealth(200);

@@ -130,6 +130,32 @@ class DefenderGameScene extends DefenderScene {
                         this.useBomb();
         })
     }
+    choose_color(){
+        let colorChoice = this.getRandomBetween(1,10);
+        let color;
+        switch(colorChoice){
+            case 1: color = 0xfc035e;
+                break;
+            case 2: color = 0x27f242;
+                break;
+            case 3: color = 0x1ce8ff;
+                break;
+            case 4: color = 0xf2f540;
+                break;
+            case 5: color =  0xff5e00;
+                break;
+            case 6: color = 0xff5e00;
+                break;
+            case 7: color = 0x0dff00;
+                break;
+            case 8: color = 0x0011ff;
+                break;
+            case 9: color = 0xfa3744;
+       
+        }
+        return color;
+
+    }
     create_timer(){
     }
    
@@ -183,17 +209,17 @@ class DefenderGameScene extends DefenderScene {
     shipHit(ship,blast){
         let hitspark = this.add.particles(blast.x, ship.y-100, 'smoke', {
             speed: 250,
-                tint: 0xFF0000,
-                quantity: 3,
+                tint: 0xFF11FF,
+                quantity: 5,
                 scale: { start: 0.1, end: 1 },
                 alpha: { start: 1, end: 0 },
             // higher steps value = more time to go btwn min/max
-                lifespan: 250
+                lifespan: 500
             });
         this.tweens.add({
             targets: hitspark,
             alpha: .25,
-            duration: 250,
+            duration: 500,
             onComplete: () => {
                 hitspark.destroy()
             },
@@ -221,9 +247,11 @@ class DefenderGameScene extends DefenderScene {
     }
     //explosion animation
     explode(crack, x,y){
+        let color = this.choose_color();
+        
         let explosion = this.add.particles(x, y, 'repair', {
             speed: 250,
-                tint: Math.random() * 0xFFFFFF,
+                tint: color,
                 quantity: 7,
                 scale: { start: 0.1, end: 1 },
                 alpha: { start: 1, end: 0 },
@@ -266,9 +294,10 @@ class DefenderGameScene extends DefenderScene {
         // })}
     }
     explodePowerup(powerup, x,y){
+        let color = this.choose_color();
         let explosion = this.add.particles(x, y-30, 'repair', {
             speed: 250,
-                tint: Math.random() * 0xFFFFFF,
+                tint: color,
                 quantity: 7,
                 scale: { start: 0.1, end: 1 },
                 alpha: { start: 1, end: 0 },
@@ -384,7 +413,7 @@ class DefenderGameScene extends DefenderScene {
         this.g_seconds;
         
         this.score = 0;
-        
+        console.log(this.choose_color());
         this.createGroups();
         this.createShip();      
         this.createCollision(); 
