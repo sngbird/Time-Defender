@@ -136,7 +136,7 @@ class DefenderGameScene extends DefenderScene {
     createCollision(){
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
     this.physics.add.overlap(this.bombGroup, this.crackGroup, this.bombCrack, null, this);
-    this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
+    this.physics.add.overlap(this.ship, this.blastGroup, this.shipHit, null, this);
     this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
     this.physics.add.collider(this.ship, this.powerUpsGroup);
     this.physics.add.collider(this.ship, this.powerUpsIndicatorGroup);
@@ -180,7 +180,24 @@ class DefenderGameScene extends DefenderScene {
         this.powerUpsIndicatorGroup.defaults = {};
     }
     //decrease health of the ship
-    decreaseShipHealth(ship,blast){
+    shipHit(ship,blast){
+        let hitspark = this.add.particles(blast.x, ship.y-100, 'smoke', {
+            speed: 250,
+                tint: 0xFF0000,
+                quantity: 3,
+                scale: { start: 0.1, end: 1 },
+                alpha: { start: 1, end: 0 },
+            // higher steps value = more time to go btwn min/max
+                lifespan: 250
+            });
+        this.tweens.add({
+            targets: hitspark,
+            alpha: .25,
+            duration: 250,
+            onComplete: () => {
+                hitspark.destroy()
+            },
+        })
         ship.decreaseHealth();
         //console.log(ship.getHP())
     }
@@ -407,7 +424,7 @@ class DefenderGameScene extends DefenderScene {
             this.spawnPowerup(x,y)}
     }
     spawnDanger(){
-        if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2){
+        if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2 || this.crackGroup.getLength == 0){
             this.spawnCrack();
       }
     }
