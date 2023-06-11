@@ -2,20 +2,19 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     constructor(scene,x,y,){
         super(scene,x,y,'shipbody');
         this.setScale(4,1);
-        this.maxhp = 1000;
-        this.maxBombs = 3;
-        this.currBombs = 0;
-        this.weapon = 'Repair Laser';
         this.initialize()
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.setImmovable(true);
-
         console.log("ship")
         
     }
     initialize(){
+        this.maxhp = 1000;
+        this.maxBombs = 3;
         this.currenthp = 1000;
+        this.currBombs = 0;
+        this.weapon = 'Repair Laser';
         //console.log(this.currenthp)
     }
     decreaseHealth(){
@@ -51,5 +50,8 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     getWeapon(){
         return this.weapon;
+    }
+    resetWeapon(scene){
+        this.weapon = 'Repair Laser';
     }
 }
