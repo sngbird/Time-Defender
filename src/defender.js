@@ -189,11 +189,12 @@ class DefenderGameScene extends DefenderScene {
         if(crack.exploding == 1){
             return;
         }
+        this.explode(crack, crack.x,crack.y);
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();
         beam.reset();
-        this.explode(crack, crack.x,crack.y);
+        
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
@@ -247,6 +248,26 @@ class DefenderGameScene extends DefenderScene {
         //         }
         // })}
     }
+    explodePowerup(powerup, x,y){
+        let explosion = this.add.particles(x, y-30, 'repair', {
+            speed: 250,
+                tint: Math.random() * 0xFFFFFF,
+                quantity: 7,
+                scale: { start: 0.1, end: 1 },
+                alpha: { start: 1, end: 0 },
+            // higher steps value = more time to go btwn min/max
+                lifespan: 1000
+            });
+        this.tweens.add({
+            targets: explosion,
+            y: y-120,
+            alpha: .25,
+            duration: 1000,
+            onComplete: () => {
+                explosion.destroy()
+            },
+        })
+    }
     getRandomBetween(min, max){
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -258,9 +279,11 @@ class DefenderGameScene extends DefenderScene {
     }
     //Collect powerup
     getPowerup(beam,powerup){
+        this.explodePowerup(powerup,powerup.x,powerup.y)
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();
+        beam.reset();
         this.powerUpsGroup.remove(powerup);
         powerup.collectPowerUp(this); 
         this.gain_score(5*this.difficulty);

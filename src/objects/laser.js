@@ -10,7 +10,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
             scale: { start: 0.1, end: 1 },
             alpha: { start: 1, end: 0 },
             // higher steps value = more time to go btwn min/max
-            lifespan: { min: 10, max: 1000, steps: 100 }
+            lifespan: 800
         })
         // note: setting the emitter's initial position to 0, 0 seems critical to get .startFollow to work
         this.movingEmitter.startFollow(this, 0, 0, false)
