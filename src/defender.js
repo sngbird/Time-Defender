@@ -202,7 +202,6 @@ class DefenderGameScene extends DefenderScene {
         },this);
     }
     bombCrack(bomb,crack){
-        this.explode(crack, crack.x,crack.y);
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
@@ -248,7 +247,10 @@ class DefenderGameScene extends DefenderScene {
         if(crack.exploding == 1){
             return;
         }
-        this.explode(crack, crack.x,crack.y);
+        //explode does not play if the type is the lightning bolt
+        if(crack.type != "bolt"){
+            this.explode(crack, crack.x,crack.y);
+        }
         if(this.ship.getWeapon() != 'Piercing Laser'){
             beam.setActive(false);
             beam.setVisible(false);
@@ -268,24 +270,36 @@ class DefenderGameScene extends DefenderScene {
     //explosion animation
     explode(crack, x,y){
         let color = this.choose_color();
-        
-        let explosion = this.add.particles(x, y, 'repair', {
-            speed: 250,
-                tint: color,
-                quantity: 7,
-                scale: { start: 0.1, end: 1 },
-                alpha: { start: 1, end: 0 },
-            // higher steps value = more time to go btwn min/max
-                lifespan: 1000
-            });
-        this.tweens.add({
-            targets: explosion,
-            alpha: .25,
-            duration: 1000,
-            onComplete: () => {
-                explosion.destroy()
-            },
+        this.time.delayedCall(480, ()=>{
+            let explosion = this.add.particles(x, y, 'repair', {
+                speed: 250,
+                    tint: color,
+                    quantity: 15,
+                    scale: { start: 0.1, end: 1 },
+                    alpha: { start: 1, end: 0 },
+                // higher steps value = more time to go btwn min/max
+                    lifespan: 1000
+                });
+            this.tweens.add({
+                targets: explosion,
+                alpha: 0,
+                duration: 750,
+                onComplete: () => {
+                    explosion.destroy()
+                },
+            })
+            for(let value = 250; value > 0; value = value - 1){
+                this.time.delayedCall(value,() => {explosion.quantity = 5;explosion.speed = 250 - (value/1.5)})
+                if(value < 150){
+                    explosion.quantity = 0;
+                }
+
+            }
         })
+        // this.time.delayedCall(50,() => {explosion.quantity = 5; explosion.speed = 150})
+        // this.time.delayedCall(100,() => {explosion.quantity = 3;explosion.speed = 100})
+        // this.time.delayedCall(150,() => {explosion.quantity = 1;explosion.speed = 50})
+        // this.time.delayedCall(200,() => {explosion.quantity = 0;explosion.speed = 0})
         //setTimeout(() => {explosion.destroy()}, 1000);
         //console.log(cra}ck.type)
         // let explosion = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
