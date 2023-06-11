@@ -111,13 +111,28 @@ class PierceAmmo extends PowerUps{
       this.destroy();
     },1000)
     scene.powerupBlinkTimer();
-    // setTimeout(() => {
-    //   scene.blink.resume();
-    // },25000)
-    // setTimeout(() => {
-    //   scene.blink.restart();
-    //   scene.blink.pause();
-    //   scene.ship.setWeapon('Repair Laser');
-    // },30000)
+  }
+}
+class PierceAmmo extends PowerUps{
+  constructor(scene, x, y){
+      super(scene, x, y);
+      this.indicator = scene.physics.add.image(this.x,this.y,'burst');
+      scene.powerUpsIndicatorGroup.add(this.indicator);
+      this.indicator.setScale(.35);
+      scene.add.existing(this.indicator);
+      this.indicator.body.setVelocity(this.body.velocity.x,this.body.velocity.y);
+      this.indicator.setCollideWorldBounds(true);
+      this.indicator.setBounce(1);
+      this.indicator.setAlpha(.35);
+  }
+  collectPowerUp(scene) {
+      scene.ship.setWeapon('Burst Laser');
+      this.collectAnimation(scene);
+      this.collectIndicatorAnimation(scene);
+    setTimeout(() => {
+      this.indicator.destroy()
+      this.destroy();
+    },1000)
+    scene.powerupBlinkTimer();
   }
 }

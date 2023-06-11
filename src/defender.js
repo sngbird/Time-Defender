@@ -16,6 +16,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('HP','src/assets/sprites/powerup_health.png')
         this.load.image('bombindicator','src/assets/sprites/powerup_bomb.png')
         this.load.image('pierce','src/assets/sprites/powerup_pierce.png')
+        this.load.image('burst','src/assets/sprites/powerup_burst.png')
         this.load.image('bomb','src/assets/sprites/bomb.png')
         this.load.image('smoke','src/assets/sprites/smokepuff.png')
         this.load.image('repair','src/assets/sprites/repairparticle.png')
@@ -497,12 +498,13 @@ class DefenderGameScene extends DefenderScene {
     }
     //randoms a spawn
     spawnPowerUpCheck(x,y){
-    //     if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
-    //         this.spawnPowerup(x,y)}
-    // }
-        if(this.getRandomBetween(1,101) <= 20){
-            this.spawnPowerup(x,y);
-        }
+        console.log(Math.max(5,(15-this.difficulty/2)));
+        if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
+            this.spawnPowerup(x,y)}
+    
+        // if(this.getRandomBetween(1,101) <= 20){
+        //     this.spawnPowerup(x,y);
+        // }
     }
     spawnDanger(){
         if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2 ){
@@ -522,8 +524,10 @@ class DefenderGameScene extends DefenderScene {
             case 3:
                 new PierceAmmo(this,x,y);
                 break;
+            case 4:
+                new BlastAmmo(this,x,y);
+                break
         }
-        
     }
     update(){
 
