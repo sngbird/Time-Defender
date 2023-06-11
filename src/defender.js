@@ -58,6 +58,14 @@ class DefenderScene extends Phaser.Scene {
     }
     createTurretSprite(x,y){
         let turret = this.add.sprite(x,y,'turret');
+        this.blink = this.tweens.add({
+            targets: turret,
+            alpha: .5,
+            yoyo: true,
+            repeat: -1,
+            duration: 250,
+        })
+        this.blink.pause();
         turret.setAngle(-90)
         return(turret);
     }
@@ -455,9 +463,9 @@ class DefenderGameScene extends DefenderScene {
             this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         }else{
             let choice = this.getRandomBetween(1,11);
-            if(choice < 7){
+            if(choice < 8){
                 this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-            }else if(choice >= 7){
+            }else if(choice >= 8){
                 this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
             }
         }
