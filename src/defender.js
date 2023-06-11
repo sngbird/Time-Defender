@@ -192,6 +192,7 @@ class DefenderGameScene extends DefenderScene {
         beam.setActive(false);
         beam.setVisible(false);
         beam.body.reset();
+        beam.reset();
         this.explode(crack, crack.x,crack.y);
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);

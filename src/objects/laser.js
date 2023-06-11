@@ -5,6 +5,15 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         console.log("laser")
     }
     fire(scene,turret,targetDeg,targetx,targety){
+        this.movingEmitter = scene.add.particles(0, 0, 'smoke', {
+            speed: 50,
+            scale: { start: 0.1, end: 1 },
+            alpha: { start: 1, end: 0 },
+            // higher steps value = more time to go btwn min/max
+            lifespan: { min: 10, max: 1000, steps: 100 }
+        })
+        // note: setting the emitter's initial position to 0, 0 seems critical to get .startFollow to work
+        this.movingEmitter.startFollow(this, 0, 0, false)
         this.targetx = targetx;
         this.targety = targety;
         this.setAngle(targetDeg);
@@ -13,11 +22,15 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         this.setVisible(true);
         scene.physics.moveTo(this,targetx,targety,1600);
     }
+    reset(){
+        this.movingEmitter.destroy();
+    }
     preUpdate(time, delta){
         super.preUpdate(time,delta);
         if(this.y <= 0 || this.y >= this.current_scene.game.config.height * 1.2 || this.x <= -50 || this.x >= this.current_scene.game.config.width * 1.2){
             this.setActive(false);
             this.setVisible(false);
+            this.movingEmitter.destroy();
         }
     }
 
