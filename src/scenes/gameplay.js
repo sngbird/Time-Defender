@@ -46,6 +46,7 @@ class Gameplay extends DefenderGameScene{
         this.diffText.setText("Difficulty: " + this.difficulty)
         this.ScoreText.setText(this.score)
         this.TimerText.setText(Math.floor(this.g_seconds))
+        this.bombText.setText(this.ship.getBombs() + "/" + this.ship.getMaxBombs());
         this.spawnDanger();
         if (this.ship.getHP() <= 0){
             this.bgm.stop();

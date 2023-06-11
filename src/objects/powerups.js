@@ -66,3 +66,25 @@ class HealthUp extends PowerUps{
       },1000)
     }
 }
+class Bomb extends PowerUps{
+  constructor(scene, x, y){
+      super(scene, x, y);
+      this.indicator = scene.physics.add.image(this.x,this.y,'bombindicator');
+      scene.powerUpsIndicatorGroup.add(this.indicator);
+      this.indicator.setScale(.35);
+      scene.add.existing(this.indicator);
+      this.indicator.body.setVelocity(this.body.velocity.x,this.body.velocity.y);
+      this.indicator.setCollideWorldBounds(true);
+      this.indicator.setBounce(1);
+      this.indicator.setAlpha(.35);
+  }
+  collectPowerUp(scene) {
+      scene.ship.gainBomb();
+      this.collectAnimation(scene);
+      this.collectIndicatorAnimation(scene);
+    setTimeout(() => {
+      this.indicator.destroy()
+      this.destroy();
+    },1000)
+  }
+}

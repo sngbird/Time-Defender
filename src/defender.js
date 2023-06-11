@@ -14,6 +14,10 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody.png')
         this.load.image('powerupbase','src/assets/sprites/powerupbase.png')
         this.load.image('HP','src/assets/sprites/powerup_health.png')
+        this.load.image('bombindicator','src/assets/sprites/powerup_bomb.png')
+        this.load.image('bomb','src/assets/sprites/bomb.png')
+
+
 
 
         this.load.audio('bgm','src/assets/sounds/song1.mp3');
@@ -97,12 +101,39 @@ class DefenderGameScene extends DefenderScene {
         super(key);
         
     }
-
+    useBomb(){
+        if(this.ship.getBombs() > 0){
+            this.ship.removeBomb();
+            console.log("boom");
+            let bombRadius = this.add.rectangle(this.w/2,this.h/2,this.w,this.h,'0xff0000',0)
+            this.bombGroup.add(bombRadius);
+            setTimeout(()=>{
+                bombRadius.destroy()
+            },500)
+        }
+    }
+    bombButton(){
+        this.bombButtonImg = this.add.image(this.w*.4,this.h*.92,'bomb').setInteractive().setScale(.66);
+        this.bombText = this.add.text(this.bombButtonImg.x-25,this.bombButtonImg.y + 25)
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 25}px` })
+        .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
+        this.bombButtonImg.on('pointerover',() =>{
+            this.bombButtonImg.setTint(0xff0000);
+        })
+        this.bombButtonImg.on('pointerout',() =>{
+            this.bombButtonImg.clearTint();
+        })
+        this.bombButtonImg.on('pointerdown',() => {
+            console.log("??")
+            this.useBomb();
+        })
+    }
     create_timer(){
     }
    
     createCollision(){
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
+    this.physics.add.overlap(this.bombGroup, this.crackGroup, this.destroyCrack, null, this);
     this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
     this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
     this.physics.add.collider(this.ship, this.powerUpsGroup);
@@ -132,6 +163,7 @@ class DefenderGameScene extends DefenderScene {
         this.laserGroup = new LaserGroup(this); 
         this.crackGroup = this.physics.add.group({});
         this.blastGroup = this.physics.add.group({});
+        this.bombGroup = this.physics.add.group({});
         this.powerUpsGroup = this.physics.add.group({});
         this.powerUpsIndicatorGroup = this.physics.add.group({});
         this.powerUpsGroup.defaults = {};
@@ -287,6 +319,7 @@ class DefenderGameScene extends DefenderScene {
         this.createGroups();
         this.createShip();      
         this.createCollision(); 
+        this.bombButton();
         this.spawnPowerup(500,500);
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
@@ -328,14 +361,14 @@ class DefenderGameScene extends DefenderScene {
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(1,1);
+        let chosen = this.getRandomBetween(1,3);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
                 break;
-            // case 2:
-            //     alertSound();
-            //     break;
+            case 2:
+                new Bomb(this,x,y);
+                break;
             // case 3:
             //     scoreUpSound();
             //     break;

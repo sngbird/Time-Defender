@@ -3,6 +3,8 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
         super(scene,x,y,'shipbody');
         this.setScale(4,1);
         this.maxhp = 1000;
+        this.maxBombs = 3;
+        this.currBombs = 1;
         this.initialize()
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -27,5 +29,19 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     getMax(){
         return this.maxhp;
+    }
+    getBombs(){
+        return this.currBombs;
+    }
+    getMaxBombs(){
+        return this.maxBombs;
+    }
+    gainBomb(){
+        if (this.currBombs < this.maxBombs){
+            this.currBombs += 1;
+        }
+    }
+    removeBomb(){
+        this.currBombs -= 1;
     }
 }
