@@ -109,7 +109,7 @@ class DefenderGameScene extends DefenderScene {
             this.bombGroup.add(bombRadius);
             setTimeout(()=>{
                 bombRadius.destroy()
-            },500)
+            },1000)
         }
     }
     bombButton(){
@@ -124,8 +124,7 @@ class DefenderGameScene extends DefenderScene {
             this.bombButtonImg.clearTint();
         })
         this.bombButtonImg.on('pointerdown',() => {
-            console.log("??")
-            this.useBomb();
+                        this.useBomb();
         })
     }
     create_timer(){
@@ -133,7 +132,7 @@ class DefenderGameScene extends DefenderScene {
    
     createCollision(){
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
-    this.physics.add.overlap(this.bombGroup, this.crackGroup, this.destroyCrack, null, this);
+    this.physics.add.overlap(this.bombGroup, this.crackGroup, this.bombCrack, null, this);
     this.physics.add.overlap(this.ship, this.blastGroup, this.decreaseShipHealth, null, this);
     this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
     this.physics.add.collider(this.ship, this.powerUpsGroup);
@@ -156,6 +155,14 @@ class DefenderGameScene extends DefenderScene {
                     ,this.turret_rotate_time)
             }
         },this);
+    }
+    bombCrack(bomb,crack){
+        this.explode(crack, crack.x,crack.y);
+        this.spawnPowerUpCheck(crack.x,crack.y);
+        this.crackGroup.remove(crack);
+        crack.repair(this);
+        this.gain_score(this.difficulty)
+        this.play_sound("scoreUp");
     }
     
     //Create physics groups
