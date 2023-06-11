@@ -113,7 +113,7 @@ class PierceAmmo extends PowerUps{
     scene.powerupBlinkTimer();
   }
 }
-class PierceAmmo extends PowerUps{
+class BlastAmmo extends PowerUps{
   constructor(scene, x, y){
       super(scene, x, y);
       this.indicator = scene.physics.add.image(this.x,this.y,'burst');

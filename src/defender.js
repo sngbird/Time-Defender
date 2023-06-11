@@ -258,6 +258,9 @@ class DefenderGameScene extends DefenderScene {
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
+        if(this.ship.getWeapon() == 'Blast Laser'){
+            this.spawnBlast();
+        }
         this.gain_score(this.difficulty)
         this.play_sound("scoreUp");
         
@@ -343,13 +346,21 @@ class DefenderGameScene extends DefenderScene {
     //Collect powerup
     getPowerup(beam,powerup){
         this.explodePowerup(powerup,powerup.x,powerup.y)
-        beam.setActive(false);
-        beam.setVisible(false);
-        beam.body.reset();
-        beam.reset();
+        if(this.ship.getWeapon() != 'Piercing Laser'){
+            beam.setActive(false);
+            beam.setVisible(false);
+            beam.body.reset();
+            beam.reset();
+        }
         this.powerUpsGroup.remove(powerup);
-        powerup.collectPowerUp(this); 
+        powerup.collectPowerUp(this);
+        if(this.ship.getWeapon() == 'Burst Laser'){
+            this.spawnBlast();
+        } 
         this.gain_score(5*this.difficulty);
+    }
+    spawnBlast(){
+        console.log("Blast!")
     }
     //audio
     play_music(){
@@ -452,8 +463,8 @@ class DefenderGameScene extends DefenderScene {
         this.powerupTimer;
         this.createCollision(); 
         this.bombButton();
-        // this.spawnPowerup(500,500);
-        // this.spawnPowerup(500,500);
+        this.spawnPowerup(500,500);
+        this.spawnPowerup(500,500);
 
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
@@ -513,7 +524,7 @@ class DefenderGameScene extends DefenderScene {
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(1,4);
+        let chosen = this.getRandomBetween(4,5);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
