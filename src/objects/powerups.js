@@ -110,8 +110,14 @@ class PierceAmmo extends PowerUps{
       this.indicator.destroy()
       this.destroy();
     },1000)
-    setTimeout(() => {
-      scene.ship.setWeapon('Repair Laser');
-    },30000)
+    scene.powerupBlinkTimer();
+    // setTimeout(() => {
+    //   scene.blink.resume();
+    // },25000)
+    // setTimeout(() => {
+    //   scene.blink.restart();
+    //   scene.blink.pause();
+    //   scene.ship.setWeapon('Repair Laser');
+    // },30000)
   }
 }

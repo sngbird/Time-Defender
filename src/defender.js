@@ -441,14 +441,33 @@ class DefenderGameScene extends DefenderScene {
         
         this.g_startTime = performance.now()/1000.0;
         this.g_seconds;
+     
+  
+        this.blinkTimer = this.time.delayedCall(25000, this.blinkOn, [], this);
+        this.blinkTimer.paused = true;
+        this.powerupTimer = this.time.delayedCall(30000, this.powerupOff, [], this);
+        this.powerupTimer.paused = true;
         
         this.score = 0;
-        console.log(this.choose_color());
+        //console.log(this.choose_color());
         this.createGroups();
-        this.createShip();      
+        this.createShip(); 
+        this.blink = this.tweens.add({
+            targets: this.turret,
+            alpha: .5,
+            yoyo: true,
+            loop: -1,
+            duration: 250,
+        })
+        this.blink.pause();
+        
+        this.blinkTimer;
+        this.powerupTimer;
         this.createCollision(); 
         this.bombButton();
-        //this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
+
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
@@ -456,6 +475,19 @@ class DefenderGameScene extends DefenderScene {
     // Fire the Laser in the direction of the pointerdown location
     shootLaser(scene,targetx,targety,targetDeg,turret){
         this.laserGroup.fireLaser(scene,targetx,targety,targetDeg,turret);
+    }
+    powerupBlinkTimer(){
+        this.blinkTimer.reset({delay: 25000, callback: this.blinkOn, args: [], callbackScope: this})
+        this.powerupTimer.reset({delay: 30000, callback: this.powerupOff, args: [], callbackScope: this})
+    }
+    powerupOff(){
+        this.blink.restart();
+        this.blink.pause();
+        this.ship.resetWeapon();
+    }
+    blinkOn(){
+        //this.blink.restart();
+        this.blink.resume();
     }
     // creates a random time fissure and adds it to the collision group
     spawnCrack(){
@@ -469,9 +501,9 @@ class DefenderGameScene extends DefenderScene {
             this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
         }else{
             let choice = this.getRandomBetween(1,11);
-            if(choice < 7){
+            if(choice < 8){
                 this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-            }else if(choice >= 7){
+            }else if(choice >= 8){
                 this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
             }
         }
@@ -482,7 +514,7 @@ class DefenderGameScene extends DefenderScene {
     //     if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
     //         this.spawnPowerup(x,y)}
     // }
-        if(this.getRandomBetween(1,101) <= 5){
+        if(this.getRandomBetween(1,101) <= 20){
             this.spawnPowerup(x,y);
         }
     }
@@ -493,7 +525,7 @@ class DefenderGameScene extends DefenderScene {
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(3,4);
+        let chosen = this.getRandomBetween(1,4);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
