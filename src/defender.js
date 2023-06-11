@@ -15,6 +15,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('powerupbase','src/assets/sprites/powerupbase.png')
         this.load.image('HP','src/assets/sprites/powerup_health.png')
         this.load.image('bombindicator','src/assets/sprites/powerup_bomb.png')
+        this.load.image('pierce','src/assets/sprites/powerup_pierce.png')
         this.load.image('bomb','src/assets/sprites/bomb.png')
         this.load.image('smoke','src/assets/sprites/smokepuff.png')
         this.load.image('repair','src/assets/sprites/repairparticle.png')
@@ -116,7 +117,7 @@ class DefenderGameScene extends DefenderScene {
         }
     }
     bombButton(){
-        this.bombButtonImg = this.add.image(this.w*.4,this.h*.92,'bomb').setInteractive().setScale(.66);
+        this.bombButtonImg = this.add.image(this.w*.65,this.h*.92,'bomb').setInteractive().setScale(.66);
         this.bombText = this.add.text(this.bombButtonImg.x-25,this.bombButtonImg.y + 25)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 25}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
@@ -247,11 +248,12 @@ class DefenderGameScene extends DefenderScene {
             return;
         }
         this.explode(crack, crack.x,crack.y);
-        beam.setActive(false);
-        beam.setVisible(false);
-        beam.body.reset();
-        beam.reset();
-        
+        if(this.ship.getWeapon() != 'Piercing Laser'){
+            beam.setActive(false);
+            beam.setVisible(false);
+            beam.body.reset();
+            beam.reset();
+        }
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
         crack.repair(this);
@@ -463,8 +465,12 @@ class DefenderGameScene extends DefenderScene {
     }
     //randoms a spawn
     spawnPowerUpCheck(x,y){
-            if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
-            this.spawnPowerup(x,y)}
+    //     if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
+    //         this.spawnPowerup(x,y)}
+    // }
+        if(this.getRandomBetween(1,101) <= 5){
+            this.spawnPowerup(x,y);
+        }
     }
     spawnDanger(){
         if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2 ){
@@ -473,7 +479,7 @@ class DefenderGameScene extends DefenderScene {
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(2,3);
+        let chosen = this.getRandomBetween(3,4);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
@@ -481,9 +487,9 @@ class DefenderGameScene extends DefenderScene {
             case 2:
                 new Bomb(this,x,y);
                 break;
-            // case 3:
-            //     scoreUpSound();
-            //     break;
+            case 3:
+                new PierceAmmo(this,x,y);
+                break;
         }
         
     }

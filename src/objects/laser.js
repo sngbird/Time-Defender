@@ -20,7 +20,12 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         this.body.reset(turret.x,turret.y);
         this.setActive(true);
         this.setVisible(true);
-        scene.physics.moveTo(this,targetx,targety,1600);
+        if(scene.ship.getWeapon() == 'Piercing Laser'){
+            scene.physics.moveTo(this,targetx,targety,2200);
+        }else{
+            scene.physics.moveTo(this,targetx,targety,1600);
+        }
+        
     }
     reset(){
         this.movingEmitter.destroy();

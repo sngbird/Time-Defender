@@ -23,6 +23,9 @@ class Gameplay extends DefenderGameScene{
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
 
+        this.weaponText = this.add.text(this.w*.4,this.h*.95)
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 40}px` })
+        .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
         this.scene.launch("pause");
         this.scene.bringToTop("pause");
 
@@ -47,6 +50,7 @@ class Gameplay extends DefenderGameScene{
         this.ScoreText.setText(this.score)
         this.TimerText.setText(Math.floor(this.g_seconds))
         this.bombText.setText(this.ship.getBombs() + "/" + this.ship.getMaxBombs());
+        this.weaponText.setText("Laser: "+ this.ship.getWeapon());
         this.spawnDanger();
         if (this.ship.getHP() <= 0){
             this.bgm.stop();

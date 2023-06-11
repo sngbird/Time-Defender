@@ -5,7 +5,7 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
         this.maxhp = 1000;
         this.maxBombs = 3;
         this.currBombs = 0;
-        this.weapon = 'default';
+        this.weapon = 'Repair Laser';
         this.initialize()
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -44,5 +44,12 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     }
     removeBomb(){
         this.currBombs -= 1;
+    }
+    setWeapon(weapon){
+        this.weapon = weapon;
+        console.log(this.weapon);
+    }
+    getWeapon(){
+        return this.weapon;
     }
 }
