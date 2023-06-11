@@ -120,11 +120,25 @@ class DefenderGameScene extends DefenderScene {
         this.bombText = this.add.text(this.bombButtonImg.x-25,this.bombButtonImg.y + 25)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 25}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
+        let test = this.tweens.add({
+            targets: this.bombButtonImg,
+            angle: 25,
+            yoyo: true,
+            repeat: -1,
+            duration: 200,
+        })
+        test.pause()
         this.bombButtonImg.on('pointerover',() =>{
-            this.bombButtonImg.setTint(0xff0000);
+            if(this.ship.getBombs() > 0){
+                this.bombButtonImg.setTint(0xff0000);
+                test.resume();
+            }
         })
         this.bombButtonImg.on('pointerout',() =>{
             this.bombButtonImg.clearTint();
+            test.restart();
+            test.pause();
+           
         })
         this.bombButtonImg.on('pointerdown',() => {
                         this.useBomb();
@@ -449,17 +463,17 @@ class DefenderGameScene extends DefenderScene {
     }
     //randoms a spawn
     spawnPowerUpCheck(x,y){
-            if (this.getRandomBetween(1,101) <= Math.max(3,(15 - this.difficulty/2))){
+            if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
             this.spawnPowerup(x,y)}
     }
     spawnDanger(){
-        if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2 || this.crackGroup.getLength == 0){
+        if(this.getRandomBetween(0,1000) < 5 + this.difficulty && this.crackGroup.getLength() < this.difficulty/2 ){
             this.spawnCrack();
       }
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(1,3);
+        let chosen = this.getRandomBetween(2,3);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
