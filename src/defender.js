@@ -224,19 +224,19 @@ class DefenderGameScene extends DefenderScene {
     }
     //decrease health of the ship
     shipHit(ship,blast){
-        let hitspark = this.add.particles(blast.x, ship.y-100, 'smoke', {
+        let hitspark = this.add.particles(blast.x, ship.y-80, 'smoke', {
             speed: 250,
-                tint: 0xFF11FF,
-                quantity: 5,
-                scale: { start: 0.1, end: 1 },
-                alpha: { start: 1, end: 0 },
+                tint: 0xFF1177,
+                quantity: 1,
+                scale: 1,
+                alpha: 1,
             // higher steps value = more time to go btwn min/max
                 lifespan: 500
             });
         this.tweens.add({
             targets: hitspark,
             alpha: .25,
-            duration: 500,
+            duration: 250,
             onComplete: () => {
                 hitspark.destroy()
             },
