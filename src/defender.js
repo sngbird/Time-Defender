@@ -215,6 +215,8 @@ class DefenderGameScene extends DefenderScene {
         this.crackGroup = this.physics.add.group({});
         this.blastGroup = this.physics.add.group({});
         this.bombGroup = this.physics.add.group({});
+        this.burstGroup = this.physics.add.group({});
+
         this.powerUpsGroup = this.physics.add.group({});
         this.powerUpsIndicatorGroup = this.physics.add.group({});
         this.powerUpsGroup.defaults = {};
@@ -259,10 +261,10 @@ class DefenderGameScene extends DefenderScene {
         }
         this.spawnPowerUpCheck(crack.x,crack.y);
         this.crackGroup.remove(crack);
-        crack.repair(this);
-        if(this.ship.getWeapon() == 'Blast Laser'){
-            this.spawnBlast();
+        if(this.ship.getWeapon() == 'Burst Laser'){
+            this.spawnBlast(crack.x,crack.y);
         }
+        crack.repair(this);
         this.gain_score(this.difficulty)
         this.play_sound("scoreUp");
         
@@ -369,13 +371,35 @@ class DefenderGameScene extends DefenderScene {
         this.powerUpsGroup.remove(powerup);
         powerup.collectPowerUp(this);
         if(this.ship.getWeapon() == 'Burst Laser'){
-            this.spawnBlast();
-        } 
+            this.spawnBlast(powerup.x,powerup.y);
+        }
         this.gain_score(5*this.difficulty);
     }
-    spawnBlast(){
-        console.log("Blast!")
-    }
+    spawnBlast(x,y){
+        let blast = this.physics.add.sprite(x,y,'repairblast').setAlpha(0).setAngle(Math.random() * 360);
+        this.bombGroup.add(blast);
+        let scene = this;
+        let delay_value = 300;
+        this.tweens.add({
+                targets:blast,
+                delay:delay_value,
+                alpha: .2,
+                scale: 5,
+                duration: 500,
+                onComplete: function(){
+                    scene.tweens.add({
+                        targets: blast,
+                        alpha: 0,
+                        duration: 1000,
+                        onComplete: function(){
+                            blast.destroy();
+                        }
+                    })
+                }
+            })
+    //     console.log("Blast!")
+    // }
+}
     //audio
     play_music(){
         if(localStorage.getItem("music") != 1){
@@ -455,11 +479,8 @@ class DefenderGameScene extends DefenderScene {
         this.g_seconds;
      
   
-        this.blinkTimer = this.time.delayedCall(25000, this.blinkOn, [], this);
-        this.blinkTimer.paused = true;
-        this.powerupTimer = this.time.delayedCall(30000, this.powerupOff, [], this);
-        this.powerupTimer.paused = true;
         
+        this.setupTimers()
         this.score = 0;
         //console.log(this.choose_color());
         this.createGroups();
@@ -473,8 +494,6 @@ class DefenderGameScene extends DefenderScene {
         })
         this.blink.pause();
         
-        this.blinkTimer;
-        this.powerupTimer;
         this.createCollision(); 
         this.bombButton();
         this.spawnPowerup(500,500);
@@ -483,6 +502,14 @@ class DefenderGameScene extends DefenderScene {
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
+    }
+    setupTimers(){
+        this.blinkTimer = this.time.delayedCall(25000, this.blinkOn, [], this);
+        this.blinkTimer.paused = true;
+        this.powerupTimer = this.time.delayedCall(30000, this.powerupOff, [], this);
+        this.powerupTimer.paused = true;
+        this.blinkTimer;
+        this.powerupTimer;
     }
     // Fire the Laser in the direction of the pointerdown location
     shootLaser(scene,targetx,targety,targetDeg,turret){
@@ -538,7 +565,7 @@ class DefenderGameScene extends DefenderScene {
     }
     // randomly spawns one of the powerups
     spawnPowerup(x,y){
-        let chosen = this.getRandomBetween(4,5);
+        let chosen = this.getRandomBetween(1,5);
         switch(chosen){
             case 1:
                 new HealthUp(this,x,y);
