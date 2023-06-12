@@ -6,7 +6,7 @@ class Logo extends DefenderScene{
     }
     pre_load(){
         //console.log("Loading logo")
-        this.load.image('logo', "src/assets/sprites/Company_Logo.png");
+        this.load.image('logo', "src/assets/sprites/Company_Logo2.png");
         
 
     }
