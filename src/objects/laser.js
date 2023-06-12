@@ -28,7 +28,7 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         
     }
     reset(){
-        this.movingEmitter.destroy();
+       //this.movingEmitter.destroy();
     }
     preUpdate(time, delta){
         super.preUpdate(time,delta);
