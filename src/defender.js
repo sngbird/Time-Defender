@@ -110,6 +110,7 @@ class DefenderGameScene extends DefenderScene {
         if(this.ship.getBombs() > 0){
             this.ship.removeBomb();
             console.log("boom");
+            this.cameras.main.shake(300,0.01);
             let bombRadius = this.add.rectangle(this.w/2,this.h/2,this.w,this.h,'0xff0000',0)
             this.bombGroup.add(bombRadius);
             setTimeout(()=>{
