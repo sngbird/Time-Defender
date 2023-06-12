@@ -7,7 +7,7 @@ class Gameplay extends DefenderGameScene{
         
         //Create UI
         console.log("Gameplay");
-        this.HP = this.add.text(this.w*.1,this.game.config.height*.87)
+        this.HP = this.add.text(this.w*.1,this.game.config.height*.92)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
         
@@ -15,7 +15,7 @@ class Gameplay extends DefenderGameScene{
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);  
         
-        this.diffText = this.add.text(this.w*.8,this.game.config.height*.87)
+        this.diffText = this.add.text(this.w*.8,this.game.config.height*.92)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 50}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
         
