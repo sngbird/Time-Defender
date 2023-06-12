@@ -5,6 +5,10 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         console.log("laser")
     }
     fire(scene,turret,targetDeg,targetx,targety){
+        if(this.movingEmitter != null){
+            this.movingEmitter.destroy()
+        }
+        
         this.movingEmitter = scene.add.particles(0, 0, 'smoke', {
             speed: 50,
             scale: { start: 0.1, end: 1 },
@@ -28,14 +32,18 @@ class Laser extends Phaser.Physics.Arcade.Sprite{
         
     }
     reset(){
-       //this.movingEmitter.destroy();
+        //this.movingEmitter.x = this.targetx;
+        if(this.movingEmitter != null){
+            this.movingEmitter.quantity = 0;
+        }
+        
     }
     preUpdate(time, delta){
         super.preUpdate(time,delta);
         if(this.y <= 0 || this.y >= this.current_scene.game.config.height * 1.2 || this.x <= -50 || this.x >= this.current_scene.game.config.width * 1.2){
             this.setActive(false);
             this.setVisible(false);
-            this.movingEmitter.destroy();
+            this.reset();
         }
     }
 
