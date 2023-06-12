@@ -11,7 +11,7 @@ class DefenderScene extends Phaser.Scene {
         this.load.image('repairbeam','src/assets/sprites/repairbeamplaceholder.png')
         this.load.image('timecrack','src/assets/sprites/timecrack.png')
         this.load.image('crackcenter','src/assets/sprites/crackcenter.png')
-        this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody.png')
+        this.load.image('shipbody', 'src/assets/sprites/placeholdershipbody2.png')
         this.load.image('powerupbase','src/assets/sprites/powerupbase.png')
         this.load.image('HP','src/assets/sprites/powerup_health.png')
         this.load.image('bombindicator','src/assets/sprites/powerup_bomb.png')
