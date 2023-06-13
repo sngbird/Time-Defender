@@ -510,6 +510,7 @@ class DefenderGameScene extends DefenderScene {
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
+        setTimeout(()=>{this.gameOver()},5000);
     }
     setupTimers(){
         this.blinkTimer = this.time.delayedCall(25000, this.blinkOn, [], this);
@@ -591,5 +592,13 @@ class DefenderGameScene extends DefenderScene {
     }
     update(){
 
+    }
+    gameOver(){
+        this.scene.pause("gameplay");
+        //this.scene.add("gameover", GameOver, true);
+        this.scene.run('gameover');
+        this.scene.bringToTop('gameover');
+        //this.scene.start("gameover");
+        //this.scene.bringToTop("gameover");
     }
 }
