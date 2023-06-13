@@ -36,6 +36,10 @@ Selectable requirements: (maybe choose 3)
 
 # Core Gameplay Prototype Requirements**
 
+- Core Gameplay Prototype: https://people.ucsc.edu/~lkinsing/Time_Defender/TimeDefender.html
+- Scene Flow Prototype: https://wyatt-hawes.github.io/Time-Defender-Scene-Flow-Prototype/
+- Cinematics Prototype: https://wyatt-hawes.github.io/Time-Defender-Scene-Flow-Prototype/
+
 ## Audio: The prototype uses at least two different kinds of audio.**
 What we did:
 1. Continuously looping background sound (e.g. music or environmental audio) from an audio asset file.
