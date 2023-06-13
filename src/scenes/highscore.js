@@ -9,7 +9,8 @@ class HighScore extends DefenderScene {
     }
     onEnter(){
         let curr_player = JSON.parse(localStorage.getItem("curr_player"));
-
+        let playerName = window.prompt("Please Enter Name", "name");
+        curr_player[3] = playerName;
         this.topscores = JSON.parse(localStorage.getItem("topscores"));
         if (this.topscores == null){
             this.topscores = []
