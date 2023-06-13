@@ -58,6 +58,8 @@ class Gameplay extends DefenderGameScene{
             // this.scene.start("intro");
             // localStorage.setItem("survived_time", null)
             // localStorage.setItem("score", null)
+            const scoreArray = [this.score,this.difficulty,Math.floor(this.g_seconds), "AAA"];
+            localStorage.setItem("curr_player",JSON.stringify(scoreArray))
         }
     }
 
