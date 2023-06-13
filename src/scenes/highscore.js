@@ -2,7 +2,7 @@ class HighScore extends DefenderScene {
     constructor() {
         super('highscore');
         //console.log("credits")
-        this.topscores = [];
+        this.topscores = new Array();
     }
     sceneLayout(){
 
@@ -12,15 +12,19 @@ class HighScore extends DefenderScene {
 
         this.topscores = JSON.parse(localStorage.getItem("topscores"));
         if (this.topscores == null){
+            this.topscores = []
             this.topscores[0] = curr_player;
-            localStorage.setItem("topscores",JSON.stringify(this.topscores));
+           
         }else if (this.topscores.length < 5){
-            console.log(this.topscores.length);
             this.topscores[this.topscores.length] = curr_player;
-            localStorage.setItem("topscores",JSON.stringify(this.topscores));
         }
-        
-        
+        this.topscores.sort(function(a,b){return a[0]-b[0]}).reverse()
+        localStorage.setItem("topscores",JSON.stringify(this.topscores));
+        // if(curr_player[0] > this.topscores[this.topscores.length-1][0]){
+        //     this.topscores[this.topscores.length-1] = curr_player;
+        //     this.topscores.sort(function(a,b){return a[0]-b[0]}).reverse()
+        //      localStorage.setItem("topscores",JSON.stringify(this.topscores));
+        // }
        
         let layoutText = this.add.text(this.game.config.width*.1,this.game.config.height*.1).setText(
             "Score                              Difficulty       Time              Name"
@@ -29,7 +33,7 @@ class HighScore extends DefenderScene {
             this.displayScores(this.topscores[i],i*.1);
         }
         
-        this.displayScores(curr_player,.5);
+        this.displayScores(curr_player,.6);
        
     }
     update(){
@@ -46,4 +50,5 @@ class HighScore extends DefenderScene {
         let nameText = this.add.text(this.game.config.width*.75,this.game.config.height*(.25+location)).setText(
             score_obj[3]).setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 75}px` });
     }
+    
 }
