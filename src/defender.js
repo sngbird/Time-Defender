@@ -508,8 +508,8 @@ class DefenderGameScene extends DefenderScene {
         
         this.createCollision(); 
         this.bombButton();
-        this.spawnPowerup(500,500);
-        this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
 
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;

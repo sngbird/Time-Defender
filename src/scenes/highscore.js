@@ -15,17 +15,18 @@ class HighScore extends DefenderScene {
             this.topscores = []
             this.topscores[0] = curr_player;
            
-        }else if (this.topscores.length < 5){
+        }
+        else if (this.topscores.length == 5){
+            this.topscores.sort(function(a,b){return a[0]-b[0]}).reverse()
+            if(curr_player[0] > this.topscores[this.topscores.length-1][0]){
+                this.topscores[this.topscores.length-1] = curr_player;
+            }
+        }
+        else if (this.topscores.length < 5){
             this.topscores[this.topscores.length] = curr_player;
         }
         this.topscores.sort(function(a,b){return a[0]-b[0]}).reverse()
         localStorage.setItem("topscores",JSON.stringify(this.topscores));
-        // if(curr_player[0] > this.topscores[this.topscores.length-1][0]){
-        //     this.topscores[this.topscores.length-1] = curr_player;
-        //     this.topscores.sort(function(a,b){return a[0]-b[0]}).reverse()
-        //      localStorage.setItem("topscores",JSON.stringify(this.topscores));
-        // }
-       
         let layoutText = this.add.text(this.game.config.width*.1,this.game.config.height*.1).setText(
             "Score                              Difficulty       Time              Name"
         ).setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 75}px` });
@@ -34,6 +35,7 @@ class HighScore extends DefenderScene {
         }
         
         this.displayScores(curr_player,.6);
+        this.input.on('pointerdown',()=>{this.scene.start('intro')});
        
     }
     update(){
