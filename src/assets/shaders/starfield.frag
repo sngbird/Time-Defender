@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision lowp float;
+precision highp float;
 #endif
 uniform vec2 resolution;
 uniform vec2 mouse;
