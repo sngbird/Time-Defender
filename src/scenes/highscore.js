@@ -14,14 +14,22 @@ class HighScore extends DefenderScene {
         if (this.topscores == null){
             this.topscores[0] = curr_player;
             localStorage.setItem("topscores",JSON.stringify(this.topscores));
+        }else if (this.topscores.length < 5){
+            console.log(this.topscores.length);
+            this.topscores[this.topscores.length] = curr_player;
+            localStorage.setItem("topscores",JSON.stringify(this.topscores));
         }
+        
         
        
         let layoutText = this.add.text(this.game.config.width*.1,this.game.config.height*.1).setText(
             "Score                              Difficulty       Time              Name"
         ).setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 75}px` });
-        this.displayScores(curr_player,0);
-        this.displayScores(curr_player,.1);
+        for (let i = 0; i < this.topscores.length; i++){
+            this.displayScores(this.topscores[i],i*.1);
+        }
+        
+        this.displayScores(curr_player,.5);
        
     }
     update(){
