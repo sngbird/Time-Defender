@@ -2,7 +2,7 @@ class Logo extends DefenderScene{
 
     constructor(){
         super("logo")
-        console.log("logo")
+        //console.log("logo")
     }
     pre_load(){
         //console.log("Loading logo")
@@ -14,7 +14,7 @@ class Logo extends DefenderScene{
 
 
     create(){
-        console.log("Logo");
+        //console.log("Logo");
         let watched = localStorage.getItem("logo_watched");
         localStorage.removeItem("active_scene");
         //this.view_blocker = this.add.rectangle(0,0, this.game.config.width, this.game.config.height, 0x000000).setOrigin(0,0);
@@ -39,7 +39,7 @@ class Logo extends DefenderScene{
         this.transitionDuration = 3000;
         this.cameras.main.fadeIn(this.transitionDuration, 0, 0, 0);
 
-        let log = this.add.sprite(this.game.config.width/2,this.game.config.height/2,'logo');
+        let log = this.add.sprite(this.game.config.width/2,this.game.config.height/2,'logo').setScale();
 
         let chain = this.tweens.chain({
             targets: log,
@@ -50,15 +50,15 @@ class Logo extends DefenderScene{
                     targets: log,
                     duration: 1000,
                     angle: 360,
+                    scale:1
                 },
-                {
-                    duration:150,
-                    repeat: 3,
-                    delay: 50,
-                    ease: "",
-                    scale: 3,
-                    
-                },
+                // {
+                //     duration:150,
+                //     repeat: 3,
+                //     delay: 50,
+                //     ease: "",
+                //     scale: 3,
+                // },
             ]
         });
 

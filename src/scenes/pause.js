@@ -1,7 +1,7 @@
 class Pause extends Phaser.Scene {
     constructor() {
         super("pause");
-        console.log("pause")
+        //console.log("pause")
     }
     preload(){
         this.load.image('resume','src/assets/sprites/Resume.png')
@@ -18,6 +18,7 @@ class Pause extends Phaser.Scene {
         let pbtn = this.add.sprite(65,this.game.config.height - 65,"pause_btn").setOrigin(0.5,0.5).setInteractive().setScale(2);
         pbtn.on('pointerdown', ()=>{
             this.scene.pause("gameplay")
+            this.pause_start_time = (performance.now()/1000.0)
             this.add.tween({
                 targets: pbtn,
                 scale: 1.6,
@@ -25,7 +26,7 @@ class Pause extends Phaser.Scene {
             })
         })
         pbtn.on('pointerup', ()=>{
-            this.scene.pause("gameplay")
+            //this.scene.pause("gameplay")
             this.dim_rect = this.add.rectangle(0,0,this.game.config.width, this.game.config.height,0x0).setOrigin(0,0).setAlpha(.8).setDepth(0).setAlpha(0);
             //tweening the dimming effect, it currently does nothing but just incase we want to change it later.
             this.add.tween({
@@ -68,6 +69,8 @@ class Pause extends Phaser.Scene {
         resume.on('pointerup', ()=>{
             this.time.delayedCall(3000, ()=>{pbtn.visible = true});
             this.countdown();
+            //Update timer, current time  +3 seconds
+            this.scene.get('gameplay').add_to_start_time((performance.now()/1000.0 + 3) - this.pause_start_time);
             this.time.delayedCall(3000, ()=> {this.scene.resume("gameplay"); this.dim_rect.visible = false; this.scene.get('gameplay').play_music()});
             this.time.delayedCall(2000, ()=>{
                 this.add.tween({
@@ -95,6 +98,11 @@ class Pause extends Phaser.Scene {
         })
         title.on('pointerup', ()=>{
             console.log("title clicked!")
+            localStorage.setItem("survived_time", (this.pause_start_time - this.scene.get('gameplay').get_start_time()))
+            localStorage.setItem("score", this.scene.get('gameplay').get_score())
+            console.log("V:" + (performance.now()/1000 - this.scene.get('gameplay').get_start_time()))
+            console.log("saving score:" + this.scene.get('gameplay').get_score())
+            this.scene.get('gameplay').play_music()
             this.add.tween({
                 targets: title,
                 scale: 2.2,
@@ -102,7 +110,7 @@ class Pause extends Phaser.Scene {
                 onComplete:()=>{
                     
                     this.scene.start("intro");
-                    console.log("after start");
+                    //console.log("after start");
                 }
             })
         })
