@@ -1,7 +1,7 @@
 class Intro extends DefenderScene {
     constructor() {
         super('intro');
-        console.log("intro")
+        //console.log("intro")
     }
     pre_load(){
         this.load.image('title', "src/assets/sprites/Title.png");
@@ -10,7 +10,7 @@ class Intro extends DefenderScene {
         this.load.image('sound','src/assets/sprites/sound.png')
         this.load.image('music','src/assets/sprites/music.png')
         this.load.image('options', 'src/assets/sprites/options_no_edge.png')
-
+        this.load.image('resume', 'src/assets/sprites/Resume.png')
 
     }
 
@@ -19,7 +19,7 @@ class Intro extends DefenderScene {
     }
 
     onEnter(){
-        console.log("Intro running");
+        //console.log("Intro running");
         //
         this.GAMEPLAY_SCENE = "gameplay";
 
@@ -62,7 +62,7 @@ class Intro extends DefenderScene {
         
         this.make_options_menu();
         this.make_full_screen_button();
-        console.log("Bottom of Intro");
+        //console.log("Bottom of Intro");
 
         this.make_pointer_suggestion();
 
@@ -129,68 +129,67 @@ class Intro extends DefenderScene {
 
     add_buttons(title_cont){
 
-        let play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
-        let button = this.add.image(0,-100, 'play').setScale(3).setInteractive();
-        let button_background = this.add.rectangle(0,-100,90,40,0x000000).setScale(3).setInteractive();
-        play_button.add(button_background)
-        play_button.add(button);
+        this.play_button = this.add.container(this.game.config.width/2, this.game.config.height/5 * 3);
+        this.button = this.add.image(0,-100, 'play').setScale(3).setInteractive();
+        this.button_background = this.add.rectangle(0,-100,90,40,0x000000).setScale(3).setInteractive();
+        this.play_button.add(this.button_background)
+        this.play_button.add(this.button);
 
         let twn = this.add.tween({
-            targets: [button,button_background],
+            targets: [this.button,this.button_background],
             duration: 3000,
             scale:4,
             yoyo: true,
             repeat: -1,
             ease: "Sine.InOut"
         })
-
+        
         //adding credits button
         let xv = 0;
         let yv = 180
         let cbutton = this.add.image(xv,yv, 'credits').setScale(2.5).setInteractive();
         let cbutton_background = this.add.rectangle(xv,yv,130,40,0x000000).setScale(2.5).setInteractive();
-        play_button.add(cbutton_background)
-        play_button.add(cbutton);
-
-
-        //let credit = this.add.text(this.game.config.width/100,this.game.config.height/5 * 4)
-        //.setText("Created by:\n Ethan Earle \n Lumina Kinsinger-Dang \n Wyatt Hawes")
-        //.setStyle({ fontSize: `${1 * 40}px` })
-        //.setWordWrapWidth(this.w * 0.5 - 2 * this.s); 
+        this.play_button.add(cbutton_background)
+        this.play_button.add(cbutton);
         
-
         let me2 = this;
-        button.on('pointerdown', ()=>{
+        this.button.on('pointerdown', ()=>{
             this.stop_pointer_tweens()
             twn.pause();
+            if(twn2 != null){
+                twn2.pause();
+            }
             me2.add.tween({
-                targets: [button, button_background],
+                targets: [this.button, this.button_background],
                 duration:50,
                 scale: 3,
                 ease: ""
             })
         })
 
-        let going_to_next_scene = 0;
+        this.going_to_next_scene = 0;
 
         this.input.on('pointerup', ()=> {
-            if(going_to_next_scene == 1){
+            if(this.going_to_next_scene == 1){
                 this.scene.start(this.GAMEPLAY_SCENE)
                 this.scene.sendToBack('credits');
             }
         })
 
-        button.on('pointerup', ()=>{
-            me2.time.delayedCall(1000, ()=>{going_to_next_scene = 1});
+        this.button.on('pointerup', ()=>{
+            me2.time.delayedCall(1000, ()=>{this.going_to_next_scene = 1});
             //Go to beginning scene
             me2.add.tween({
-                targets: [button, button_background],
+                targets: [this.button, this.button_background],
                 duration:50,
                 scale: 3.5,
                 ease: ""
             })
 
-            this.run_transition_animation(me2, title_cont, play_button);
+            localStorage.setItem("survived_time", null)
+            localStorage.setItem("score", null)
+
+            this.run_transition_animation(me2, title_cont, this.play_button);
             me2.time.delayedCall(6000, ()=>{
                 //Scene transition
                 //I want to see if we can "load" the other scene before transitioning so there is
@@ -230,7 +229,7 @@ class Intro extends DefenderScene {
         });
 
         this.scene.bringToTop("intro");
-
+        let twn2;
         //localStorage.setItem("active_scene","intro")
         cbutton.on('pointerup', ()=>{
             if(localStorage.getItem("active_scene") == "intro"){
@@ -277,6 +276,82 @@ class Intro extends DefenderScene {
 
             }  
         })
+
+
+
+
+        console.log("Time:"+ localStorage.getItem("survived_time"))
+        if(localStorage.getItem("survived_time") != null && localStorage.getItem("survived_time") != "null"){
+            console.log("Time:"+ localStorage.getItem("survived_time"))
+            this.button.x = -200
+            this.button_background.x = -200;
+            
+            //add resume button
+            let resume_background = this.add.rectangle(200,-100,120,40,0x000000).setScale(4).setInteractive();
+            let resume = this.add.image(200,-100,'resume').setScale(4).setInteractive();
+            //add resume button to group
+            this.play_button.add(resume_background);
+            this.play_button.add(resume)
+
+
+            resume.on('pointerdown', ()=>{
+                this.stop_pointer_tweens()
+                twn.pause();
+                if(twn2 != null){
+                    twn2.pause();
+                }
+                me2.add.tween({
+                    targets: [resume, resume_background],
+                    duration:50,
+                    scale: 3,
+                    ease: ""
+                })
+            })
+
+            twn2 = this.add.tween({
+                targets: [resume,resume_background],
+                duration: 3000,
+                scale:3,
+                yoyo: true,
+                repeat: -1,
+                ease: "Sine.InOut",
+            })
+
+            this.going_to_next_scene = 0;
+            resume.on('pointerup', ()=>{
+                me2.time.delayedCall(1000, ()=>{this.going_to_next_scene = 1});
+                //Go to beginning scene
+                me2.add.tween({
+                    targets: [resume, resume_background],
+                    duration:50,
+                    scale: 3.5,
+                    ease: ""
+                })
+
+                this.run_transition_animation(me2, title_cont, this.play_button);
+                me2.time.delayedCall(6000, ()=>{
+                    //Scene transition
+                    //I want to see if we can "load" the other scene before transitioning so there is
+                    //no gap in the stars when you load the next scene
+
+                    // Or even not do multiple "scenes" and just continue this one 
+                    console.log("Starting gameplay");
+
+                    this.scene.start(this.GAMEPLAY_SCENE);
+                    console.log("Resuming at " + localStorage.getItem("survived_time"))
+                    //this.scene.get('gameplay').add_to_start_time(localStorage.getItem("survived_time") * -1)
+                    this.scene.sendToBack('credits');
+                    
+                });
+
+                me2.add.tween({
+                    targets: this.settings_menu,
+                    y:6000,
+                    duration:12000,
+                    ease: "Circ.In"
+                })
+            })
+        }
 
     }
 
@@ -413,6 +488,7 @@ class Intro extends DefenderScene {
             }else{
                 localStorage.setItem(index, 1);
                 lines.setAlpha(localStorage.getItem(index))
+                this.scene.get('gameplay').play_music()
             }
             this.add.tween({
                 targets: Image,
@@ -501,5 +577,6 @@ class Intro extends DefenderScene {
             }
         })
     }
+
 
 }

@@ -2,7 +2,7 @@
 class DefenderScene extends Phaser.Scene {
     constructor(key) {
         super(key);
-        console.log("defenderscene")
+        //console.log("defenderscene")
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
@@ -35,7 +35,7 @@ class DefenderScene extends Phaser.Scene {
         }
     }
     create() {
-        console.log("DefenderScene");
+        //console.log("DefenderScene");
         this.createCamera();
         this.createShaders();
         this.initializeAudio()
@@ -410,7 +410,9 @@ class DefenderGameScene extends DefenderScene {
             }
         }else{
             this.currently_playing_music = false
-            this.bgm.stop()
+            if(this.bgm != null){
+                this.bgm.stop()
+            }
         }
     }
     play_sound(index){
@@ -476,13 +478,18 @@ class DefenderGameScene extends DefenderScene {
     sceneLayout(){
         console.log("DefenderGameScene");
         
-        this.g_startTime = performance.now()/1000.0;
+        if(localStorage.getItem("survived_time") != null && localStorage.getItem("survived_time") != "null"){
+            this.g_startTime = performance.now()/1000 - localStorage.getItem("survived_time");
+            this.score = parseFloat(localStorage.getItem("score"))
+        }else{
+            this.g_startTime = performance.now()/1000.0;
+            this.score = 0;
+        }
         this.g_seconds;
      
   
         
         this.setupTimers()
-        this.score = 0;
         //console.log(this.choose_color());
         this.createGroups();
         this.createShip(); 

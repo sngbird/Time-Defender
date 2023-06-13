@@ -1,7 +1,7 @@
 class Credits extends DefenderScene {
     constructor() {
         super('credits');
-        console.log("credits")
+        //console.log("credits")
     }
     preload(){
 
