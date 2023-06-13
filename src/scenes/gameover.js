@@ -7,7 +7,12 @@ class GameOver extends Phaser.Scene {
         this.difficulty = data.difficulty;
         this.survived = data.time;
     }
+    preload(){
+        this.load.audio('gameoversong', 'src/assets/sounds/gameoversong.mp3')
+    }
     create(){
+        this.gameoversong = this.sound.add('gameoversong')
+        this.gameoversong.play()
         this.gameoverText = this.add.text(this.game.config.width*.3,this.game.config.height*.35)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 80}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);
