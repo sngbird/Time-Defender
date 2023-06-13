@@ -6,7 +6,7 @@ class DefenderScene extends Phaser.Scene {
     }
     preload(){
         //loadFont("witchkin", "assets/witchkin.ttf");
-        this.load.image('turret','src/assets/sprites/turretplaceholder.png')
+        this.load.image('turret','src/assets/sprites/turretplaceholder2.png')
         this.load.image('repairblast','src/assets/sprites/repairblastplaceholder.png')
         this.load.image('repairbeam','src/assets/sprites/repairbeamplaceholder.png')
         this.load.image('timecrack','src/assets/sprites/timecrack.png')
