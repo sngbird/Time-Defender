@@ -2,6 +2,10 @@ class GameOver extends Phaser.Scene {
     constructor() {
         super('gameover');
     }
+    init(data){
+        this.score = data.score;
+        this.difficulty = data.difficulty;
+    }
     create(){
         this.gameoverText = this.add.text(this.game.config.width*.3,this.game.config.height*.35)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 80}px` })
@@ -19,7 +23,7 @@ class GameOver extends Phaser.Scene {
         this.time.delayedCall(5000, () => {
             //this.scene.start('credits', { inventory: this.inventory });
             this.scene.stop('gameplay');
-            this.scene.start('outro');
+            this.scene.start('outro',{difficulty: this.difficulty, score: this.score});
         });
     }
  

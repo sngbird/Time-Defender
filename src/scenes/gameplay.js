@@ -54,9 +54,10 @@ class Gameplay extends DefenderGameScene{
         this.spawnDanger();
         if (this.ship.getHP() <= 0){
             this.bgm.stop();
-            this.scene.start("intro");
-            localStorage.setItem("survived_time", null)
-            localStorage.setItem("score", null)
+            this.gameOver();
+            // this.scene.start("intro");
+            // localStorage.setItem("survived_time", null)
+            // localStorage.setItem("score", null)
         }
     }
 

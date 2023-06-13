@@ -504,13 +504,13 @@ class DefenderGameScene extends DefenderScene {
         
         this.createCollision(); 
         this.bombButton();
-        this.spawnPowerup(500,500);
-        this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
+        // this.spawnPowerup(500,500);
 
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
         this.play_music()
-        setTimeout(()=>{this.gameOver()},5000);
+        
     }
     setupTimers(){
         this.blinkTimer = this.time.delayedCall(25000, this.blinkOn, [], this);
@@ -594,11 +594,10 @@ class DefenderGameScene extends DefenderScene {
 
     }
     gameOver(){
+        console.log("gameover")
         this.scene.pause("gameplay");
-        //this.scene.add("gameover", GameOver, true);
-        this.scene.run('gameover');
-        this.scene.bringToTop('gameover');
-        //this.scene.start("gameover");
-        //this.scene.bringToTop("gameover");
+        this.scene.run('gameover', {difficulty: this.difficulty, score: this.score});
+        //this.scene.bringToTop('gameover');
+        
     }
 }
