@@ -58,6 +58,34 @@ alertSound = () => {
   }, 1500);
     
 };
+powerupSound = () => {
+  // Create a monophonic synth
+  const synth = new Tone.Synth({ oscillator: {type: 'square'}}).toDestination(); 
+    const pitches = ["B4","G4",];
+    const speed = 0.1;
+    // Create a monophonic synthesizer with a square wave
+    if (Tone.Transport.state === 'started') {
+        Tone.Transport.cancel();
+        Tone.Transport.stop();
+      }
+    
+      // Schedule the pitches
+      pitches.forEach((pitch, index) => {
+        Tone.Transport.schedule(time => {
+          synth.triggerAttackRelease(pitch, "32n", time);
+        }, speed * index); 
+      });
+    
+      // Start the transport to play the scheduled pitches
+      setTimeout(() => {
+        Tone.Transport.start();
+    }, 100);
+      setTimeout(() => {
+        synth.dispose();
+    }, 1500);
+  
+};
+
 
 scoreUpSound = () => {
     const synth = new Tone.Synth({ oscillator: {type: 'square'}}).toDestination(); 

@@ -374,6 +374,7 @@ class DefenderGameScene extends DefenderScene {
         if(this.ship.getWeapon() == 'Burst Laser'){
             this.spawnBlast(powerup.x,powerup.y);
         }
+        this.play_sound("powerup")
         this.gain_score(5*this.difficulty);
     }
     spawnBlast(x,y){
@@ -429,6 +430,9 @@ class DefenderGameScene extends DefenderScene {
                 break;
             case "scoreUp":
                 scoreUpSound();
+                break;
+            case "powerup":
+                powerupSound();
                 break;
         }
     }
@@ -504,8 +508,8 @@ class DefenderGameScene extends DefenderScene {
         
         this.createCollision(); 
         this.bombButton();
-        // this.spawnPowerup(500,500);
-        // this.spawnPowerup(500,500);
+        this.spawnPowerup(500,500);
+        this.spawnPowerup(500,500);
 
         this.bgm = this.sound.add('bgm', {loop: true, volume: 0.5});
         this.currently_playing_music = false;
@@ -560,7 +564,7 @@ class DefenderGameScene extends DefenderScene {
     //randoms a spawn
     spawnPowerUpCheck(x,y){
         console.log(Math.max(5,(15-this.difficulty/2)));
-        if (this.getRandomBetween(1,101) <= Math.max(5,(15 - this.difficulty/2))){
+        if (this.getRandomBetween(1,101) <= Math.max(7,(15 - this.difficulty/2))){
             this.spawnPowerup(x,y)}
     
         // if(this.getRandomBetween(1,101) <= 20){
@@ -596,7 +600,8 @@ class DefenderGameScene extends DefenderScene {
     gameOver(){
         console.log("gameover")
         this.scene.pause("gameplay");
-        this.scene.run('gameover', {difficulty: this.difficulty, score: this.score});
+        console.log(this.g_seconds);
+        this.scene.run('gameover', {difficulty: this.difficulty, score: this.score, time: this.g_seconds});
         //this.scene.bringToTop('gameover');
         
     }
