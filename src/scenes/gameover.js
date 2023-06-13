@@ -19,7 +19,7 @@ class GameOver extends Phaser.Scene {
         this.time.delayedCall(5000, () => {
             //this.scene.start('credits', { inventory: this.inventory });
             this.scene.stop('gameplay');
-            this.scene.start('credits');
+            this.scene.start('outro');
         });
     }
  

@@ -11,7 +11,7 @@ const game = new Phaser.Game({
             //debug: true,
         }
     },
-    scene: [Logo,Pause,Intro, Credits, Gameplay, GameOver],
-    //scene: [GameOver],
+    scene: [Logo,Pause,Intro, Credits, Gameplay, GameOver, Outro],
+    //scene: [Outro],
     title: "Time Defender",
 });
