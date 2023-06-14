@@ -8,6 +8,8 @@ Technology Lead - Lumina Kinsinger-Dang
 
 Testing Lead - Ethan Earle
 
+Link: https://sngbird.github.io/Time-Defender/
+
 
 # **CMPM120 Final Project**
 -------------
