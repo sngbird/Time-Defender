@@ -88,6 +88,35 @@ class TimeCrackRing extends TimeCrack{
     
 }
 
+class TimeCrackOrb extends TimeCrack{
+    constructor(scene,x,y){
+        super(scene,x,y);
+        this.type = "orb";
+        this.body.setVelocity(scene.getRandomBetween(-200,200), scene.getRandomBetween(-200,200));
+        this.body.setCollideWorldBounds(true);
+        this.body.setBounce(1);
+        this.orbBox = this.orb(scene);
+
+    }
+    orb(scene){
+       scene.tweens.add({
+            targets: this,
+            angle: 360,
+            duration: 5000,
+            loop: -1,
+        })
+    }
+    repair(scene){
+        scene.tweens.add({
+            targets: [this],
+            scale: .1,
+            alpha: 1,
+            duration: 600,
+            onComplete: ()=>{this.destroy()}
+        })
+    }
+}
+
 class TimeCrackBolt extends TimeCrack{
     constructor(scene,x,y){
         super(scene,x,y);

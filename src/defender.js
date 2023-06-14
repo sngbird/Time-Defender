@@ -180,6 +180,7 @@ class DefenderGameScene extends DefenderScene {
     this.physics.add.overlap(this.laserGroup, this.crackGroup, this.destroyCrack, null, this);
     this.physics.add.overlap(this.bombGroup, this.crackGroup, this.bombCrack, null, this);
     this.physics.add.overlap(this.ship, this.blastGroup, this.shipHit, null, this);
+    this.physics.add.overlap(this.ship, this.crackGroup, this.shipDirectHit, null, this);
     this.physics.add.overlap(this.laserGroup, this.powerUpsGroup, this.getPowerup, null, this);
     this.physics.add.collider(this.ship, this.powerUpsGroup);
     this.physics.add.collider(this.ship, this.powerUpsIndicatorGroup);
@@ -209,6 +210,12 @@ class DefenderGameScene extends DefenderScene {
         this.gain_score(this.difficulty)
         this.play_sound("scoreUp");
     }
+    shipDirectHit(ship, blast){
+            this.crackGroup.remove(blast);
+            blast.repair(this);
+            ship.decreaseXHealth(200);
+            //console.log(ship.getHP())
+    }
     
     //Create physics groups
     createGroups(){
@@ -217,6 +224,7 @@ class DefenderGameScene extends DefenderScene {
         this.blastGroup = this.physics.add.group({});
         this.bombGroup = this.physics.add.group({});
         this.burstGroup = this.physics.add.group({});
+        this.crackGroup.defaults = {};
 
         this.powerUpsGroup = this.physics.add.group({});
         this.powerUpsIndicatorGroup = this.physics.add.group({});
@@ -508,6 +516,7 @@ class DefenderGameScene extends DefenderScene {
         
         this.createCollision(); 
         this.bombButton();
+        // this.crackGroup.add(new TimeCrackOrb(this,500,500));
         // this.spawnPowerup(500,500);
         // this.spawnPowerup(500,500);
 
@@ -551,12 +560,22 @@ class DefenderGameScene extends DefenderScene {
         }
         if(this.difficulty < 10){
             this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
-        }else{
+        }else if (this.difficulty < 15){
             let choice = this.getRandomBetween(1,11);
             if(choice < 8){
                 this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
             }else if(choice >= 8){
                 this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            }
+        }
+        else {
+            let choice = this.getRandomBetween(1,11);
+            if(choice < 6){
+                this.crackGroup.add(new TimeCrackRing(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            }else if(choice >= 6 && choice < 9){
+                this.crackGroup.add(new TimeCrackBolt(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
+            }else{
+                this.crackGroup.add(new TimeCrackOrb(this,this.getRandomBetween(this.w*.1,this.w*.9),this.getRandomBetween(this.h*.1,this.h*.6)));
             }
         }
         this.play_sound("alert");

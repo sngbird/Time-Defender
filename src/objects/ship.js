@@ -20,6 +20,9 @@ class Ship extends Phaser.Physics.Arcade.Sprite{
     decreaseHealth(){
        this.currenthp -=1;
     }
+    decreaseXHealth(val){
+        this.currenthp -= val;
+    }
     increaseHealth(val){
         this.currenthp += val;
         if(this.currenthp > 1000){this.currenthp = 1000};
