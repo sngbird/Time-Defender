@@ -551,8 +551,8 @@ class Intro extends DefenderScene {
         })
     }
     make_full_screen_button(){
-        let t = this.add.text(0,320, "🡤🡥\n🡧🡦").setScale(1.5).setOrigin(0.5,0.5)
-            .setStyle({ fontSize: `${2 * this.s}px` })
+        let t = this.add.text(0,320, "📺").setScale(1.5).setOrigin(0.5,0.5)
+            .setStyle({ fontSize: `${70}px` })
             .setInteractive({useHandCursor: true})
             .on('pointerdown', () => {
                 this.add.tween({

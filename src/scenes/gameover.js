@@ -12,7 +12,9 @@ class GameOver extends Phaser.Scene {
     }
     create(){
         this.gameoversong = this.sound.add('gameoversong')
-        this.gameoversong.play()
+        if(localStorage.getItem("sound") != 1){
+            this.gameoversong.play()
+        }
         this.gameoverText = this.add.text(this.game.config.width*.3,this.game.config.height*.35)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 80}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s);

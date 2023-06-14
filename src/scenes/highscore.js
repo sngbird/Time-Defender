@@ -74,7 +74,11 @@ class HighScore extends DefenderScene {
             "Score                              Difficulty       Time              Name"
         ).setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 75}px` });
         //this.updateScores();
-        this.input.on('pointerdown',()=>{this.scene.start('intro')});
+        this.input.on('pointerdown',()=>{
+          this.scene.start('intro')
+          localStorage.setItem("survived_time", null)
+          localStorage.setItem("score", null)
+        });
        
     }
     update(){

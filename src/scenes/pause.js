@@ -52,10 +52,10 @@ class Pause extends Phaser.Scene {
         //Here is the actual pause menu
         this.pause_container = this.add.container(this.game.config.width/2, 2000).setDepth(1);
 
-        let resume = this.add.sprite(0 + 130,0 + 100, 'resume').setOrigin(0.5,0.5).setInteractive().setScale(2.2)
-        let title = this.add.sprite(0+ 130,0 - 100, 'return_title').setOrigin(0.5,0.5).setInteractive().setScale(2.2)
+        let resume = this.add.sprite(0,0 + 100, 'resume').setOrigin(0.5,0.5).setInteractive().setScale(2.2)
+        let title = this.add.sprite(0,0 - 100, 'return_title').setOrigin(0.5,0.5).setInteractive().setScale(2.2)
 
-        this.pause_container.add(this.add.rectangle(0,0,375,250,0x0F0F0F).setScale(2))
+        this.pause_container.add(this.add.rectangle(0,0,500,250,0x0F0F0F).setScale(2))
         this.pause_container.add(resume).add(title)
 
         resume.on('pointerdown', ()=>{
@@ -118,7 +118,7 @@ class Pause extends Phaser.Scene {
 
 
         //Here is the sound button
-        let sound_bit = this.add.container(-200, -100);
+        let sound_bit = this.add.container(-300, -100);
         let surrounding_box = this.add.rectangle(5,0,100,100,0x0f0F0F).setInteractive();
         sound_bit.add(surrounding_box);
         let sound_sprite = this.add.sprite(0,0,'sound')
@@ -128,7 +128,7 @@ class Pause extends Phaser.Scene {
         this.pause_container.add(sound_bit);
 
         //here is the music button
-        let music_bit = this.add.container(-200, +100)
+        let music_bit = this.add.container(-300, +100)
         let surrounding_box2 = this.add.rectangle(5,0,100,100,0x0f0f0f).setInteractive();
         music_bit.add(surrounding_box2)
         let music_sprite = this.add.sprite(0,0,'music')
@@ -140,6 +140,33 @@ class Pause extends Phaser.Scene {
         //Adding functionality
         this.create_clickable_x_button(music_bit, music_sprite,surrounding_box2, "music")
         this.create_clickable_x_button(sound_bit,sound_sprite,surrounding_box, "sound")
+
+        //Here is the fullscreen button
+        let fullscrn = this.add.text(310,0, "📺").setScale(1.5).setOrigin(0.5,0.5)
+            .setStyle({ fontSize: `${90}px` })
+            .setInteractive({useHandCursor: true})
+            .on('pointerdown', () => {
+                this.add.tween({
+                    targets: fullscrn,
+                    scale: 1.2,
+                    duration: 50,
+                })
+                
+            });
+        
+            this.pause_container.add(fullscrn)
+            fullscrn.on('pointerup', ()=>{
+            this.add.tween({
+                targets: fullscrn,
+                scale: 1.5,
+                duration: 50,
+            })
+            if (this.scale.isFullscreen) {
+                this.scale.stopFullscreen();
+            } else {
+                this.scale.startFullscreen();
+            }
+        })
         
     }
 
