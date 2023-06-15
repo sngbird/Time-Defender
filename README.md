@@ -18,7 +18,7 @@ Theme: Nearby in space, but distant in time.
 
 Integration: Your crew is now on duty to keep the time stream intact. Keep it protected while you rip open space itself!
 
-## Art Asset Credits:
+## Asset Credits:
 - Music and Ship art: Ethan
 - Turret, Game sounds and background shaders: Lumina
 - Title, Settings, and other button art: Wyatt
