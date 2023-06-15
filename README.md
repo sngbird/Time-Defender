@@ -22,6 +22,10 @@ Integration: Your crew is now on duty to keep the time stream intact. Keep it pr
 - Music and Ship art: Ethan
 - Turret, Game sounds and background shaders: Lumina
 - Title, Settings, and other button art: Wyatt
+- Shaders credits: Bolt originally created by guil in 2015-02-20 on Shadertoy- Lightly edited for color and use by phaser by Lumina 
+- Domain Originally created by: Author @patriciogv - 2015 - on BookofShaders - Edited lightly by Lumina 
+- Starfield Created by gigatron in 2015-12-02 - on Shadertoy - Lightly edited for use by phaser by Lumina
+
 
 Core Requirements:
 --------
@@ -67,13 +71,13 @@ What  we did:
 ## Progression: 
 What we did:
 1. We have a difficulty variable that is based on time. As the difficulty goes up, the chance of a Time Fissure spawning increases. Higher Difficulty sees an increasing onslaught of Time Cracks. Currently this is linear, but I want to change to a different curve.
-2. (Partially completed): We have multiple styles of time fissures, which start to appear at higher difficulty and other events start based on the difficulty counter as well. 
+2. We have multiple styles of time fissures, which start to appear at higher difficulty and other events start based on the difficulty counter as well. 
 
 ## Prefabs:
 What we did:
 1. DefenderScene which extends the standard Phaser Scene, is our base scene, it loads our assets, and it stores functions all of the scenes need, it's currently primarily used in the title. DefenderGameScene Extends DefenderScene, and adds the aspects of the gameplay that aren't necessary for the Base DefenderScene. This contains timers, groups, colliders, and the necessary functions to run the game.
 2. LaserGroup which extends Phaser.Physics.Arcade.Group and creates multiples of: Laser which extends Phaser.Physics.Arcade.Sprite.
-3.(Not Completed Yet): Different Types of Lasers/Blasts (extends Laser object)
-4.Power Up Class, with different powerups extending the base class.
-5.Timecracks now split into classes that extend base timecrack class.
+3. Different Types of Lasers/Blasts (extends Laser object)
+4. Power Up Class, with different powerups extending the base class.
+5. Timecracks now split into classes that extend base timecrack class.
 
