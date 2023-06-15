@@ -15,16 +15,13 @@ Playable Link: https://sngbird.github.io/Time-Defender/
 -------------
 Requirements:
 Theme: Nearby in space, but distant in time.
-Integration:
-**Narrative or visual art (~time travel story)
-Mechanics (~time travel puzzles)
-Technical implementation (~geolocation/clock)
-Audience (~relates to a deep memory of someone close to you)
 
-## Asset Credits:
+Integration: Your crew is now on duty to keep the time stream intact. Keep it protected while you rip open space itself!
+
+## Art Asset Credits:
 - Music and Ship art: Ethan
-- Game sounds and background shaders: Lumina
-- Settings and other button art: Wyatt
+- Turret, Game sounds and background shaders: Lumina
+- Title, Settings, and other button art: Wyatt
 
 Core Requirements:
 --------
