@@ -32,14 +32,25 @@ class Gameplay extends DefenderGameScene{
         const bolt = this.add.shader('bolt',this.w,this.h,this.w,this.h).setDepth(0);
         bolt.setRenderToTexture('timebolt',true);
 
-        this.tutorial_text = this.add.text(this.w*.37,this.h*.4)
+        this.tutorial_text = this.add.text(this.w*.37,this.h*.25)
         .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 80}px` })
         .setWordWrapWidth(this.w * 0.5 - 2 * this.s)
         .setText("Click to shoot!")
+        this.tutorial_textbomb = this.add.text(this.w*.2,this.h*.65)
+        .setStyle({fontFamily: 'kanit', fontSize: `${1.5 * 80}px` })
+        .setWordWrapWidth(this.w * 0.65)
+        .setText("Click the bomb icon to use bombs!")
 
         this.input.on('pointerdown', ()=>{
             this.tweens.add({
                 targets:this.tutorial_text,
+                alpha: 0,
+                duration: 500,
+            })
+        })
+        this.input.on('pointerdown', ()=>{
+            this.tweens.add({
+                targets:this.tutorial_textbomb,
                 alpha: 0,
                 duration: 500,
             })

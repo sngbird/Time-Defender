@@ -19,8 +19,8 @@ Theme: Nearby in space, but distant in time.
 Integration: Your crew is now on duty to keep the time stream intact. Keep it protected while you rip open space itself!
 
 ## Asset Credits:
-- Music and Ship art: Ethan
-- Turret, Game sounds and background shaders: Lumina
+- Music and Ship art/ UI layout: Ethan
+- Turret, Powerups, Timecracks, Game sounds and background shaders: Lumina
 - Title, Settings, and other button art: Wyatt
 - Shaders credits: Bolt originally created by guil in 2015-02-20 on Shadertoy- Lightly edited for color and use by phaser by Lumina 
 - Domain Originally created by: Author @patriciogv - 2015 - on BookofShaders - Edited lightly by Lumina 
